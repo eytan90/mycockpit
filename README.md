@@ -84,6 +84,21 @@ Open [http://localhost:7844](http://localhost:7844)
 
 ---
 
+## Getting started with your vault
+
+A ready-to-use vault template is included in [`vault-template/`](./vault-template). Copy it anywhere on your machine and point `vault_path` in `config.json` to it:
+
+```bash
+cp -r vault-template ~/my-vault
+```
+
+Then set in `config.json`:
+```json
+{ "vault_path": "../../my-vault" }
+```
+
+---
+
 ## Vault structure
 
 MyCockpit expects your vault to follow this folder layout:
