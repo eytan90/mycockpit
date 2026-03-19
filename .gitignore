@@ -1,0 +1,23 @@
+# Config (contains credentials)
+config.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# Frontend build output
+frontend/node_modules/
+frontend/dist/
+static/
+
+# Logs
+*.log
+server.log
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,8 @@
+{
+  "vault_path": "../",
+  "port": 7844,
+  "ai_enabled": true,
+  "theme": "dark",
+  "version": "1.6.1",
+  "ngrok_auth": "username:password"
+}
