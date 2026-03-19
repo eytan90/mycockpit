@@ -49,14 +49,16 @@ manager = ConnectionManager()
 
 # ── Auth ─────────────────────────────────────────────────────────────────────
 
-_valid_tokens: set[str] = set()
-
 def _get_password() -> str:
     config = load_config()
     auth = config.get("ngrok_auth", "")
     if ":" in auth:
         return auth.split(":", 1)[1]
     return auth
+
+def _make_session_token() -> str:
+    """Stable token derived from password — survives server restarts."""
+    return hashlib.sha256(f"mycockpit:{_get_password()}".encode()).hexdigest()
 
 def _is_local(request: Request) -> bool:
     host = request.headers.get("host", "")
@@ -128,6 +130,16 @@ LOGIN_HTML = """<!DOCTYPE html>
 
 _ngrok_proc = None
 
+def _find_ngrok() -> str:
+    """Resolve ngrok executable — handles winget install on Windows."""
+    import shutil
+    # Check winget packages directory (Windows)
+    winget_base = Path.home() / "AppData" / "Local" / "Microsoft" / "WinGet" / "Packages"
+    if winget_base.exists():
+        for p in sorted(winget_base.glob("Ngrok.Ngrok_*/ngrok.exe")):
+            return str(p)
+    return shutil.which("ngrok") or "ngrok"
+
 def _print_qr(url: str, label: str):
     try:
         import qrcode as _qr
@@ -157,10 +169,21 @@ def start_ngrok(port: int):
     local_ip = _get_local_ip()
     network_url = f"http://{local_ip}:{port}"
     ngrok_url = None
+    ngrok_cmd = _find_ngrok()
+
+    # Auto-configure authtoken from config if present
+    config = load_config()
+    ngrok_token = config.get("ngrok_token", "").strip()
+    if ngrok_token:
+        try:
+            subprocess.run([ngrok_cmd, "config", "add-authtoken", ngrok_token],
+                           capture_output=True, timeout=10)
+        except Exception:
+            pass
 
     try:
         _ngrok_proc = subprocess.Popen(
-            ["ngrok", "http", str(port), "--log=stdout", "--log-level=warn"],
+            [ngrok_cmd, "http", str(port), "--log=stdout", "--log-level=warn"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             creationflags=subprocess.CREATE_NO_WINDOW,
@@ -250,7 +273,7 @@ async def auth_middleware(request: Request, call_next):
         return await call_next(request)
     # Check session token from header
     token = request.headers.get("X-Session-Token", "")
-    if token in _valid_tokens:
+    if token == _make_session_token():
         return await call_next(request)
     return JSONResponse({"detail": "Unauthorized"}, status_code=401)
 
@@ -263,9 +286,7 @@ async def login_submit(request: Request):
     body = await request.json()
     password = body.get("password", "")
     if password == _get_password():
-        token = secrets.token_hex(32)
-        _valid_tokens.add(token)
-        return JSONResponse({"token": token})
+        return JSONResponse({"token": _make_session_token()})
     return JSONResponse({"detail": "Incorrect password"}, status_code=401)
 
 # ── Routers ───────────────────────────────────────────────────────────────────
