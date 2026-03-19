@@ -135,14 +135,40 @@ sudo systemctl status mycockpit
 
 ---
 
-## Step 7 — Keep vault in sync
+## Step 7 — Private vault repo: authentication on the server
 
-To pull latest vault changes on the server:
+The vault repo is private. You need to authenticate GitHub on the server to clone and push it.
+
+**Option A — Personal Access Token (recommended)**
+
+1. Go to **github.com/settings/tokens** → generate a new token with `repo` scope
+2. Clone using the token:
 ```bash
-cd ~/mycockpit/vault && git pull
+git clone https://YOUR_TOKEN@github.com/eytan90/dustphotonics-vault.git vault
+```
+3. Store the token in git so you don't re-enter it:
+```bash
+cd ~/mycockpit/vault
+git remote set-url origin https://YOUR_TOKEN@github.com/eytan90/dustphotonics-vault.git
 ```
 
-To push changes made via MyCockpit (the app edits vault files directly):
+**Option B — SSH key**
+
+```bash
+ssh-keygen -t ed25519 -C "server"
+cat ~/.ssh/id_ed25519.pub   # copy this
+# Add to github.com/settings/keys
+git clone git@github.com:eytan90/dustphotonics-vault.git vault
+```
+
+---
+
+## Step 8 — Keep vault in sync
+
+MyCockpit edits vault files directly on disk. Use GitHub as the sync layer between your local machine and server.
+
+### Push from server → GitHub
+
 ```bash
 cd ~/mycockpit/vault
 git add -A
@@ -150,12 +176,43 @@ git commit -m "vault sync $(date +%Y-%m-%d)"
 git push
 ```
 
-Or set up a cron job to auto-push every hour:
+Auto-push every hour via cron:
 ```bash
 crontab -e
 # Add:
-0 * * * * cd ~/mycockpit/vault && git add -A && git commit -m "auto sync" && git push
+0 * * * * cd ~/mycockpit/vault && git add -A && git diff --cached --quiet || git commit -m "auto sync $(date +\%Y-\%m-\%d\ \%H:\%M)" && git push
 ```
+
+### Pull from GitHub → server (after editing locally)
+
+```bash
+cd ~/mycockpit/vault && git pull
+```
+
+### Avoiding conflicts (editing from both machines)
+
+**Rule:** always `git pull` before editing, and `git push` after. If you edit on both simultaneously:
+
+```bash
+cd ~/mycockpit/vault
+git pull --rebase   # rebase your local changes on top of remote
+git push
+```
+
+If there's a conflict in a markdown file, open it and look for `<<<<<<` markers — resolve manually, then:
+```bash
+git add <conflicted-file>
+git rebase --continue
+git push
+```
+
+### Recommended workflow
+
+| Action | Command |
+|---|---|
+| Start working on server | `cd ~/mycockpit/vault && git pull` |
+| After MyCockpit edits | `git add -A && git commit -m "..." && git push` |
+| Sync to local machine | `cd /path/to/local/vault && git pull` |
 
 ---
 
