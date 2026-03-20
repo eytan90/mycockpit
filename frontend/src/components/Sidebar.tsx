@@ -26,7 +26,7 @@ export default function Sidebar() {
             end={path === '/'}
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-medium transition-all ${
-                isActive ? 'nav-active' : 'text-white/45 hover:text-white/75 hover:bg-white/5'
+                isActive ? 'bg-[#0A84FF]/15 text-[#0A84FF]' : 'text-white/45 hover:text-white/75 hover:bg-white/5'
               }`
             }
           >

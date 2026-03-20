@@ -142,31 +142,33 @@ export default function Home() {
     <div className="ios-page page-enter">
       {/* Header */}
       <div className="px-4 pt-8 pb-5 md:px-6">
-        <p className="text-[13px] font-semibold uppercase tracking-widest text-text-secondary mb-2">{today}</p>
+        <p className="text-[13px] font-semibold uppercase tracking-widest text-[#8E8E93] mb-2">{today}</p>
         <h1 className="text-4xl font-semibold text-white tracking-tight leading-tight">{greeting()},<br />Eytan.</h1>
       </div>
 
-      {/* 2×2 Stat grid */}
-      {!loaded ? <SkeletonStatGrid /> : (
-        <div className="px-4 md:px-6 mb-7">
-          <div className="stat-grid">
-            <button className="stat-tile" onClick={() => navigate('/projects')}>
-              <span className="stat-value" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>
-              <span className="stat-label">Projects</span>
-            </button>
-            <button className="stat-tile">
-              <span className="stat-value" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>
-              <span className="stat-label">Inbox</span>
-            </button>
-            <button className="stat-tile" onClick={() => navigate('/ideas')}>
-              <span className="stat-value" style={{ color: summary?.ideas_ready_to_promote ? '#30D158' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>
-              <span className="stat-label">Ready</span>
-            </button>
-            <button className="stat-tile">
-              <span className="stat-value" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>
-              <span className="stat-label">Flags</span>
-            </button>
-          </div>
+      {/* Stat chips */}
+      {!loaded ? (
+        <div className="px-4 md:px-6 mb-5 flex gap-2">
+          {[...Array(4)].map((_, i) => <div key={i} className="h-[44px] w-20 rounded-full bg-zinc-800 animate-pulse" />)}
+        </div>
+      ) : (
+        <div className="px-4 md:px-6 mb-5 flex gap-2 flex-wrap">
+          <button onClick={() => navigate('/projects')} className="flex items-center gap-1.5 h-[44px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+            <span className="text-base font-semibold" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>
+            <span className="text-[13px] text-text-secondary">Projects</span>
+          </button>
+          <button className="flex items-center gap-1.5 h-[44px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+            <span className="text-base font-semibold" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>
+            <span className="text-[13px] text-text-secondary">Inbox</span>
+          </button>
+          <button onClick={() => navigate('/ideas')} className="flex items-center gap-1.5 h-[44px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+            <span className="text-base font-semibold" style={{ color: summary?.ideas_ready_to_promote ? '#30D158' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>
+            <span className="text-[13px] text-text-secondary">Ready</span>
+          </button>
+          <button className="flex items-center gap-1.5 h-[44px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+            <span className="text-base font-semibold" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>
+            <span className="text-[13px] text-text-secondary">Flags</span>
+          </button>
         </div>
       )}
 
