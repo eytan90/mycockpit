@@ -7,13 +7,12 @@
  *  3. Asks Claude to produce minimal, targeted old→new code patches
  */
 
-import Anthropic from '@anthropic-ai/sdk';
+import { client } from './claude-cli.js';
+import type { TextBlock } from './claude-cli.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { glob } from 'glob';
 import type { DesignIssue, EditPlan, CodeEdit } from './types.js';
-
-const client = new Anthropic();
 
 // Max source lines sent to Claude (to stay within sensible token budgets)
 const MAX_FILE_CHARS = 8_000;
@@ -75,7 +74,7 @@ async function planSingleIssue(
   });
 
   const rawPath = pickResponse.content
-    .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+    .filter((b): b is TextBlock => b.type === 'text')
     .map((b) => b.text.trim())
     .join('')
     .split('\n')[0]
@@ -154,7 +153,7 @@ JSON schema:
 
   const editMessage = await editStream.finalMessage();
   const editText = editMessage.content
-    .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+    .filter((b): b is TextBlock => b.type === 'text')
     .map((b) => b.text)
     .join('');
 

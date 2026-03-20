@@ -5,10 +5,9 @@
  * whether to keep or revert an iteration's changes.
  */
 
-import Anthropic from '@anthropic-ai/sdk';
+import { client } from './claude-cli.js';
+import type { TextBlock } from './claude-cli.js';
 import type { DesignScore } from './types.js';
-
-const client = new Anthropic();
 
 const SCORER_SYSTEM = `\
 You are a UI design evaluator. Score the provided screenshots on these dimensions (0–10 each):
@@ -67,7 +66,7 @@ export async function scoreScreenshots(
   });
 
   const text = response.content
-    .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+    .filter((b): b is TextBlock => b.type === 'text')
     .map((b) => b.text)
     .join('');
 

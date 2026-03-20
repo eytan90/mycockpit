@@ -5,11 +5,10 @@
  * deeply about both the visual and structural aspects of the UI.
  */
 
-import Anthropic from '@anthropic-ai/sdk';
+import { client } from './claude-cli.js';
+import type { TextBlock } from './claude-cli.js';
 import type { CriticReport } from './types.js';
 import type { ObserverResult } from './observer.js';
-
-const client = new Anthropic();
 
 // ─── System prompt (design constitution embedded) ─────────────────────────────
 
@@ -188,7 +187,7 @@ export async function critique(snapshot: ObserverResult): Promise<CriticReport> 
   const message = await stream.finalMessage();
 
   const text = message.content
-    .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+    .filter((b): b is TextBlock => b.type === 'text')
     .map((b) => b.text)
     .join('');
 
