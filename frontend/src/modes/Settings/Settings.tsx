@@ -35,6 +35,14 @@ const THEMES: { id: Theme; label: string; desc: string; accent: string; grad: st
     grad:   'linear-gradient(135deg, rgba(74,124,89,0.15) 0%, rgba(180,160,120,0.12) 100%)',
     bg:     '#F0EDE6',
   },
+  {
+    id:     'zen-task',
+    label:  'ZEN_TASK',
+    desc:   'Editorial black & white. Sharp geometry, electric blue.',
+    accent: '#1f41ff',
+    grad:   'linear-gradient(135deg, rgba(31,65,255,0.12) 0%, rgba(0,0,0,0.05) 100%)',
+    bg:     '#f9f9f9',
+  },
 ]
 
 export default function Settings() {
@@ -83,8 +91,8 @@ export default function Settings() {
               {/* Label row */}
               <div className="flex items-center justify-between px-4 py-3">
                 <div>
-                  <p className="text-[15px] font-semibold" style={{ color: t.id === 'zen-bright' ? '#1A1816' : '#FAFAFA' }}>{t.label}</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: t.id === 'zen-bright' ? '#6B6560' : '#A1A1AA' }}>{t.desc}</p>
+                  <p className="text-[15px] font-semibold" style={{ color: t.id === 'zen-bright' || t.id === 'zen-task' ? '#1A1816' : '#FAFAFA' }}>{t.label}</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: t.id === 'zen-bright' || t.id === 'zen-task' ? '#6B6560' : '#A1A1AA' }}>{t.desc}</p>
                 </div>
                 <div
                   className="w-6 h-6 rounded-full flex items-center justify-center transition-all"

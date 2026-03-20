@@ -115,6 +115,234 @@
 [data-theme="zen-bright"] .nav-tab            { color: #9A9490 !important; }
 [data-theme="zen-bright"] .nav-pill           { background: rgba(240,237,230,0.93) !important; border-color: #D8D2C8 !important; }
 
+/* ── ZEN_TASK — editorial black/white + electric blue ────────────────────── */
+[data-theme="zen-task"] {
+  --accent:      #1f41ff;
+  --accent-15:   rgba(31,65,255,0.12);
+  --accent-glow: rgba(31,65,255,0.20);
+  --grad-1:      rgba(31,65,255,0.08);
+  --grad-2:      rgba(31,65,255,0.04);
+  --grad-3:      rgba(0,0,0,0.03);
+  --text-secondary: #474747;
+  --text-muted:     #777777;
+  --border-subtle:  rgba(0,0,0,0.06);
+  --border-default: rgba(0,0,0,0.12);
+}
+
+/* Body */
+[data-theme="zen-task"] body {
+  background-color: #f9f9f9 !important;
+  color: #1a1c1c !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  background-image: none !important;
+}
+
+/* ── Typography — force Space Grotesk on label-like elements ── */
+[data-theme="zen-task"] .ios-section-label,
+[data-theme="zen-task"] .font-label,
+[data-theme="zen-task"] button,
+[data-theme="zen-task"] .filter-chip,
+[data-theme="zen-task"] .status-chip,
+[data-theme="zen-task"] nav a {
+  font-family: 'Space Grotesk', system-ui, sans-serif !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase !important;
+}
+
+[data-theme="zen-task"] .ios-section-label {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: #000 !important;
+  letter-spacing: 0.35em !important;
+}
+
+/* ── Remove ALL border radius ── */
+[data-theme="zen-task"] *,
+[data-theme="zen-task"] *::before,
+[data-theme="zen-task"] *::after {
+  border-radius: 0 !important;
+}
+
+/* ── Surfaces ── */
+[data-theme="zen-task"] .glass,
+[data-theme="zen-task"] .glass-topbar {
+  background: rgba(249,249,249,0.92) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-color: rgba(0,0,0,0.06) !important;
+}
+[data-theme="zen-task"] .glass-sidebar {
+  background: #f3f3f3 !important;
+  border-right: 1px solid rgba(0,0,0,0.06) !important;
+  backdrop-filter: none !important;
+}
+
+[data-theme="zen-task"] .bg-base,
+[data-theme="zen-task"] .bg-surface   { background-color: #f9f9f9 !important; }
+[data-theme="zen-task"] .bg-elevated  { background-color: #ffffff !important; }
+
+[data-theme="zen-task"] .ios-grouped {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+  border-radius: 0 !important;
+}
+[data-theme="zen-task"] .ios-row {
+  border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+  min-height: 56px !important;
+}
+[data-theme="zen-task"] .ios-row:last-child { border-bottom: none !important; }
+
+[data-theme="zen-task"] .card,
+[data-theme="zen-task"] .stat-tile {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+  box-shadow: none !important;
+}
+[data-theme="zen-task"] .card:hover {
+  background-color: #f9f9f9 !important;
+  border-color: rgba(0,0,0,0.12) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* ── Text ── */
+[data-theme="zen-task"] .text-white       { color: #1a1c1c !important; }
+[data-theme="zen-task"] .text-primary     { color: #1a1c1c !important; }
+[data-theme="zen-task"] .text-text-secondary,
+[data-theme="zen-task"] .text-secondary   { color: #474747 !important; }
+[data-theme="zen-task"] .text-text-muted,
+[data-theme="zen-task"] .text-muted       { color: #777777 !important; }
+[data-theme="zen-task"] .text-accent-blue { color: #1f41ff !important; }
+
+/* ── Accent / borders ── */
+[data-theme="zen-task"] .border-accent-blue  { border-color: #1f41ff !important; }
+[data-theme="zen-task"] .bg-accent-blue      { background-color: #1f41ff !important; }
+[data-theme="zen-task"] .border-subtle,
+[data-theme="zen-task"] [class*="border-subtle"] { border-color: rgba(0,0,0,0.06) !important; }
+
+/* ── Buttons ── */
+[data-theme="zen-task"] .btn-primary,
+[data-theme="zen-task"] .ios-btn-primary {
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+}
+[data-theme="zen-task"] .btn-primary:hover,
+[data-theme="zen-task"] .ios-btn-primary:hover {
+  background: #1f41ff !important;
+}
+[data-theme="zen-task"] .ios-btn-secondary {
+  background: transparent !important;
+  color: #000000 !important;
+  border: 1px solid rgba(0,0,0,0.15) !important;
+  border-radius: 0 !important;
+}
+[data-theme="zen-task"] .ios-btn-secondary:hover {
+  background: rgba(0,0,0,0.04) !important;
+}
+
+/* ── Inputs ── */
+[data-theme="zen-task"] input,
+[data-theme="zen-task"] textarea,
+[data-theme="zen-task"] .ios-input {
+  background: #ffffff !important;
+  border: 1px solid rgba(0,0,0,0.10) !important;
+  border-radius: 0 !important;
+  color: #1a1c1c !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  letter-spacing: 0.05em !important;
+}
+[data-theme="zen-task"] input:focus,
+[data-theme="zen-task"] textarea:focus,
+[data-theme="zen-task"] .ios-input:focus {
+  border-color: #1f41ff !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+[data-theme="zen-task"] input::placeholder,
+[data-theme="zen-task"] textarea::placeholder {
+  color: rgba(0,0,0,0.2) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.15em !important;
+}
+
+/* ── Navigation ── */
+[data-theme="zen-task"] .nav-active {
+  background: rgba(0,0,0,0.06) !important;
+  color: #000000 !important;
+  border-left: 2px solid #000000 !important;
+}
+[data-theme="zen-task"] .nav-capture-btn {
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+[data-theme="zen-task"] .nav-capture-btn:hover {
+  background: #1f41ff !important;
+}
+[data-theme="zen-task"] .nav-pill {
+  background: rgba(249,249,249,0.92) !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+[data-theme="zen-task"] .nav-tab {
+  color: rgba(0,0,0,0.3) !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+}
+[data-theme="zen-task"] .nav-tab.nav-active {
+  color: #000000 !important;
+}
+
+/* ── Chips & Filters ── */
+[data-theme="zen-task"] .filter-chip {
+  background: #f3f3f3 !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  color: #474747 !important;
+  border-radius: 0 !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  letter-spacing: 0.15em !important;
+  font-size: 9px !important;
+}
+[data-theme="zen-task"] .filter-chip-active {
+  background: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* ── Status chips ── */
+[data-theme="zen-task"] .status-chip { border-radius: 0 !important; }
+
+/* ── Progress bars ── */
+[data-theme="zen-task"] [class*="rounded"] { border-radius: 0 !important; }
+
+/* ── Page title styling ── */
+[data-theme="zen-task"] h1[class*="text-[34px]"],
+[data-theme="zen-task"] h1[class*="text-3xl"],
+[data-theme="zen-task"] h1[class*="font-bold"] {
+  color: #000000 !important;
+  letter-spacing: -0.04em !important;
+  text-transform: uppercase !important;
+}
+
+/* ── Sidebar nav items ── */
+[data-theme="zen-task"] [class*="text-text-secondary"] { color: #474747 !important; }
+[data-theme="zen-task"] [class*="sidebar"] a,
+[data-theme="zen-task"] [class*="sidebar"] span { color: #1a1c1c !important; }
+
+/* ── Skeleton / loading ── */
+[data-theme="zen-task"] [class*="animate-pulse"] > * {
+  background-color: #e2e2e2 !important;
+}
+
+/* ── Scrollbar — hide (matches existing app) ── */
+[data-theme="zen-task"] ::-webkit-scrollbar { width: 0; height: 0; }
+
 @layer base {
   html, body, #root {
     height: 100%;
