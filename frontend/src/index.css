@@ -27,7 +27,7 @@
 [data-theme="vibrant"] .text-accent-blue        { color: #F97316 !important; }
 [data-theme="vibrant"] .border-accent-blue      { border-color: #F97316 !important; }
 [data-theme="vibrant"] .bg-accent-blue          { background-color: #F97316 !important; }
-[data-theme="vibrant"] .nav-active              { background: var(--accent-15) !important; color: #F97316 !important; }
+[data-theme="vibrant"] .nav-active              { background: rgba(10,132,255,0.15) !important; color: #0A84FF !important; }
 [data-theme="vibrant"] .btn-primary             { background: #F97316 !important; box-shadow: 0 4px 20px rgba(249,115,22,0.4) !important; }
 [data-theme="vibrant"] .nav-capture-btn         { background: #F97316 !important; box-shadow: 0 4px 20px rgba(249,115,22,0.45) !important; }
 [data-theme="vibrant"] .filter-chip-active      { background: #F97316 !important; border-color: #F97316 !important; }

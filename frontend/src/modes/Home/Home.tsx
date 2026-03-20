@@ -653,7 +653,11 @@ function VibSectionHeader({ title, onSeeAll, seeAllLabel = 'See all' }: { title:
 function VibStatTile({ value, label, icon, accent, onClick }: { value: any; label: string; icon: string; accent: string; onClick: () => void }) {
   return (
     <button onClick={onClick} className="vib-stat-tile">
-      <span className="text-[20px] leading-none">{icon}</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        {label === 'Projects' && <><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></>}
+        {label === 'Inbox'    && <><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></>}
+        {label === 'Flags'    && <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></>}
+      </svg>
       <span className="text-[24px] font-bold text-white leading-none mt-1">{value}</span>
       <span className="text-[11px] font-medium mt-0.5" style={{ color: accent }}>{label}</span>
     </button>

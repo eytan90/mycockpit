@@ -304,7 +304,7 @@ function Section({ title, accent, children }: { title: string; accent: string; c
   return (
     <div className="space-y-2">
       <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: accent }}>{title}</p>
-      <div className="space-y-2">{children}</div>
+      <div className="rounded-xl overflow-hidden bg-[#1C1C1E] divide-y divide-white/[0.06]">{children}</div>
     </div>
   )
 }
@@ -350,8 +350,7 @@ function TaskRow({ task: t, accent, onClick, onUpdated }: { task: Task; accent?:
 
   return (
     <div
-      className="flex items-stretch rounded-2xl overflow-hidden transition-all duration-200 active:scale-[0.99] group"
-      style={{ background: '#1e1e22', border: '1px solid rgba(63,63,70,0.5)' }}
+      className="flex items-stretch transition-all duration-200 active:scale-[0.99] group"
     >
       {accent && <div className="w-[3px] shrink-0" style={{ background: accent }} />}
       <div className="flex flex-1 items-start gap-3 px-3 py-3 cursor-pointer" onClick={onClick}>
