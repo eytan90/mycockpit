@@ -24,8 +24,6 @@
   --grad-2:     rgba(239,68,68,0.09);
   --grad-3:     rgba(234,179,8,0.07);
 }
-
-/* Cascade accent overrides */
 [data-theme="vibrant"] .text-accent-blue        { color: #F97316 !important; }
 [data-theme="vibrant"] .border-accent-blue      { border-color: #F97316 !important; }
 [data-theme="vibrant"] .bg-accent-blue          { background-color: #F97316 !important; }
@@ -33,6 +31,89 @@
 [data-theme="vibrant"] .btn-primary             { background: #F97316 !important; box-shadow: 0 4px 20px rgba(249,115,22,0.4) !important; }
 [data-theme="vibrant"] .nav-capture-btn         { background: #F97316 !important; box-shadow: 0 4px 20px rgba(249,115,22,0.45) !important; }
 [data-theme="vibrant"] .filter-chip-active      { background: #F97316 !important; border-color: #F97316 !important; }
+
+/* ── Zen Dark — warm charcoal + sage green ───────────────────────────────── */
+[data-theme="zen-dark"] {
+  --accent:      #7AAE7A;
+  --accent-15:   rgba(122,174,122,0.15);
+  --accent-glow: rgba(122,174,122,0.22);
+  --grad-1:      rgba(122,174,122,0.10);
+  --grad-2:      rgba(122,174,122,0.05);
+  --grad-3:      rgba(180,160,120,0.05);
+  --text-secondary: #A09890;
+  --text-muted:     #706860;
+  --border-subtle:  #2E2C28;
+  --border-default: #3E3C38;
+}
+[data-theme="zen-dark"] body {
+  background-color: #1A1916 !important;
+  background-image:
+    radial-gradient(ellipse at 20% 35%, rgba(122,174,122,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 10%,  rgba(180,160,120,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 55% 90%,  rgba(122,174,122,0.04) 0%, transparent 45%) !important;
+}
+[data-theme="zen-dark"] .glass         { background: rgba(26,25,22,0.88) !important; border-color: rgba(255,255,255,0.05) !important; }
+[data-theme="zen-dark"] .glass-sidebar { background: rgba(20,19,17,0.93) !important; }
+[data-theme="zen-dark"] .glass-topbar  { background: rgba(18,17,15,0.91) !important; }
+[data-theme="zen-dark"] .text-accent-blue   { color: #7AAE7A !important; }
+[data-theme="zen-dark"] .border-accent-blue { border-color: #7AAE7A !important; }
+[data-theme="zen-dark"] .bg-accent-blue     { background-color: #7AAE7A !important; }
+[data-theme="zen-dark"] .nav-active         { background: rgba(122,174,122,0.14) !important; color: #7AAE7A !important; }
+[data-theme="zen-dark"] .btn-primary        { background: #7AAE7A !important; box-shadow: 0 4px 20px rgba(122,174,122,0.30) !important; }
+[data-theme="zen-dark"] .nav-capture-btn    { background: #7AAE7A !important; box-shadow: 0 4px 20px rgba(122,174,122,0.35) !important; }
+[data-theme="zen-dark"] .filter-chip-active { background: #7AAE7A !important; border-color: #7AAE7A !important; }
+
+/* ── Zen Bright — parchment + deep sage ─────────────────────────────────── */
+[data-theme="zen-bright"] {
+  --accent:      #4A7C59;
+  --accent-15:   rgba(74,124,89,0.14);
+  --accent-glow: rgba(74,124,89,0.22);
+  --grad-1:      rgba(74,124,89,0.08);
+  --grad-2:      rgba(74,124,89,0.04);
+  --grad-3:      rgba(180,160,120,0.06);
+  --text-secondary: #6B6560;
+  --text-muted:     #9A9490;
+  --border-subtle:  #D8D2C8;
+  --border-default: #C4BEB4;
+}
+[data-theme="zen-bright"] body {
+  background-color: #F0EDE6 !important;
+  color: #1A1816 !important;
+  background-image:
+    radial-gradient(ellipse at 20% 35%, rgba(74,124,89,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 10%,  rgba(180,160,120,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 55% 90%,  rgba(74,124,89,0.04) 0%, transparent 45%) !important;
+}
+[data-theme="zen-bright"] .glass         { background: rgba(240,237,230,0.93) !important; border-color: #D8D2C8 !important; }
+[data-theme="zen-bright"] .glass-sidebar { background: rgba(235,231,223,0.96) !important; border-right-color: #D8D2C8 !important; }
+[data-theme="zen-bright"] .glass-topbar  { background: rgba(240,237,230,0.95) !important; border-bottom-color: #D8D2C8 !important; }
+[data-theme="zen-bright"] .bg-base       { background-color: #F0EDE6 !important; }
+[data-theme="zen-bright"] .bg-surface    { background-color: #E8E3DA !important; }
+[data-theme="zen-bright"] .bg-elevated   { background-color: #FDFAF6 !important; }
+[data-theme="zen-bright"] .ios-grouped   { background-color: #FDFAF6 !important; border-color: #D8D2C8 !important; }
+[data-theme="zen-bright"] .ios-row       { border-bottom-color: #EAE5DC !important; }
+[data-theme="zen-bright"] .card          { background-color: #FDFAF6 !important; border-color: #D8D2C8 !important; }
+[data-theme="zen-bright"] .stat-tile     { background-color: #FDFAF6 !important; border-color: #D8D2C8 !important; }
+[data-theme="zen-bright"] input,
+[data-theme="zen-bright"] textarea,
+[data-theme="zen-bright"] .ios-input     { background: #F8F4EE !important; border-color: #D0CAC0 !important; color: #1A1816 !important; }
+[data-theme="zen-bright"] .text-white    { color: #1A1816 !important; }
+[data-theme="zen-bright"] .text-primary  { color: #1A1816 !important; }
+[data-theme="zen-bright"] .text-text-secondary,
+[data-theme="zen-bright"] .text-secondary { color: #6B6560 !important; }
+[data-theme="zen-bright"] .text-text-muted,
+[data-theme="zen-bright"] .text-muted    { color: #9A9490 !important; }
+[data-theme="zen-bright"] .text-accent-blue   { color: #4A7C59 !important; }
+[data-theme="zen-bright"] .border-accent-blue { border-color: #4A7C59 !important; }
+[data-theme="zen-bright"] .bg-accent-blue     { background-color: #4A7C59 !important; }
+[data-theme="zen-bright"] .nav-active         { background: rgba(74,124,89,0.12) !important; color: #4A7C59 !important; }
+[data-theme="zen-bright"] .btn-primary        { background: #4A7C59 !important; color: #fff !important; box-shadow: 0 4px 20px rgba(74,124,89,0.25) !important; }
+[data-theme="zen-bright"] .ios-btn-secondary  { background: rgba(74,124,89,0.10) !important; color: #4A7C59 !important; border-color: rgba(74,124,89,0.25) !important; }
+[data-theme="zen-bright"] .nav-capture-btn    { background: #4A7C59 !important; box-shadow: 0 4px 20px rgba(74,124,89,0.30) !important; }
+[data-theme="zen-bright"] .filter-chip        { background: rgba(74,124,89,0.08) !important; border-color: rgba(74,124,89,0.2) !important; color: #6B6560 !important; }
+[data-theme="zen-bright"] .filter-chip-active { background: #4A7C59 !important; border-color: #4A7C59 !important; color: #fff !important; }
+[data-theme="zen-bright"] .nav-tab            { color: #9A9490 !important; }
+[data-theme="zen-bright"] .nav-pill           { background: rgba(240,237,230,0.93) !important; border-color: #D8D2C8 !important; }
 
 @layer base {
   html, body, #root {

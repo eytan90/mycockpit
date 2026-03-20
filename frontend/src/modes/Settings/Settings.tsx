@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import { useThemeStore, type Theme } from '../../stores/themeStore'
 import { api } from '../../api/client'
 
-const THEMES: { id: Theme; label: string; desc: string; accent: string; grad: string }[] = [
+const THEMES: { id: Theme; label: string; desc: string; accent: string; grad: string; bg: string }[] = [
   {
     id:     'dark',
     label:  'Dark',
     desc:   'Deep black with blue accents — the default.',
     accent: '#0A84FF',
     grad:   'linear-gradient(135deg, rgba(10,132,255,0.2) 0%, rgba(191,90,242,0.12) 100%)',
+    bg:     '#09090B',
   },
   {
     id:     'vibrant',
@@ -16,6 +17,23 @@ const THEMES: { id: Theme; label: string; desc: string; accent: string; grad: st
     desc:   'Warm dark with orange accents — energetic.',
     accent: '#FF6B35',
     grad:   'linear-gradient(135deg, rgba(255,107,53,0.22) 0%, rgba(255,45,85,0.1) 100%)',
+    bg:     '#09090B',
+  },
+  {
+    id:     'zen-dark',
+    label:  'Zen Dark',
+    desc:   'Warm charcoal with sage green — calm focus.',
+    accent: '#7AAE7A',
+    grad:   'linear-gradient(135deg, rgba(122,174,122,0.18) 0%, rgba(180,160,120,0.10) 100%)',
+    bg:     '#1A1916',
+  },
+  {
+    id:     'zen-bright',
+    label:  'Zen Bright',
+    desc:   'Parchment white with deep sage — daylight clarity.',
+    accent: '#4A7C59',
+    grad:   'linear-gradient(135deg, rgba(74,124,89,0.15) 0%, rgba(180,160,120,0.12) 100%)',
+    bg:     '#F0EDE6',
   },
 ]
 
@@ -44,8 +62,8 @@ export default function Settings() {
               onClick={() => setTheme(t.id)}
               className="w-full text-left rounded-2xl overflow-hidden transition-all duration-200"
               style={{
-                background: 'rgba(28,28,30,0.6)',
-                border: theme === t.id ? `1.5px solid ${t.accent}` : '1.5px solid rgba(255,255,255,0.06)',
+                background: t.bg,
+                border: theme === t.id ? `1.5px solid ${t.accent}` : '1.5px solid rgba(128,128,128,0.15)',
                 boxShadow: theme === t.id ? `0 0 20px ${t.accent}33` : 'none',
               }}
             >
@@ -65,8 +83,8 @@ export default function Settings() {
               {/* Label row */}
               <div className="flex items-center justify-between px-4 py-3">
                 <div>
-                  <p className="text-[15px] font-semibold text-white">{t.label}</p>
-                  <p className="text-[12px] text-text-secondary mt-0.5">{t.desc}</p>
+                  <p className="text-[15px] font-semibold" style={{ color: t.id === 'zen-bright' ? '#1A1816' : '#FAFAFA' }}>{t.label}</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: t.id === 'zen-bright' ? '#6B6560' : '#A1A1AA' }}>{t.desc}</p>
                 </div>
                 <div
                   className="w-6 h-6 rounded-full flex items-center justify-center transition-all"
