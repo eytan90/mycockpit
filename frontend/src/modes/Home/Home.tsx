@@ -659,7 +659,7 @@ function VibStatTile({ value, label, icon, accent, onClick }: { value: any; labe
         {label === 'Flags'    && <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></>}
       </svg>
       <span className="text-[24px] font-bold text-white leading-none mt-1">{value}</span>
-      <span className="text-[11px] font-medium mt-0.5" style={{ color: accent }}>{label}</span>
+      <span className="text-[11px] font-medium mt-0.5" style={{ color: value ? accent : '#8E8E93' }}>{label}</span>
     </button>
   )
 }
