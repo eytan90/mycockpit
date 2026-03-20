@@ -510,23 +510,26 @@ function VibrantHome({ projects, inbox, attention, summary, reviewing, reviewRes
         </h1>
       </div>
 
-      {/* Stat tiles */}
-      <div className="px-5 mb-7">
+      {/* Stat chips */}
+      <div className="px-5 mb-5">
         {!loaded ? (
-          <div className="flex gap-3">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="vib-stat-tile animate-pulse flex-1">
-                <div className="h-5 w-5 rounded bg-zinc-800 mb-1" />
-                <div className="h-6 w-8 rounded bg-zinc-800" />
-                <div className="h-2.5 w-12 rounded bg-zinc-800 mt-1" />
-              </div>
-            ))}
+          <div className="flex gap-2">
+            {[...Array(3)].map((_, i) => <div key={i} className="h-[30px] w-20 rounded-full bg-zinc-800 animate-pulse" />)}
           </div>
         ) : (
-          <div className="flex gap-3">
-            <VibStatTile value={summary?.active_projects ?? '—'} label="Projects" icon="📋" accent="#0A84FF" onClick={() => onNavigate('/projects')} />
-            <VibStatTile value={summary?.inbox_count || '0'} label="Inbox" icon="📥" accent="#FF9F0A" onClick={() => {}} />
-            <VibStatTile value={attention.length || '0'} label="Flags" icon="🚩" accent="#FF453A" onClick={() => {}} />
+          <div className="flex gap-2 flex-wrap">
+            <button onClick={() => onNavigate('/projects')} className="flex items-center gap-1.5 h-[30px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+              <span className="text-[13px] font-semibold" style={{ color: '#0A84FF' }}>{summary?.active_projects ?? '—'}</span>
+              <span className="text-[12px] text-text-secondary">Projects</span>
+            </button>
+            <button className="flex items-center gap-1.5 h-[30px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+              <span className="text-[13px] font-semibold" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count || '0'}</span>
+              <span className="text-[12px] text-text-secondary">Inbox</span>
+            </button>
+            <button className="flex items-center gap-1.5 h-[30px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+              <span className="text-[13px] font-semibold" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length || '0'}</span>
+              <span className="text-[12px] text-text-secondary">Flags</span>
+            </button>
           </div>
         )}
       </div>
