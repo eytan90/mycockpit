@@ -139,7 +139,8 @@ async def _stream_claude(prompt: str, image_paths: list[str] | None = None):
     """
     global _session_id
 
-    cmd = [_CLAUDE_CMD, "-p", prompt, "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+    # Pass prompt via stdin to avoid Windows 8191-char command-line limit
+    cmd = [_CLAUDE_CMD, "-p", "-", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
     if _session_id:
         cmd.extend(["--resume", _session_id])
     for img in (image_paths or []):
@@ -147,11 +148,17 @@ async def _stream_claude(prompt: str, image_paths: list[str] | None = None):
 
     proc = await asyncio.create_subprocess_exec(
         *cmd,
+        stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
         cwd=str(get_vault_path()),
         env=_SUBPROCESS_ENV,
     )
+    # Write prompt to stdin then close it so claude knows input is done
+    if proc.stdin:
+        proc.stdin.write(prompt.encode("utf-8"))
+        await proc.stdin.drain()
+        proc.stdin.close()
 
     last_len = 0
     new_sid  = None
@@ -208,18 +215,19 @@ async def _call_claude(prompt: str) -> tuple[str, str | None]:
     """Non-streaming call. Returns (text, session_id)."""
     global _session_id
 
-    cmd = [_CLAUDE_CMD, "-p", prompt, "--output-format", "json", "--dangerously-skip-permissions"]
+    cmd = [_CLAUDE_CMD, "-p", "-", "--output-format", "json", "--dangerously-skip-permissions"]
     if _session_id:
         cmd.extend(["--resume", _session_id])
 
     proc = await asyncio.create_subprocess_exec(
         *cmd,
+        stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
         cwd=str(get_vault_path()),
         env=_SUBPROCESS_ENV,
     )
-    stdout, stderr = await proc.communicate()
+    stdout, stderr = await proc.communicate(input=prompt.encode("utf-8"))
     out = stdout.decode("utf-8", errors="replace").strip()
     err = stderr.decode("utf-8", errors="replace").strip()
 
