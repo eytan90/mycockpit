@@ -7,6 +7,7 @@ import { useProjectStore } from '../../stores/projectStore'
 import { useBacklogStore } from '../../stores/backlogStore'
 import { useIdeaStore } from '../../stores/ideaStore'
 import { api } from '../../api/client'
+import { useToast } from '../../components/Toast'
 
 const SEV_CONFIG = {
   high:   { label: 'Needs Action',  dot: 'bg-accent-red',   text: 'text-accent-red',   border: 'border-accent-red/20',   bg: 'bg-accent-red/5' },
@@ -25,6 +26,7 @@ interface SyncResult {
 
 export default function Organize() {
   const navigate = useNavigate()
+  const toast = useToast()
   const { items, summary, fetch, lastFetched, isLoading, invalidate } = useAttentionStore()
   const { fetch: fetchInbox, lastFetched: inboxFetched } = useInboxStore()
   const { projects, invalidate: invalidateProjects } = useProjectStore()
@@ -43,7 +45,11 @@ export default function Organize() {
     try {
       await api.post('/inbox/review', {})
       invalidate()
-    } catch (e) { console.error(e) }
+      toast.success('Inbox reviewed')
+    } catch (e) {
+      toast.error('Review failed')
+      console.error(e)
+    }
     setReviewing(false)
   }
 
@@ -58,7 +64,11 @@ export default function Organize() {
       invalidateProjects()
       invalidateBacklog()
       invalidateIdeas()
-    } catch (e) { console.error(e) }
+      toast.success('Vault synced')
+    } catch (e) {
+      toast.error('Sync failed')
+      console.error(e)
+    }
     setSyncing(false)
   }
 
@@ -153,17 +163,22 @@ export default function Organize() {
               ))}
             </div>
           )}
+        </div>
+      )}
 
-          {syncResult.flags.length > 0 && (
-            <div className="space-y-1 pt-1 border-t border-border-subtle">
-              <p className="text-xxs font-semibold text-accent-amber uppercase tracking-wider">Needs Your Attention</p>
-              {syncResult.flags.map((f, i) => (
-                <div key={i} className="text-xxs text-text-secondary">
-                  <span className="font-medium">{f.project}</span>: {f.issue}
-                </div>
-              ))}
+      {/* Flags / Needs Attention section */}
+      {syncResult && syncResult.flags.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-xxs font-semibold uppercase tracking-wider text-accent-red">Needs Attention ({syncResult.flags.length})</p>
+          {syncResult.flags.map((f, i) => (
+            <div key={i} className="flex items-start gap-3 p-3 rounded-lg border border-red-500/20 bg-red-500/5">
+              <div className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0 mt-1.5" />
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold text-text-primary">{f.project}</p>
+                <p className="text-xxs text-text-muted mt-0.5">{f.issue}</p>
+              </div>
             </div>
-          )}
+          ))}
         </div>
       )}
 

@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import type { Project, Milestone } from '../../../stores/projectStore'
 import { api } from '../../../api/client'
+import { useToast } from '../../../components/Toast'
 
 interface Props { project: Project; onUpdated: () => void }
 
 export default function PlanTab({ project: p, onUpdated }: Props) {
+  const toast = useToast()
   const [toggling, setToggling] = useState<number | null>(null)
 
   async function handleToggle(milestone: Milestone) {
@@ -12,8 +14,10 @@ export default function PlanTab({ project: p, onUpdated }: Props) {
     setToggling(milestone.index)
     try {
       await api.patch(`/projects/${p.id}/milestones/${milestone.index}`, { done: !milestone.done })
+      toast.success('Milestone updated')
       onUpdated()
     } catch (e) {
+      toast.error('Failed to update milestone')
       console.error(e)
     } finally {
       setToggling(null)
@@ -78,6 +82,7 @@ function MilestoneRow({ milestone: m, loading, onToggle }: {
             : 'border-border-subtle hover:border-accent-blue'
         } ${loading ? 'opacity-50' : ''}`}
         style={{ width: 18, height: 18 }}
+        aria-label={m.done ? 'Mark undone' : 'Mark done'}
       >
         {m.done && (
           <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

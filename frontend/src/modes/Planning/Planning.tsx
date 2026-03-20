@@ -6,10 +6,12 @@ import type { Project } from '../../stores/projectStore'
 import ProgressBar from '../../components/ProgressBar'
 import StatusChip from '../../components/StatusChip'
 import { api } from '../../api/client'
+import { useToast } from '../../components/Toast'
 
 const HORIZON_ORDER = ['3-year', '1-year', 'quarterly', 'monthly', 'weekly', 'other']
 
 export default function Planning() {
+  const toast = useToast()
   const { goals, fetch: fetchGoals, lastFetched: gFetched, invalidate: invalidateGoals } = useGoalStore()
   const { projects, fetch: fetchProjects, lastFetched: pFetched } = useProjectStore()
 
@@ -19,6 +21,8 @@ export default function Planning() {
   const [showAddGoal, setShowAddGoal] = useState(false)
   const [newGoalTitle, setNewGoalTitle] = useState('')
   const [newGoalHorizon, setNewGoalHorizon] = useState('1-year')
+  const [newGoalStatus, setNewGoalStatus] = useState('active')
+  const [newGoalProjects, setNewGoalProjects] = useState('')
   const [saving, setSaving] = useState(false)
 
   // Group goals by horizon
@@ -39,11 +43,24 @@ export default function Planning() {
     if (!newGoalTitle.trim() || saving) return
     setSaving(true)
     try {
-      await api.post('/goals', { title: newGoalTitle.trim(), horizon: newGoalHorizon })
+      const linked = newGoalProjects.trim()
+        ? newGoalProjects.split(',').map(s => s.trim()).filter(Boolean)
+        : []
+      await api.post('/goals', {
+        title: newGoalTitle.trim(),
+        horizon: newGoalHorizon,
+        status: newGoalStatus,
+        linked_projects: linked,
+      })
       setNewGoalTitle('')
+      setNewGoalProjects('')
       setShowAddGoal(false)
       invalidateGoals()
-    } catch (e) { console.error(e) }
+      toast.success('Goal created')
+    } catch (e) {
+      toast.error('Failed to create goal')
+      console.error(e)
+    }
     setSaving(false)
   }
 
@@ -58,36 +75,69 @@ export default function Planning() {
           onClick={() => setShowAddGoal(v => !v)}
           className="text-sm px-3 py-1.5 rounded-lg bg-accent-blue/10 text-accent-blue border border-accent-blue/20 hover:bg-accent-blue/20 transition-colors"
         >
-          + Goal
+          + New Goal
         </button>
       </div>
 
-      {/* Add goal form */}
+      {/* Add goal form — bottom sheet style */}
       {showAddGoal && (
-        <div className="flex gap-2 flex-wrap p-4 bg-bg-surface border border-border-subtle rounded-lg">
-          <input
-            autoFocus
-            value={newGoalTitle}
-            onChange={e => setNewGoalTitle(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') addGoal(); if (e.key === 'Escape') setShowAddGoal(false) }}
-            placeholder="Goal title…"
-            className="flex-1 min-w-48 bg-bg-elevated text-text-primary text-sm rounded-lg px-3 py-1.5 border border-border-subtle focus:outline-none focus:border-accent-blue/50"
-          />
-          <select
-            value={newGoalHorizon}
-            onChange={e => setNewGoalHorizon(e.target.value)}
-            className="bg-bg-elevated text-text-primary text-sm rounded-lg px-3 py-1.5 border border-border-subtle focus:outline-none cursor-pointer"
-          >
-            {['weekly', 'monthly', 'quarterly', '1-year', '3-year'].map(h =>
-              <option key={h} value={h}>{h}</option>
-            )}
-          </select>
+        <div className="p-5 bg-bg-surface border border-border-subtle rounded-xl space-y-4">
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-sm font-semibold text-text-primary">New Goal</p>
+            <button onClick={() => setShowAddGoal(false)} className="text-text-muted hover:text-text-secondary text-xs">Cancel</button>
+          </div>
+          <div>
+            <label className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500 block mb-1.5">Title *</label>
+            <input
+              autoFocus
+              value={newGoalTitle}
+              onChange={e => setNewGoalTitle(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') addGoal(); if (e.key === 'Escape') setShowAddGoal(false) }}
+              placeholder="Goal title…"
+              className="ios-input w-full"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500 block mb-1.5">Horizon</label>
+              <select
+                value={newGoalHorizon}
+                onChange={e => setNewGoalHorizon(e.target.value)}
+                className="ios-input cursor-pointer"
+              >
+                {['weekly', 'monthly', 'quarterly', '1-year', '3-year'].map(h =>
+                  <option key={h} value={h}>{h}</option>
+                )}
+              </select>
+            </div>
+            <div>
+              <label className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500 block mb-1.5">Status</label>
+              <select
+                value={newGoalStatus}
+                onChange={e => setNewGoalStatus(e.target.value)}
+                className="ios-input cursor-pointer"
+              >
+                {['active', 'done', 'archived'].map(s =>
+                  <option key={s} value={s}>{s}</option>
+                )}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500 block mb-1.5">Linked Projects (comma-separated IDs)</label>
+            <input
+              value={newGoalProjects}
+              onChange={e => setNewGoalProjects(e.target.value)}
+              placeholder="project_id_1, project_id_2…"
+              className="ios-input w-full"
+            />
+          </div>
           <button
             onClick={addGoal}
             disabled={!newGoalTitle.trim() || saving}
-            className="px-4 py-1.5 text-sm bg-accent-blue text-white rounded-lg hover:bg-accent-blue/90 disabled:opacity-40 transition-colors"
+            className="btn-primary w-full"
           >
-            {saving ? '…' : 'Add'}
+            {saving ? 'Creating…' : 'Create Goal'}
           </button>
         </div>
       )}
@@ -139,7 +189,6 @@ export default function Planning() {
 
 function GoalCard({ goal: g, projects }: { goal: Goal; projects: Project[] }) {
   const linked = projects.filter(p => g.linked_projects.includes(p.id))
-  const allDone = linked.length > 0 && linked.every(p => p.status === 'done')
   const hasWarning = g.status !== 'done' && linked.length === 0
 
   return (

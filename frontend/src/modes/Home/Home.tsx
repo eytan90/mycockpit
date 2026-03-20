@@ -15,6 +15,7 @@ import ProgressBar from '../../components/ProgressBar'
 import CardMenu from '../../components/CardMenu'
 import { useChatContextStore } from '../../stores/chatContextStore'
 import { api } from '../../api/client'
+import { useToast } from '../../components/Toast'
 
 function greeting() {
   const h = new Date().getHours()
@@ -25,8 +26,42 @@ function greeting() {
 
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
 
+// ── Skeleton components ──────────────────────────────────────────────────────
+
+function SkeletonStatGrid() {
+  return (
+    <div className="px-4 md:px-6 mb-7">
+      <div className="stat-grid">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="stat-tile animate-pulse">
+            <div className="h-8 w-10 rounded bg-zinc-800 mb-2" />
+            <div className="h-3 w-16 rounded bg-zinc-800" />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function SkeletonRows({ count = 3 }: { count?: number }) {
+  return (
+    <>
+      {[...Array(count)].map((_, i) => (
+        <div key={i} className="ios-row animate-pulse">
+          <div className="w-8 h-8 rounded-full bg-zinc-800 shrink-0" />
+          <div className="flex-1 space-y-1.5">
+            <div className="h-3.5 w-3/4 rounded bg-zinc-800" />
+            <div className="h-2.5 w-1/2 rounded bg-zinc-800" />
+          </div>
+        </div>
+      ))}
+    </>
+  )
+}
+
 export default function Home() {
   const navigate  = useNavigate()
+  const toast     = useToast()
   const { theme } = useThemeStore()
 
   const { projects, fetch: fetchProjects, lastFetched: projFetched, invalidate: invalidateProjects } = useProjectStore()
@@ -38,6 +73,8 @@ export default function Home() {
   const [reviewing, setReviewing]       = useState(false)
   const [reviewResult, setReviewResult] = useState<{ category: string; text: string }[] | null>(null)
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
+
+  const loaded = !!(projFetched && attFetched && tasksFetched)
 
   useEffect(() => {
     if (!projFetched)  fetchProjects()
@@ -55,7 +92,10 @@ export default function Home() {
       setReviewResult(res.processed)
       invalidateInbox()
       invalidateAtt()
-    } catch (e) { console.error(e) }
+    } catch (e) {
+      toast.error('Review failed')
+      console.error(e)
+    }
     setReviewing(false)
   }
 
@@ -92,6 +132,7 @@ export default function Home() {
         upNextTasks={upNextTasks}
         overdueMilestones={overdueMilestones}
         onTaskClick={setSelectedTask}
+        loaded={loaded}
       />
       {selectedTask && <TaskEditModal task={selectedTask} onClose={() => setSelectedTask(null)} onSaved={() => { invalidateTasks(); setSelectedTask(null) }} />}
     </>
@@ -106,26 +147,28 @@ export default function Home() {
       </div>
 
       {/* 2×2 Stat grid */}
-      <div className="px-4 md:px-6 mb-7">
-        <div className="stat-grid">
-          <button className="stat-tile" onClick={() => navigate('/projects')}>
-            <span className="stat-value" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>
-            <span className="stat-label">Projects</span>
-          </button>
-          <button className="stat-tile">
-            <span className="stat-value" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>
-            <span className="stat-label">Inbox</span>
-          </button>
-          <button className="stat-tile" onClick={() => navigate('/ideas')}>
-            <span className="stat-value" style={{ color: summary?.ideas_ready_to_promote ? '#30D158' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>
-            <span className="stat-label">Ready</span>
-          </button>
-          <button className="stat-tile">
-            <span className="stat-value" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>
-            <span className="stat-label">Flags</span>
-          </button>
+      {!loaded ? <SkeletonStatGrid /> : (
+        <div className="px-4 md:px-6 mb-7">
+          <div className="stat-grid">
+            <button className="stat-tile" onClick={() => navigate('/projects')}>
+              <span className="stat-value" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>
+              <span className="stat-label">Projects</span>
+            </button>
+            <button className="stat-tile">
+              <span className="stat-value" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>
+              <span className="stat-label">Inbox</span>
+            </button>
+            <button className="stat-tile" onClick={() => navigate('/ideas')}>
+              <span className="stat-value" style={{ color: summary?.ideas_ready_to_promote ? '#30D158' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>
+              <span className="stat-label">Ready</span>
+            </button>
+            <button className="stat-tile">
+              <span className="stat-value" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>
+              <span className="stat-label">Flags</span>
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ── SUGGESTED MODE ───────────────────────────────── */}
       <SuggestedMode
@@ -141,18 +184,22 @@ export default function Home() {
       {/* ── FOCUS: Overdue + In Progress + Up Next ───────── */}
       {(overdueMilestones.length > 0 || inProgressTasks.length > 0 || highPriorityTasks.length > 0 || upNextTasks.length > 0) && (
         <IosSection title="Focus" action={<button onClick={() => navigate('/focus')} className="text-[13px] text-accent-blue font-medium pr-4">Full view</button>}>
-          {overdueMilestones.map((m, i) => (
-            <OverdueRow key={i} milestone={m} onDone={() => { invalidateProjects() }} />
-          ))}
-          {inProgressTasks.map((t, i) => (
-            <FocusTaskRow key={i} task={t} accent="var(--accent)" onClick={() => setSelectedTask(t)} />
-          ))}
-          {highPriorityTasks.map((t, i) => (
-            <FocusTaskRow key={i} task={t} accent="#F59E0B" onClick={() => setSelectedTask(t)} />
-          ))}
-          {upNextTasks.map((t, i) => (
-            <FocusTaskRow key={i} task={t} accent="#3F3F46" onClick={() => setSelectedTask(t)} />
-          ))}
+          {!loaded ? <SkeletonRows count={3} /> : (
+            <>
+              {overdueMilestones.map((m, i) => (
+                <OverdueRow key={i} milestone={m} onDone={() => { invalidateProjects() }} />
+              ))}
+              {inProgressTasks.map((t, i) => (
+                <FocusTaskRow key={i} task={t} accent="var(--accent)" onClick={() => setSelectedTask(t)} />
+              ))}
+              {highPriorityTasks.map((t, i) => (
+                <FocusTaskRow key={i} task={t} accent="#F59E0B" onClick={() => setSelectedTask(t)} />
+              ))}
+              {upNextTasks.map((t, i) => (
+                <FocusTaskRow key={i} task={t} accent="#3F3F46" onClick={() => setSelectedTask(t)} />
+              ))}
+            </>
+          )}
         </IosSection>
       )}
       {selectedTask && <TaskEditModal task={selectedTask} onClose={() => setSelectedTask(null)} onSaved={() => { invalidateTasks(); setSelectedTask(null) }} />}
@@ -184,7 +231,7 @@ export default function Home() {
 
       {/* ── PRIORITY PROJECTS ────────────────────────────── */}
       <IosSection title="Priority Projects" action={<button onClick={() => navigate('/projects')} className="text-[13px] text-accent-blue font-medium pr-4">See all</button>}>
-        {priorityProjects.length === 0 ? (
+        {!loaded ? <SkeletonRows count={2} /> : priorityProjects.length === 0 ? (
           <div className="ios-row"><p className="text-[15px] text-text-muted">No active projects</p></div>
         ) : priorityProjects.map(p => (
           <ProjectCard key={p.id} project={p} />
@@ -222,14 +269,19 @@ function OverdueRow({ milestone: m, onDone }: {
   milestone: { title: string; due?: string; projectName: string; projectId: string; index: number; done: boolean }
   onDone: () => void
 }) {
+  const toast = useToast()
   const [toggling, setToggling] = useState(false)
 
   async function handleDone() {
     setToggling(true)
     try {
       await api.patch(`/projects/${m.projectId}/milestones/${m.index}`, { done: true })
+      toast.success('Milestone marked done')
       onDone()
-    } catch (e) { console.error(e) }
+    } catch (e) {
+      toast.error('Failed to update milestone')
+      console.error(e)
+    }
     setToggling(false)
   }
 
@@ -256,9 +308,18 @@ function FocusTaskRow({ task: t, accent, onClick, onUpdated }: { task: Task; acc
   const { invalidate } = useBacklogStore()
   const { set: setContext } = useChatContextStore()
   const navigate = useNavigate()
+  const toast = useToast()
 
   async function patchTask(updates: Record<string, string>) {
-    try { await api.patch(`/backlog/${t.id}`, updates); invalidate(); onUpdated?.() } catch (e) { console.error(e) }
+    try {
+      await api.patch(`/backlog/${t.id}`, updates)
+      toast.success('Status updated')
+      invalidate()
+      onUpdated?.()
+    } catch (e) {
+      toast.error('Failed to update task')
+      console.error(e)
+    }
   }
 
   function chatAbout() {
@@ -311,14 +372,30 @@ function IosSection({ title, children, action }: { title: string; children: Reac
 }
 
 function AttentionRow({ item }: { item: AttentionItem }) {
+  const navigate = useNavigate()
   const dotColor = item.severity === 'high' ? '#FF453A' : item.severity === 'medium' ? '#FF9F0A' : '#0A84FF'
+
+  function handleClick() {
+    if (item.action) navigate(item.action)
+  }
+
+  const isClickable = !!item.action
+
   return (
-    <div className="ios-row">
+    <div
+      className={`ios-row ${isClickable ? 'ios-row-press cursor-pointer hover:bg-elevated' : ''}`}
+      onClick={isClickable ? handleClick : undefined}
+    >
       <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: dotColor }} />
       <div className="flex-1 min-w-0">
         <p className="text-[15px] text-white font-medium truncate">{item.title}</p>
         <p className="text-[12px] text-text-muted truncate">{item.detail}</p>
       </div>
+      {isClickable && (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="shrink-0 text-zinc-600">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      )}
     </div>
   )
 }
@@ -405,7 +482,7 @@ function SuggestedMode({ overdueCount, inProgressCount, highPriorityCount, atten
 
 // ── Vibrant layout ─────────────────────────────────────────────────────────────
 
-function VibrantHome({ projects, inbox, attention, summary, reviewing, reviewResult, onReview, onNavigate, inProgressTasks, highPriorityTasks, upNextTasks, overdueMilestones, onTaskClick }: {
+function VibrantHome({ projects, inbox, attention, summary, reviewing, reviewResult, onReview, onNavigate, inProgressTasks, highPriorityTasks, upNextTasks, overdueMilestones, onTaskClick, loaded }: {
   projects: Project[]
   inbox: string[]
   attention: AttentionItem[]
@@ -419,6 +496,7 @@ function VibrantHome({ projects, inbox, attention, summary, reviewing, reviewRes
   upNextTasks: Task[]
   overdueMilestones: { title: string; due?: string; projectName: string; projectId: string; index: number; done: boolean }[]
   onTaskClick: (t: Task) => void
+  loaded: boolean
 }) {
   return (
     <div className="ios-page">
@@ -432,11 +510,23 @@ function VibrantHome({ projects, inbox, attention, summary, reviewing, reviewRes
 
       {/* Stat tiles */}
       <div className="px-5 mb-7">
-        <div className="flex gap-3">
-          <VibStatTile value={summary?.active_projects ?? '—'} label="Projects" icon="📋" accent="#0A84FF" onClick={() => onNavigate('/projects')} />
-          <VibStatTile value={summary?.inbox_count || '0'} label="Inbox" icon="📥" accent="#FF9F0A" onClick={() => {}} />
-          <VibStatTile value={attention.length || '0'} label="Flags" icon="🚩" accent="#FF453A" onClick={() => {}} />
-        </div>
+        {!loaded ? (
+          <div className="flex gap-3">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="vib-stat-tile animate-pulse flex-1">
+                <div className="h-5 w-5 rounded bg-zinc-800 mb-1" />
+                <div className="h-6 w-8 rounded bg-zinc-800" />
+                <div className="h-2.5 w-12 rounded bg-zinc-800 mt-1" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex gap-3">
+            <VibStatTile value={summary?.active_projects ?? '—'} label="Projects" icon="📋" accent="#0A84FF" onClick={() => onNavigate('/projects')} />
+            <VibStatTile value={summary?.inbox_count || '0'} label="Inbox" icon="📥" accent="#FF9F0A" onClick={() => {}} />
+            <VibStatTile value={attention.length || '0'} label="Flags" icon="🚩" accent="#FF453A" onClick={() => {}} />
+          </div>
+        )}
       </div>
 
       {/* Focus: overdue + in-progress + high priority + up next */}
@@ -498,7 +588,19 @@ function VibrantHome({ projects, inbox, attention, summary, reviewing, reviewRes
       {/* Priority projects */}
       <div className="mb-7">
         <VibSectionHeader title="Active Projects" onSeeAll={() => onNavigate('/projects')} />
-        {projects.length === 0 ? (
+        {!loaded ? (
+          <div className="px-5 flex gap-3 overflow-x-hidden">
+            {[...Array(2)].map((_, i) => (
+              <div key={i} className="vib-card animate-pulse shrink-0">
+                <div className="vib-card-header bg-zinc-800" />
+                <div className="vib-card-body space-y-2">
+                  <div className="h-3 w-3/4 rounded bg-zinc-800" />
+                  <div className="h-2.5 w-1/2 rounded bg-zinc-800" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : projects.length === 0 ? (
           <p className="px-5 text-[14px] text-white/30">No active projects</p>
         ) : (
           <div className="flex gap-3 overflow-x-auto px-5 pb-2" style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
@@ -587,6 +689,7 @@ function VibInboxRow({ text }: { text: string }) {
 const TASK_STATUS_OPTIONS = ['backlog', 'up-next', 'in-progress', 'done', 'cancelled']
 
 function TaskEditModal({ task, onClose, onSaved }: { task: Task; onClose: () => void; onSaved: () => void }) {
+  const toast = useToast()
   const [title, setTitle]   = useState(task.title)
   const [status, setStatus] = useState(task.status)
   const [area, setArea]     = useState(task.area || '')
@@ -601,9 +704,13 @@ function TaskEditModal({ task, onClose, onSaved }: { task: Task; onClose: () => 
       if (area.trim() !== (task.area || '')) updates.area = area.trim()
       if (Object.keys(updates).length > 0) {
         await api.patch(`/backlog/${task.id}`, updates)
+        toast.success('Task saved')
       }
       onSaved()
-    } catch (e) { console.error(e) }
+    } catch (e) {
+      toast.error('Failed to save task')
+      console.error(e)
+    }
     finally { setSaving(false) }
   }
 

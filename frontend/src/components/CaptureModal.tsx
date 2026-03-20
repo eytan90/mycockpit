@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../api/client'
 import { useInboxStore } from '../stores/inboxStore'
+import { useToast } from './Toast'
 
 interface Props { onClose: () => void }
 
 export default function CaptureModal({ onClose }: Props) {
   const invalidate = useInboxStore(s => s.invalidate)
+  const toast = useToast()
   const [text, setText]     = useState('')
   const [status, setStatus] = useState<'idle' | 'saving' | 'done'>('idle')
   const ref = useRef<HTMLTextAreaElement>(null)
@@ -24,9 +26,11 @@ export default function CaptureModal({ onClose }: Props) {
     try {
       await api.post('/inbox', { text: t })
       invalidate()
+      toast.success('Captured to inbox')
       setStatus('done')
       setTimeout(onClose, 750)
     } catch {
+      toast.error('Failed to capture')
       setStatus('idle')
     }
   }
@@ -47,6 +51,7 @@ export default function CaptureModal({ onClose }: Props) {
           <h2 className="text-lg font-semibold text-white">Capture a thought</h2>
           <button
             onClick={onClose}
+            aria-label="Close capture modal"
             className="w-11 h-11 flex items-center justify-center rounded-full bg-zinc-800 text-zinc-400 hover:text-white transition-colors shrink-0"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">

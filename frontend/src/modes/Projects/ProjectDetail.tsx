@@ -8,6 +8,7 @@ import TasksTab from './tabs/TasksTab'
 import TeamTab from './tabs/TeamTab'
 import GoalsTab from './tabs/GoalsTab'
 import { api } from '../../api/client'
+import ProjectEditDrawer from '../../components/ProjectEditDrawer'
 
 interface Props {
   project: Project
@@ -20,14 +21,21 @@ type Tab = typeof TABS[number]
 
 export default function ProjectDetail({ project: p, onBack, onUpdated }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('Summary')
+  const [editOpen, setEditOpen] = useState(false)
 
   const progress = p.calculated_progress ?? p.progress
 
   return (
     <div className="flex flex-col h-full">
-      {/* Mobile back */}
-      <div className="md:hidden px-4 pt-3">
-        <button onClick={onBack} className="text-sm text-accent-blue">← Projects</button>
+      {/* Mobile back header */}
+      <div className="md:hidden flex items-center gap-3 px-4 pt-3 pb-1">
+        <button onClick={onBack} className="flex items-center gap-1 text-sm text-accent-blue" aria-label="Back to projects">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Projects
+        </button>
+        <p className="text-sm font-semibold text-white truncate flex-1">{p.name}</p>
       </div>
 
       {/* Header */}
@@ -42,6 +50,13 @@ export default function ProjectDetail({ project: p, onBack, onUpdated }: Props) 
           <div className="flex items-center gap-2 shrink-0">
             <StatusChip value={p.priority} size="sm" />
             <StatusChip value={p.status} size="sm" />
+            <button
+              onClick={() => setEditOpen(true)}
+              className="ios-btn-secondary text-xs px-3 py-1.5"
+              aria-label="Edit project"
+            >
+              Edit
+            </button>
           </div>
         </div>
 
@@ -102,6 +117,15 @@ export default function ProjectDetail({ project: p, onBack, onUpdated }: Props) 
         {activeTab === 'Team'    && <TeamTab project={p} />}
         {activeTab === 'Goals'   && <GoalsTab project={p} />}
       </div>
+
+      {/* Edit drawer */}
+      {editOpen && (
+        <ProjectEditDrawer
+          project={p}
+          onClose={() => setEditOpen(false)}
+          onUpdated={onUpdated}
+        />
+      )}
     </div>
   )
 }

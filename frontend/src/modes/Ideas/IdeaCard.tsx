@@ -5,6 +5,7 @@ import { api } from '../../api/client'
 import { useIdeaStore } from '../../stores/ideaStore'
 import CardMenu from '../../components/CardMenu'
 import { useChatContextStore } from '../../stores/chatContextStore'
+import { useToast } from '../../components/Toast'
 
 interface Props { idea: Idea }
 
@@ -14,6 +15,7 @@ export default function IdeaCard({ idea: g }: Props) {
   const invalidate = useIdeaStore(s => s.invalidate)
   const { set: setContext } = useChatContextStore()
   const navigate = useNavigate()
+  const toast = useToast()
   const [promoting, setPromoting] = useState(false)
   const [editingField, setEditingField] = useState<string | null>(null)
   const [draft, setDraft] = useState('')
@@ -30,8 +32,12 @@ export default function IdeaCard({ idea: g }: Props) {
     setPromoting(true)
     try {
       await api.post(`/ideas/${g.index}/promote`, {})
+      toast.success('Idea promoted to backlog')
       invalidate()
-    } catch (e) { console.error(e) }
+    } catch (e) {
+      toast.error('Failed to promote idea')
+      console.error(e)
+    }
     setPromoting(false)
   }
 

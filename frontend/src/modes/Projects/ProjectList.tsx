@@ -8,6 +8,7 @@ import CardMenu from '../../components/CardMenu'
 import { useProjectStore } from '../../stores/projectStore'
 import { useChatContextStore } from '../../stores/chatContextStore'
 import { api } from '../../api/client'
+import { useSearchStore } from '../../stores/searchStore'
 
 interface Props { projects: Project[]; selectedId?: string; onSelect: (id: string) => void }
 
@@ -15,8 +16,11 @@ const STATUS_FILTERS = ['all', 'in-progress', 'planning', 'waiting', 'done']
 
 export default function ProjectList({ projects, selectedId, onSelect }: Props) {
   const { isLoading } = useProjectStore()
-  const [search, setSearch]           = useState('')
+  const { query: globalQuery } = useSearchStore()
   const [statusFilter, setStatusFilter] = useState('all')
+
+  // Use global search query; fall back gracefully
+  const search = globalQuery
 
   const filtered = useMemo(() => projects.filter(p => {
     const matchSearch = !search || p.name.toLowerCase().includes(search.toLowerCase())
@@ -29,16 +33,6 @@ export default function ProjectList({ projects, selectedId, onSelect }: Props) {
       {/* Header */}
       <div className="px-4 pt-5 pb-4 shrink-0">
         <h2 className="text-xl font-semibold text-white mb-4">Projects</h2>
-
-        {/* Search */}
-        <input
-          type="text"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="Filter projects…"
-          className="ios-input mb-4"
-          style={{ padding: '9px 14px' }}
-        />
 
         {/* Filter chips */}
         <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>

@@ -3,6 +3,7 @@ import { useIdeaStore } from '../../stores/ideaStore'
 import type { Idea } from '../../stores/ideaStore'
 import IdeaCard from './IdeaCard'
 import SkeletonCard from '../../components/SkeletonCard'
+import { useSearchStore } from '../../stores/searchStore'
 
 const COLUMNS: { key: number; label: string; color: string }[] = [
   { key: 10,  label: 'Needs Refinement', color: 'text-text-muted' },
@@ -13,7 +14,7 @@ const COLUMNS: { key: number; label: string; color: string }[] = [
 
 export default function Ideas() {
   const { ideas, fetch, lastFetched, isLoading } = useIdeaStore()
-  const [search, setSearch] = useState('')
+  const { query: globalQuery } = useSearchStore()
   const [areaFilter, setAreaFilter] = useState('all')
 
   useEffect(() => {
@@ -24,8 +25,11 @@ export default function Ideas() {
 
   const areas = ['all', ...Array.from(new Set(active.map(g => g.area).filter(Boolean) as string[]))]
 
+  // Use global search query from searchStore, fall back to no local search
+  const effectiveSearch = globalQuery
+
   const filtered = active.filter(g => {
-    if (search && !g.title.toLowerCase().includes(search.toLowerCase())) return false
+    if (effectiveSearch && !g.title.toLowerCase().includes(effectiveSearch.toLowerCase())) return false
     if (areaFilter !== 'all' && g.area !== areaFilter) return false
     return true
   })
@@ -39,12 +43,6 @@ export default function Ideas() {
         <h1 className="text-lg font-semibold text-text-primary">Ideas</h1>
         <span className="text-sm text-text-muted">{active.length} active</span>
         <div className="flex-1" />
-        <input
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="Search ideas…"
-          className="bg-bg-elevated text-text-primary text-sm rounded-lg px-3 py-1.5 border border-border-subtle focus:outline-none focus:border-accent-blue/50 w-48"
-        />
         <select
           value={areaFilter}
           onChange={e => setAreaFilter(e.target.value)}

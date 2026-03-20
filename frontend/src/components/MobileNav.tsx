@@ -25,6 +25,7 @@ export default function MobileNav() {
       <nav
         className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none"
         style={{ paddingBottom: 'calc(8px + env(safe-area-inset-bottom))' }}
+        aria-label="Main navigation"
       >
         <div className="nav-pill flex items-center px-2 py-2 pointer-events-auto w-[calc(100%-32px)] max-w-[500px]">
 
@@ -33,6 +34,7 @@ export default function MobileNav() {
               key={path}
               onClick={() => navigate(path)}
               className={`nav-tab ${isActive(path) ? 'active' : ''}`}
+              aria-label={`Navigate to ${label}`}
             >
               <span className="nav-tab-icon"><Icon /></span>
               <span className="nav-tab-label">{label}</span>
@@ -40,7 +42,11 @@ export default function MobileNav() {
           ))}
 
           {/* ── Center capture button ── */}
-          <button className="nav-capture-btn" onClick={() => setCapture(true)}>
+          <button
+            className="nav-capture-btn"
+            onClick={() => setCapture(true)}
+            aria-label="Capture a thought"
+          >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
@@ -51,6 +57,7 @@ export default function MobileNav() {
               key={path}
               onClick={() => navigate(path)}
               className={`nav-tab ${isActive(path) ? 'active' : ''}`}
+              aria-label={`Navigate to ${label}`}
             >
               <span className="nav-tab-icon"><Icon /></span>
               <span className="nav-tab-label">{label}</span>
@@ -76,7 +83,4 @@ function ProjectsIcon() {
 }
 function ChatIcon() {
   return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-}
-function SettingsIcon() {
-  return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
 }
