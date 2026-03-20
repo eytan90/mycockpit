@@ -169,9 +169,50 @@ Set `ngrok_auth` in `config.json`. MyCockpit will auto-start the tunnel on launc
 
 ---
 
+## Autonomous Design Critic
+
+A self-improving UI/UX loop that detects and fixes design issues automatically, living in the `design-critic/` folder.
+
+### How it works
+
+The pipeline runs five stages in sequence:
+
+| Stage | File | What it does |
+|---|---|---|
+| Observer | `observer.ts` | Playwright captures desktop (1440px) + mobile (390px) screenshots and a full DOM snapshot |
+| Critic | `critic.ts` | `claude-opus-4-6` analyzes screenshots + DOM against the design constitution; returns structured issues and a 6-dimension score |
+| Planner | `planner.ts` | Locates the exact source file for each issue and asks Claude for a minimal old→new patch |
+| Editor | `editor.ts` | Applies patches with exact string replacement; backs up files so rollback is safe |
+| Scorer | `scorer.ts` | Compares before/after screenshots with a weighted score (clarity 25%, consistency 20%, responsiveness 20%, accessibility 15%, vibe 20%, interaction 10%) |
+
+The **orchestrator** wraps these into a loop with automatic rollback on score regression and an optional git commit on improvement.
+
+### Setup
+
+```bash
+cd design-critic
+npm install
+npx playwright install chromium
+```
+
+### Usage
+
+```bash
+npm run report      # critique only — no edits, just a report
+npm run semi-auto   # apply edits, pause for human review
+npm run full-auto   # loop up to N iterations with auto rollback
+```
+
+CLI flags: `--mode`, `--url`, `--iterations`, `--protect`, `--threshold`
+
+> No API key needed — all AI calls route through your existing **Claude Code** session via the `claude` CLI.
+
+---
+
 ## Tech stack
 
 - **Backend** — FastAPI (Python), port 7844
 - **Frontend** — React + TypeScript + Zustand + Tailwind CSS, built with Vite
 - **AI** — Claude via `claude` CLI subprocess (`--output-format stream-json`)
 - **Storage** — plain markdown files, no database
+- **Design Critic** — TypeScript + Playwright + `claude-opus-4-6` autonomous UI/UX loop
