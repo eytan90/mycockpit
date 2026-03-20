@@ -1,0 +1,112 @@
+{
+  "name": "MyCockpit Design Constitution",
+  "version": "1.0",
+  "vibe": "Minimal, calm, premium ambient lab dashboard. iOS 26 aesthetic. Content-first. Every element serves a purpose.",
+  "rules": {
+    "hierarchy": {
+      "description": "Strong visual hierarchy. One focal point per screen. Reserve large cards for truly important content. Use grouped list rows for most content.",
+      "violations": [
+        "Equally-weighted tile grids (2x2 metric tiles)",
+        "No clear primary action",
+        "Multiple competing focal points",
+        "Over-use of large cards"
+      ]
+    },
+    "glass_usage": {
+      "description": "Liquid Glass only in navigation chrome: top bar, tab bar, floating controls, overlays, chips, sidebars. Never on content cards.",
+      "violations": [
+        "Frosted glass on content cards",
+        "Glass blur on data containers",
+        "Heavy backdrop-filter on non-chrome elements"
+      ]
+    },
+    "typography": {
+      "description": "SF Pro hierarchy. Large Title 34px bold, Title 22px bold, Headline 17px semibold, Body 17px regular, Subhead 15px, Caption 11-12px. Fewer sizes used consistently.",
+      "violations": [
+        "Too many type sizes",
+        "All-caps for anything other than section labels",
+        "Inconsistent weight usage",
+        "Landing-page style typography"
+      ]
+    },
+    "colors": {
+      "backgrounds": {
+        "base": "#000000",
+        "surface": "#1C1C1E",
+        "secondary": "#2C2C2E",
+        "tertiary": "#3A3A3C"
+      },
+      "text": {
+        "primary": "#FFFFFF",
+        "secondary": "#8E8E93",
+        "muted": "#636366"
+      },
+      "accents": {
+        "blue": "#0A84FF",
+        "green": "#30D158",
+        "red": "#FF453A",
+        "amber": "#FF9F0A",
+        "purple": "#BF5AF2"
+      },
+      "violations": [
+        "Neon colors without semantic meaning",
+        "More than 2-3 accent colors visible simultaneously",
+        "Low contrast text on dark backgrounds",
+        "Decorative color that adds visual noise"
+      ]
+    },
+    "spacing": {
+      "description": "4/8pt grid. Outer margin 16px mobile, 24px desktop. Section spacing 32px. Row padding 11px vertical, 16px horizontal.",
+      "violations": [
+        "Inconsistent padding",
+        "Too much padding on dense content views",
+        "Missing breathing room between sections",
+        "Decorative divider lines in page chrome"
+      ]
+    },
+    "responsiveness": {
+      "description": "Mobile-first. Primary actions in thumb reach (bottom half). Touch targets minimum 44pt height.",
+      "violations": [
+        "Small touch targets on mobile",
+        "Content overflowing viewport",
+        "Desktop layout not adapting to mobile",
+        "Navigation inaccessible on small screens"
+      ]
+    },
+    "accessibility": {
+      "description": "Small text minimum 4.5:1 contrast. Status uses shape + icon + label, not color alone.",
+      "violations": [
+        "Muted gray text on dark background with insufficient contrast",
+        "Color-only status indicators",
+        "No aria labels on icon-only buttons"
+      ]
+    },
+    "interactions": {
+      "description": "Every visible control must have clear purpose. No dead buttons. Subtle motion only. Clear affordances.",
+      "violations": [
+        "Buttons with no visible effect",
+        "Unclear hover/active states",
+        "Missing chevron on drill-down rows",
+        "Janky or distracting animations",
+        "Decorative effects that reduce clarity"
+      ]
+    },
+    "layout": {
+      "description": "Content edge-to-edge. Nav chrome floats above. Grouped list rows over heavy cards. Inset sections.",
+      "violations": [
+        "Generic web dashboard look",
+        "Heavy opaque rounded rectangles for every container",
+        "Thick bordered containers",
+        "Borders on content containers (use background contrast)"
+      ]
+    }
+  },
+  "scoring": {
+    "visual_clarity": { "weight": 0.25, "description": "Clear hierarchy, one focal point, no clutter" },
+    "consistency": { "weight": 0.20, "description": "Colors, spacing, typography used consistently" },
+    "responsiveness": { "weight": 0.20, "description": "Works well on mobile (390px)" },
+    "accessibility": { "weight": 0.15, "description": "Contrast, touch targets, semantic markup" },
+    "vibe_match": { "weight": 0.20, "description": "Matches zen/minimal/premium lab dashboard aesthetic" },
+    "interaction_clarity": { "weight": 0.10, "description": "Clear CTAs, no dead controls, good affordances" }
+  }
+}

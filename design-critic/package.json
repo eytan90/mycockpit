@@ -1,0 +1,24 @@
+{
+  "name": "design-critic",
+  "version": "1.0.0",
+  "description": "Autonomous UI/UX design critic and self-improving loop for MyCockpit",
+  "type": "module",
+  "scripts": {
+    "report": "tsx src/cli.ts --mode report",
+    "semi-auto": "tsx src/cli.ts --mode semi-auto",
+    "full-auto": "tsx src/cli.ts --mode full-auto",
+    "run": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "glob": "^11.0.0",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
