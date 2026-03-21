@@ -169,6 +169,98 @@ Set `ngrok_auth` in `config.json`. MyCockpit will auto-start the tunnel on launc
 
 ---
 
+## Email → Inbox integration (Power Automate)
+
+MyCockpit exposes a webhook at `POST /api/email` that Power Automate (or any HTTP client) can call when an email arrives. It auto-scores the email for actionability and captures it to your inbox if it warrants attention.
+
+### How it works
+
+1. Power Automate triggers on a new email in Outlook
+2. It POSTs structured email data to `/api/email`
+3. MyCockpit scores the email:
+   - **Always captures** — `importance: "high"` emails
+   - **Captures** — emails with action signals (deadlines, requests, approvals, follow-ups)
+   - **Drops silently** — newsletters, noreply senders, FYI-only, automated messages
+4. Captured emails land in `vault/00_Dashboard/inbox.md` as unreviewed items
+5. From there, `/api/inbox/review` (or the Inbox tab) classifies them as TASK or IDEA and files them
+
+### Endpoint
+
+```
+POST /api/email
+Content-Type: application/json
+X-Session-Token: <your session token>
+
+{
+  "sender":     "John Smith <john@example.com>",
+  "subject":    "Please review the budget proposal",
+  "body":       "<html>...</html> or plain text",
+  "importance": "high" | "normal" | "low"
+}
+```
+
+**Response:**
+```json
+{ "captured": true, "reason": "action pattern matched", "entry": "Email from John Smith: Please review the budget proposal" }
+```
+or
+```json
+{ "captured": false, "reason": "noise/automated" }
+```
+
+### Getting your session token
+
+1. Start MyCockpit and open it via its public ngrok URL (not localhost)
+2. Log in with your password
+3. Open browser DevTools → Application → Local Storage → copy the value of `dd_token`
+
+> The token is stable across restarts — it's derived from your password, so you only need to fetch it once.
+
+### Power Automate flow — step by step
+
+**Trigger:** `When a new email arrives (V3)` — Microsoft 365 Outlook connector
+
+| Setting | Value |
+|---|---|
+| Folder | Inbox |
+| Importance | All (let the endpoint decide) or `High` if you want to pre-filter |
+| Include Attachments | No |
+
+**Action:** `HTTP`
+
+| Field | Value |
+|---|---|
+| Method | `POST` |
+| URI | `https://YOUR-NGROK-URL/api/email` |
+| Headers | `Content-Type: application/json` + `X-Session-Token: YOUR_TOKEN` |
+| Body | see below |
+
+**Body** (use Power Automate dynamic content):
+```json
+{
+  "sender":     "@{triggerOutputs()?['body/from']}",
+  "subject":    "@{triggerOutputs()?['body/subject']}",
+  "body":       "@{triggerOutputs()?['body/body/content']}",
+  "importance": "@{triggerOutputs()?['body/importance']}"
+}
+```
+
+**Optional — add a Condition after the HTTP action** to only notify you when `captured` is `false` (so you can manually decide), using the expression:
+```
+body('HTTP')?['captured']
+```
+
+### Relevant files
+
+| File | Purpose |
+|---|---|
+| `routers/email.py` | Webhook endpoint — scoring logic, inbox append |
+| `routers/inbox.py` | Inbox capture + review (classifies TASK vs IDEA, files to backlog or ideas) |
+| `main.py` | Registers all routers; handles auth middleware and ngrok startup |
+| `config.json` | `ngrok_token` — authtoken auto-configured on startup; `ngrok_auth` — `user:password` for remote login |
+
+---
+
 ## Tech stack
 
 - **Backend** — FastAPI (Python), port 7844
