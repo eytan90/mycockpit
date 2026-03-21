@@ -16,7 +16,7 @@ from fastapi.responses import FileResponse, JSONResponse, HTMLResponse, Redirect
 from fastapi.exceptions import HTTPException
 
 from config import get_vault_path, get_port, load_config
-from routers import projects, ideas, inbox, backlog, goals, attention, organize, chat
+from routers import projects, ideas, inbox, backlog, goals, attention, organize, chat, email
 from routers.chat import init_session, close_session
 
 STATIC_DIR = Path(__file__).parent / "static"
@@ -298,6 +298,7 @@ app.include_router(goals.router)
 app.include_router(attention.router)
 app.include_router(organize.router)
 app.include_router(chat.router)
+app.include_router(email.router)
 
 # ── API routes ────────────────────────────────────────────────────────────────
 
