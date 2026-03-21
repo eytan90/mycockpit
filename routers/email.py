@@ -1,10 +1,12 @@
+import json
 import re
+import urllib.request
 from datetime import datetime
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 
-from config import get_vault_path
+from config import get_vault_path, load_config
 from parsers.frontmatter import read_file, write_file
 
 router = APIRouter(prefix="/api/email", tags=["email"])
@@ -109,3 +111,58 @@ def email_webhook(body: EmailWebhook):
     _append_to_inbox(entry)
 
     return {"captured": True, "reason": reason, "entry": entry}
+
+
+# ── Outbound: send email via Power Automate (Flow 2) ─────────────────────────
+
+class SendEmailRequest(BaseModel):
+    to: str
+    subject: str
+    body: str
+    importance: Optional[str] = "normal"
+
+
+@router.post("/send")
+def send_email(body: SendEmailRequest):
+    """
+    Trigger Power Automate to send an email on your behalf.
+
+    Requires 'email_send_webhook' in config.json — set it to the HTTP trigger URL
+    of your Power Automate flow that sends emails.
+
+    Power Automate flow setup:
+      Trigger: "When an HTTP request is received" (manual trigger)
+      Action:  "Send an email (V2)" — Microsoft 365 Outlook
+        To:         @{triggerBody()?['to']}
+        Subject:    @{triggerBody()?['subject']}
+        Body:       @{triggerBody()?['body']}
+        Importance: @{triggerBody()?['importance']}
+    """
+    to = body.to.strip()
+    subject = body.subject.strip()
+    if not to or not subject:
+        raise HTTPException(400, "to and subject are required")
+
+    config = load_config()
+    webhook_url = config.get("email_send_webhook", "").strip()
+    if not webhook_url:
+        raise HTTPException(501, "email_send_webhook not configured in config.json")
+
+    payload = {
+        "to": to,
+        "subject": subject,
+        "body": body.body,
+        "importance": body.importance or "normal",
+    }
+    data = json.dumps(payload).encode()
+    req = urllib.request.Request(
+        webhook_url, data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        urllib.request.urlopen(req, timeout=10)
+    except Exception as e:
+        raise HTTPException(502, f"Failed to reach Power Automate webhook: {e}")
+
+    return {"sent": True, "to": to, "subject": subject}
