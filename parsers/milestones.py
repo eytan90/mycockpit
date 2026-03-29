@@ -46,6 +46,7 @@ def parse_milestones(body: str) -> List[Milestone]:
         done = marker == 'x'
 
         owner = _extr(rest, 'owner')
+        start = _extr(rest, 'start')
         due = _extr(rest, 'due')
         status = _extr(rest, 'status')
 
@@ -58,6 +59,7 @@ def parse_milestones(body: str) -> List[Milestone]:
             title=title or "Untitled",
             done=done,
             owner=owner,
+            start=start if start and start.upper() != "TBD" else None,
             due=due if due and due.upper() != "TBD" else None,
             status=status or ("done" if done else "pending"),
         ))

@@ -1,0 +1,1128 @@
+{
+  "config": {
+    "mode": "full-auto",
+    "appUrl": "http://localhost:7844",
+    "maxIterations": 5,
+    "projectRoot": "C:\\Users\\Eytanp\\mycockpit\\app",
+    "frontendDir": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend",
+    "screenshotDir": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots",
+    "protectedFiles": [],
+    "scoreImprovementThreshold": 0.3
+  },
+  "snapshots": [
+    {
+      "iteration": 1,
+      "timestamp": "2026-03-20T19:58:46.539Z",
+      "screenshotDesktop": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter1_desktop.png",
+      "screenshotMobile": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter1_mobile.png",
+      "report": {
+        "issues": [
+          {
+            "id": "issue-01",
+            "severity": "high",
+            "category": "hierarchy",
+            "description": "Three equally-weighted stat tiles (Projects/Inbox/Flags) violate Rule 1 — no equal-weight tile grids.",
+            "location": "Home hero — stat tiles row",
+            "affectedComponents": [
+              "StatTile",
+              "HomeHero"
+            ],
+            "suggestedFix": "Replace with a single compact grouped list: one row per metric using 'flex justify-between' at 44px height inside a #1C1C1E surface, or promote one KPI as the true hero and demote the rest to subhead rows."
+          },
+          {
+            "id": "issue-02",
+            "severity": "high",
+            "category": "color",
+            "description": "Blue, orange, and red accent labels appear simultaneously in the same tiles row — exceeds 2-3 accent max.",
+            "location": "Home hero — stat tiles (Projects/Inbox/Flags labels)",
+            "affectedComponents": [
+              "StatTile"
+            ],
+            "suggestedFix": "Use a single accent (#0A84FF) or #8E8E93 for all three labels. Reserve color differentiation for semantically distinct states (e.g., red only if Flags > 0 and urgent)."
+          },
+          {
+            "id": "issue-03",
+            "severity": "high",
+            "category": "vibe",
+            "description": "Emoji icons (📋📥🚩) in stat tiles undermine the premium iOS aesthetic — reads as generic SaaS dashboard.",
+            "location": "Home hero — stat tiles",
+            "affectedComponents": [
+              "StatTile"
+            ],
+            "suggestedFix": "Replace emoji with monochrome SVG icons at 20px sized to match SF Symbol style. Use accent color only on the icon, not surrounding it."
+          },
+          {
+            "id": "issue-04",
+            "severity": "medium",
+            "category": "color",
+            "description": "Date string 'Friday, March 20' rendered in amber/orange accent — not semantically meaningful for a date.",
+            "location": "Home header — date label",
+            "affectedComponents": [
+              "DateLabel"
+            ],
+            "suggestedFix": "Change color to text-[#8E8E93] (secondary text). Reserve orange/amber for urgency or active states only."
+          },
+          {
+            "id": "issue-05",
+            "severity": "medium",
+            "category": "spacing",
+            "description": "Needs Attention cards have a visible 1px orange border — Rule 5/9 say use background contrast, not borders.",
+            "location": "Needs Attention section — item cards",
+            "affectedComponents": [
+              "AttentionCard"
+            ],
+            "suggestedFix": "Remove border. Use bg-[#2C2C2E] surface and rely on contrast with #1C1C1E page background. Keep the orange left-dot indicator for semantic urgency."
+          },
+          {
+            "id": "issue-06",
+            "severity": "medium",
+            "category": "interaction",
+            "description": "Focus task rows have no chevron, giving no affordance that rows are drill-down interactive.",
+            "location": "Focus section — task list rows",
+            "affectedComponents": [
+              "TaskRow"
+            ],
+            "suggestedFix": "Add <ChevronRight size={16} className='text-[#636366] ml-auto shrink-0' /> to each row's right side. Ensure row has min-h-[44px] for touch target."
+          },
+          {
+            "id": "issue-07",
+            "severity": "medium",
+            "category": "accessibility",
+            "description": "Sidebar settings icon: 34×34px bounds < 44pt min touch target; text-white/25 (~4% contrast) fails 4.5:1.",
+            "location": "Sidebar footer — settings icon link",
+            "affectedComponents": [
+              "SidebarFooter",
+              "SettingsLink"
+            ],
+            "suggestedFix": "Set min-w-[44px] min-h-[44px] on the anchor, increase icon opacity to text-white/50 minimum, and add aria-label='Settings'."
+          },
+          {
+            "id": "issue-08",
+            "severity": "medium",
+            "category": "typography",
+            "description": "Greeting h1 renders at ~30px; Large Title spec requires 34px bold for page greeting.",
+            "location": "Home header — greeting h1",
+            "affectedComponents": [
+              "GreetingHeading"
+            ],
+            "suggestedFix": "Change text-[30px] to text-[34px] (or use text-[2.125rem]) with font-bold tracking-tight."
+          },
+          {
+            "id": "issue-09",
+            "severity": "low",
+            "category": "interaction",
+            "description": "'Full view → →' uses a redundant double arrow — unclear affordance and inconsistent with 'See all →' pattern.",
+            "location": "Focus section header — full view link",
+            "affectedComponents": [
+              "SectionHeaderLink"
+            ],
+            "suggestedFix": "Standardize to 'Full view →' (single arrow) across all section headers. Match font-size 13px text-[#0A84FF] consistently."
+          },
+          {
+            "id": "issue-10",
+            "severity": "low",
+            "category": "consistency",
+            "description": "Active nav state uses a heavy filled orange rounded rect — high visual weight vs the glass sidebar tone.",
+            "location": "Sidebar nav — Home active item",
+            "affectedComponents": [
+              "SidebarNavItem"
+            ],
+            "suggestedFix": "Replace solid orange bg with bg-white/10 + a 2px left accent bar or text-[#FF9F0A] with icon filled. Reduces visual heaviness while preserving active state clarity."
+          }
+        ],
+        "score": {
+          "visual_clarity": 7,
+          "consistency": 7.2,
+          "responsiveness": 7.8,
+          "accessibility": 6.3,
+          "vibe_match": 7.1,
+          "interaction_clarity": 6.4,
+          "total": 7.1
+        },
+        "summary": "The dashboard has a solid dark foundation with good mobile structure and a consistent orange accent language, but the equally-weighted stat tiles, simultaneous multi-accent color use, and emoji icons push it toward generic SaaS rather than premium personal OS. Accessibility gaps (settings icon touch target, low-contrast footer) and missing interaction affordances (no chevrons, double arrow) are the most actionable near-term fixes.",
+        "topPriorities": [
+          "Replace the 3 equal stat tiles with a compact grouped-list summary row or single focal KPI — eliminates the biggest hierarchy and vibe violations simultaneously.",
+          "Swap emoji tile icons for monochrome SVG icons and unify tile label colors to a single accent — resolves color overload and lifts premium feel immediately.",
+          "Fix settings icon to 44×44px touch target with text-white/50 minimum opacity, and add chevrons to all drill-down task rows — addresses the two highest accessibility and interaction gaps."
+        ]
+      },
+      "editsApplied": [
+        {
+          "issueId": "issue-01",
+          "issueSummary": "Three equally-weighted stat tiles (Projects/Inbox/Flags) violate Rule 1 — no equal-weight tile grids.",
+          "edits": [
+            {
+              "description": "Replace equal-weight stat tile grid with hierarchical grouped list",
+              "oldCode": "      {/* 2×2 Stat grid */}\n      {!loaded ? <SkeletonStatGrid /> : (\n        <div className=\"px-4 md:px-6 mb-7\">\n          <div className=\"stat-grid\">\n            <button className=\"stat-tile\" onClick={() => navigate('/projects')}>\n              <span className=\"stat-value\" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>\n              <span className=\"stat-label\">Projects</span>\n            </button>\n            <button className=\"stat-tile\">\n              <span className=\"stat-value\" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>\n              <span className=\"stat-label\">Inbox</span>\n            </button>\n            <button className=\"stat-tile\" onClick={() => navigate('/ideas')}>\n              <span className=\"stat-value\" style={{ color: summary?.ideas_ready_to_promote ? '#30D158' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>\n              <span className=\"stat-label\">Ready</span>\n            </button>\n            <button className=\"stat-tile\">\n              <span className=\"stat-value\" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>\n              <span className=\"stat-label\">Flags</span>\n            </button>\n          </div>\n        </div>\n      )}",
+              "newCode": "      {/* KPI summary — hero + subhead rows */}\n      {!loaded ? <SkeletonStatGrid /> : (\n        <div className=\"px-4 md:px-6 mb-7\">\n          <div className=\"rounded-2xl overflow-hidden\" style={{ background: '#1C1C1E' }}>\n            {/* Hero row — Projects */}\n            <button className=\"flex justify-between items-center w-full px-4 py-3 border-b border-white/[0.06]\" onClick={() => navigate('/projects')}>\n              <span className=\"text-[15px] font-semibold text-white\">Active Projects</span>\n              <span className=\"text-[28px] font-bold leading-none\" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>\n            </button>\n            {/* Subhead rows */}\n            <div className=\"flex justify-between items-center px-4\" style={{ height: 44 }}>\n              <span className=\"text-[13px] text-text-secondary\">Inbox</span>\n              <span className=\"text-[15px] font-semibold\" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>\n            </div>\n            <div className=\"flex justify-between items-center px-4 border-t border-white/[0.06]\" style={{ height: 44 }}>\n              <button className=\"flex justify-between items-center w-full\" onClick={() => navigate('/ideas')}>\n                <span className=\"text-[13px] text-text-secondary\">Ideas Ready</span>\n                <span className=\"text-[15px] font-semibold\" style={{ color: summary?.ideas_ready_to_promote ? '#30D158' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>\n              </button>\n            </div>\n            <div className=\"flex justify-between items-center px-4 border-t border-white/[0.06]\" style={{ height: 44 }}>\n              <span className=\"text-[13px] text-text-secondary\">Flags</span>\n              <span className=\"text-[15px] font-semibold\" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>\n            </div>\n          </div>\n        </div>\n      )}",
+              "reasoning": "Replaces the 4 visually equal stat-tiles (which violate hierarchy) with a single grouped surface: one large hero row for the most important KPI (Active Projects) and three compact 44px subhead rows beneath it, establishing clear visual hierarchy with a single #1C1C1E card.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            },
+            {
+              "description": "Update skeleton to match new grouped-list shape",
+              "oldCode": "function SkeletonStatGrid() {\n  return (\n    <div className=\"px-4 md:px-6 mb-7\">\n      <div className=\"stat-grid\">\n        {[...Array(4)].map((_, i) => (\n          <div key={i} className=\"stat-tile animate-pulse\">\n            <div className=\"h-8 w-10 rounded bg-zinc-800 mb-2\" />\n            <div className=\"h-3 w-16 rounded bg-zinc-800\" />\n          </div>\n        ))}\n      </div>\n    </div>\n  )\n}",
+              "newCode": "function SkeletonStatGrid() {\n  return (\n    <div className=\"px-4 md:px-6 mb-7\">\n      <div className=\"rounded-2xl overflow-hidden animate-pulse\" style={{ background: '#1C1C1E' }}>\n        <div className=\"flex justify-between items-center px-4 py-3 border-b border-white/[0.06]\">\n          <div className=\"h-4 w-28 rounded bg-zinc-800\" />\n          <div className=\"h-8 w-10 rounded bg-zinc-800\" />\n        </div>\n        {[...Array(3)].map((_, i) => (\n          <div key={i} className=\"flex justify-between items-center px-4 border-t border-white/[0.06]\" style={{ height: 44 }}>\n            <div className=\"h-3 w-16 rounded bg-zinc-800\" />\n            <div className=\"h-4 w-6 rounded bg-zinc-800\" />\n          </div>\n        ))}\n      </div>\n    </div>\n  )\n}",
+              "reasoning": "Skeleton now mirrors the new grouped-list layout so the loading state matches the loaded state without layout shift.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            }
+          ]
+        },
+        {
+          "issueId": "issue-02",
+          "issueSummary": "Blue, orange, and red accent labels appear simultaneously in the same tiles row — exceeds 2-3 accent max.",
+          "edits": [
+            {
+              "description": "Unify stat tile accent colors — single blue accent, red only when Flags > 0",
+              "oldCode": "            <button className=\"stat-tile\" onClick={() => navigate('/projects')}>\n              <span className=\"stat-value\" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>\n              <span className=\"stat-label\">Projects</span>\n            </button>\n            <button className=\"stat-tile\">\n              <span className=\"stat-value\" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>\n              <span className=\"stat-label\">Inbox</span>\n            </button>\n            <button className=\"stat-tile\" onClick={() => navigate('/ideas')}>\n              <span className=\"stat-value\" style={{ color: summary?.ideas_ready_to_promote ? '#30D158' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>\n              <span className=\"stat-label\">Ready</span>\n            </button>\n            <button className=\"stat-tile\">\n              <span className=\"stat-value\" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>\n              <span className=\"stat-label\">Flags</span>\n            </button>",
+              "newCode": "            <button className=\"stat-tile\" onClick={() => navigate('/projects')}>\n              <span className=\"stat-value\" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>\n              <span className=\"stat-label\">Projects</span>\n            </button>\n            <button className=\"stat-tile\">\n              <span className=\"stat-value\" style={{ color: summary?.inbox_count ? 'var(--accent)' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>\n              <span className=\"stat-label\">Inbox</span>\n            </button>\n            <button className=\"stat-tile\" onClick={() => navigate('/ideas')}>\n              <span className=\"stat-value\" style={{ color: summary?.ideas_ready_to_promote ? 'var(--accent)' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>\n              <span className=\"stat-label\">Ready</span>\n            </button>\n            <button className=\"stat-tile\">\n              <span className=\"stat-value\" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>\n              <span className=\"stat-label\">Flags</span>\n            </button>",
+              "reasoning": "Replaces orange (#FF9F0A) and green (#30D158) with var(--accent) for Inbox and Ready tiles, leaving red (#FF453A) only for the Flags tile when count > 0. This collapses 3 simultaneous accent colors down to 2 (blue + conditional red), satisfying the 2-3 accent max rule while preserving semantic urgency signaling.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            }
+          ]
+        },
+        {
+          "issueId": "issue-03",
+          "issueSummary": "Emoji icons (📋📥🚩) in stat tiles undermine the premium iOS aesthetic — reads as generic SaaS dashboard.",
+          "edits": [
+            {
+              "description": "Replace emoji prop values with SVG icon components",
+              "oldCode": "            <VibStatTile value={summary?.active_projects ?? '—'} label=\"Projects\" icon=\"📋\" accent=\"#0A84FF\" onClick={() => onNavigate('/projects')} />\n            <VibStatTile value={summary?.inbox_count || '0'} label=\"Inbox\" icon=\"📥\" accent=\"#FF9F0A\" onClick={() => {}} />\n            <VibStatTile value={attention.length || '0'} label=\"Flags\" icon=\"🚩\" accent=\"#FF453A\" onClick={() => {}} />",
+              "newCode": "            <VibStatTile value={summary?.active_projects ?? '—'} label=\"Projects\" icon={<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\"><rect x=\"2\" y=\"3\" width=\"16\" height=\"3\" rx=\"1\" fill=\"currentColor\"/><rect x=\"2\" y=\"8.5\" width=\"16\" height=\"1.5\" rx=\"0.75\" fill=\"currentColor\" opacity=\"0.5\"/><rect x=\"2\" y=\"12\" width=\"10\" height=\"1.5\" rx=\"0.75\" fill=\"currentColor\" opacity=\"0.5\"/></svg>} accent=\"#0A84FF\" onClick={() => onNavigate('/projects')} />\n            <VibStatTile value={summary?.inbox_count || '0'} label=\"Inbox\" icon={<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\"><path d=\"M3 5a1 1 0 011-1h12a1 1 0 011 1v7a1 1 0 01-1 1H4a1 1 0 01-1-1V5z\" stroke=\"currentColor\" strokeWidth=\"1.5\" fill=\"none\"/><path d=\"M3 10h3l1.5 2h5L14 10h3\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinejoin=\"round\" fill=\"none\"/></svg>} accent=\"#FF9F0A\" onClick={() => {}} />\n            <VibStatTile value={attention.length || '0'} label=\"Flags\" icon={<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\"><path d=\"M5 3v14\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\"/><path d=\"M5 4h9l-2.5 4L14 12H5\" fill=\"currentColor\" opacity=\"0.9\"/></svg>} accent=\"#FF453A\" onClick={() => {}} />",
+              "reasoning": "Replaces emoji strings with inline monochrome SVG icons matching SF Symbol style at 20px; currentColor inherits accent tint applied below",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            },
+            {
+              "description": "Update VibStatTile to accept ReactNode icon and apply accent color to it",
+              "oldCode": "function VibStatTile({ value, label, icon, accent, onClick }: { value: any; label: string; icon: string; accent: string; onClick: () => void }) {\n  return (\n    <button onClick={onClick} className=\"vib-stat-tile\">\n      <span className=\"text-[20px] leading-none\">{icon}</span>\n      <span className=\"text-[24px] font-bold text-white leading-none mt-1\">{value}</span>\n      <span className=\"text-[11px] font-medium mt-0.5\" style={{ color: accent }}>{label}</span>\n    </button>\n  )\n}",
+              "newCode": "function VibStatTile({ value, label, icon, accent, onClick }: { value: any; label: string; icon: React.ReactNode; accent: string; onClick: () => void }) {\n  return (\n    <button onClick={onClick} className=\"vib-stat-tile\">\n      <span className=\"leading-none\" style={{ color: accent }}>{icon}</span>\n      <span className=\"text-[24px] font-bold text-white leading-none mt-1\">{value}</span>\n      <span className=\"text-[11px] font-medium text-text-secondary mt-0.5\">{label}</span>\n    </button>\n  )\n}",
+              "reasoning": "Types icon as ReactNode to accept SVG elements; applies accent color via currentColor on the icon wrapper; demotes label to text-secondary so accent color lives only on the icon, not the label",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "timestamp": "2026-03-20T20:02:18.897Z",
+      "screenshotDesktop": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter2_desktop.png",
+      "screenshotMobile": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter2_mobile.png",
+      "report": {
+        "issues": [
+          {
+            "id": "issue-01",
+            "severity": "high",
+            "category": "color",
+            "description": "Date label 'Friday, March 20' uses amber accent color decoratively — accents must be semantically meaningful, not stylistic.",
+            "location": "Home hero section",
+            "affectedComponents": [
+              "HomeGreeting"
+            ],
+            "suggestedFix": "Change date text color to `text-[#8E8E93]` (secondary text). Reserve amber for warnings/flags only."
+          },
+          {
+            "id": "issue-02",
+            "severity": "high",
+            "category": "hierarchy",
+            "description": "Three equally-weighted stat tiles (Projects/Inbox/Flags) violate Rule 1 — counter data belongs in grouped list rows, not large cards.",
+            "location": "Home stat tiles",
+            "affectedComponents": [
+              "StatTile"
+            ],
+            "suggestedFix": "Replace with a single horizontal grouped row or inline pill chips. Use `flex gap-3` chip layout: icon + count + label at 44px height."
+          },
+          {
+            "id": "issue-03",
+            "severity": "high",
+            "category": "vibe",
+            "description": "Active nav item uses filled amber/orange rectangle background — iOS convention uses blue tint or subtle fill, not warm accent blocks.",
+            "location": "Sidebar nav — Home item",
+            "affectedComponents": [
+              "SidebarNav"
+            ],
+            "suggestedFix": "Replace amber bg with `bg-white/10` fill and `text-white`, or use `#0A84FF` tint with `bg-[#0A84FF]/15 text-[#0A84FF]`."
+          },
+          {
+            "id": "issue-04",
+            "severity": "high",
+            "category": "consistency",
+            "description": "Focus rows use individual card-per-row treatment; Needs Attention uses bordered cards. Two different list patterns in same page section.",
+            "location": "Focus section, Needs Attention section",
+            "affectedComponents": [
+              "FocusRow",
+              "NeedsAttentionCard"
+            ],
+            "suggestedFix": "Unify to single grouped list: one `bg-[#1C1C1E] rounded-xl` container, rows separated by `border-t border-white/[0.06]` hairlines."
+          },
+          {
+            "id": "issue-05",
+            "severity": "high",
+            "category": "vibe",
+            "description": "Needs Attention items have visible 1px borders on individual cards — Rule 9 forbids thick container borders; use background contrast instead.",
+            "location": "Needs Attention section",
+            "affectedComponents": [
+              "NeedsAttentionCard"
+            ],
+            "suggestedFix": "Remove border, use `bg-[#1C1C1E]` card bg against `bg-[#000000]` page bg. Hairline separator only between stacked rows."
+          },
+          {
+            "id": "issue-06",
+            "severity": "medium",
+            "category": "typography",
+            "description": "Greeting title is `text-[30px]` — constitution specifies Large Title at 34px bold for page greeting.",
+            "location": "Home hero section",
+            "affectedComponents": [
+              "HomeGreeting"
+            ],
+            "suggestedFix": "Change to `text-[34px] font-bold` to match Large Title spec."
+          },
+          {
+            "id": "issue-07",
+            "severity": "medium",
+            "category": "typography",
+            "description": "Section headings 'Focus', 'Needs Attention' appear ~17–18px; Title spec requires 22px bold for section headings.",
+            "location": "Focus section, Needs Attention section",
+            "affectedComponents": [
+              "SectionHeading"
+            ],
+            "suggestedFix": "Apply `text-[22px] font-bold text-white` to all section heading elements."
+          },
+          {
+            "id": "issue-08",
+            "severity": "medium",
+            "category": "interaction",
+            "description": "'Full view → →' has duplicate arrow rendering — appears as a bug, erodes premium polish.",
+            "location": "Focus section header",
+            "affectedComponents": [
+              "SectionHeaderAction"
+            ],
+            "suggestedFix": "Render as a single arrow: `Full view →` or use a `<ChevronRight>` icon component instead of text arrows."
+          },
+          {
+            "id": "issue-09",
+            "severity": "medium",
+            "category": "color",
+            "description": "Three distinct accent colors (blue, amber, red) visible simultaneously in stat tiles — at the upper limit of Rule 4 with no clear semantic hierarchy.",
+            "location": "Home stat tiles",
+            "affectedComponents": [
+              "StatTile"
+            ],
+            "suggestedFix": "If tiles are kept, use a single neutral accent or restrict: blue=Projects, red=Flags only; Inbox uses white/secondary text (0 = neutral state)."
+          },
+          {
+            "id": "issue-10",
+            "severity": "medium",
+            "category": "accessibility",
+            "description": "Settings icon link in sidebar footer has no visible aria-label in DOM — icon-only control missing accessible label (Rule 7).",
+            "location": "Sidebar footer",
+            "affectedComponents": [
+              "SidebarFooter"
+            ],
+            "suggestedFix": "Add `aria-label=\"Settings\"` to the anchor element wrapping the settings icon."
+          },
+          {
+            "id": "issue-11",
+            "severity": "medium",
+            "category": "responsiveness",
+            "description": "On mobile, 3 stat tiles are ~110px wide each — content is cramped and emoji icons render small with limited breathing room.",
+            "location": "Home stat tiles — mobile",
+            "affectedComponents": [
+              "StatTile"
+            ],
+            "suggestedFix": "On mobile collapse tiles to a single horizontal scroll row or a stacked grouped list. Alternatively use `grid-cols-3 gap-2` with reduced padding."
+          },
+          {
+            "id": "issue-12",
+            "severity": "medium",
+            "category": "consistency",
+            "description": "Desktop sidebar shows Plan and Ideas nav items but mobile bottom nav omits them — navigation parity broken across breakpoints.",
+            "location": "Mobile bottom nav",
+            "affectedComponents": [
+              "MobileNav"
+            ],
+            "suggestedFix": "Add Plan/Ideas to mobile nav or consolidate under a 'More' tab. Ensure all primary destinations are reachable on mobile."
+          },
+          {
+            "id": "issue-13",
+            "severity": "low",
+            "category": "typography",
+            "description": "Date label uses `text-[13px]` — not a standard scale size (spec: 11–12px caption or 15px subhead). Avoid non-scale sizes.",
+            "location": "Home hero section — date",
+            "affectedComponents": [
+              "HomeGreeting"
+            ],
+            "suggestedFix": "Change to `text-[15px]` (Subhead) or `text-[12px]` (Caption) to stay on the defined type scale."
+          },
+          {
+            "id": "issue-14",
+            "severity": "low",
+            "category": "interaction",
+            "description": "'See all →' button at y=894 is below fold on 900px viewport — may be missed; no chevron on drill-down rows per Rule 8.",
+            "location": "Active Projects section footer",
+            "affectedComponents": [
+              "SectionFooterLink"
+            ],
+            "suggestedFix": "Move section-level 'See all' action to section header row (right-aligned), consistent with 'Full view' pattern in Focus section."
+          },
+          {
+            "id": "issue-15",
+            "severity": "low",
+            "category": "accessibility",
+            "description": "Sidebar nav link touch targets are 43px height — 1px below the 44pt minimum touch target requirement (Rule 6).",
+            "location": "Sidebar nav links",
+            "affectedComponents": [
+              "SidebarNav"
+            ],
+            "suggestedFix": "Change `py-2.5` (10px×2 + ~17px content = 43px) to `py-3` (12px×2 = ~44px+ total height)."
+          }
+        ],
+        "score": {
+          "visual_clarity": 7.2,
+          "consistency": 6.6,
+          "responsiveness": 7.4,
+          "accessibility": 7,
+          "vibe_match": 6.8,
+          "interaction_clarity": 7,
+          "total": 7
+        },
+        "summary": "The dashboard has a strong dark foundation and correct structural separation between sidebar chrome and content area, but several constitution violations undermine the premium iOS feel: decorative amber accent on the date label, equally-weighted stat tiles that should be list rows, and two conflicting card patterns within the same scroll view. The active nav state's orange fill and the duplicate arrow in 'Full view →→' are polish issues that immediately signal inconsistency.",
+        "topPriorities": [
+          "Replace three stat tiles (Projects/Inbox/Flags) with a compact grouped list row or inline chip strip — large tiles for counters violates Rule 1 hierarchy and is the most visible constitution breach.",
+          "Unify Focus and Needs Attention into a single grouped list pattern with hairline separators, removing individual bordered cards to eliminate the SaaS dashboard aesthetic (Rules 2, 5, 9).",
+          "Fix active nav color from amber fill to `bg-white/10` or `bg-[#0A84FF]/15` blue tint, and change the date label from amber to `#8E8E93` — both are decorative accent misuse that undermine the premium calm vibe (Rule 4)."
+        ]
+      },
+      "editsApplied": [
+        {
+          "issueId": "issue-01",
+          "issueSummary": "Date label 'Friday, March 20' uses amber accent color decoratively — accents must be semantically meaningful, not stylistic.",
+          "edits": [
+            {
+              "description": "Change date label color to secondary text",
+              "oldCode": "<p className=\"text-[13px] font-semibold uppercase tracking-widest text-text-secondary mb-2\">{today}</p>",
+              "newCode": "<p className=\"text-[13px] font-semibold uppercase tracking-widest text-[#8E8E93] mb-2\">{today}</p>",
+              "reasoning": "Replaces the amber accent color (used via text-text-secondary which may resolve to accent) with the neutral secondary text color #8E8E93, reserving amber for semantic warnings/flags only.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            }
+          ]
+        },
+        {
+          "issueId": "issue-02",
+          "issueSummary": "Three equally-weighted stat tiles (Projects/Inbox/Flags) violate Rule 1 — counter data belongs in grouped list rows, not large cards.",
+          "edits": [
+            {
+              "description": "Replace 2×2 stat grid with horizontal chip row",
+              "oldCode": "      {/* 2×2 Stat grid */}\n      {!loaded ? <SkeletonStatGrid /> : (\n        <div className=\"px-4 md:px-6 mb-7\">\n          <div className=\"stat-grid\">\n            <button className=\"stat-tile\" onClick={() => navigate('/projects')}>\n              <span className=\"stat-value\" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>\n              <span className=\"stat-label\">Projects</span>\n            </button>\n            <button className=\"stat-tile\">\n              <span className=\"stat-value\" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>\n              <span className=\"stat-label\">Inbox</span>\n            </button>\n            <button className=\"stat-tile\" onClick={() => navigate('/ideas')}>\n              <span className=\"stat-value\" style={{ color: summary?.ideas_ready_to_promote ? '#30D158' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>\n              <span className=\"stat-label\">Ready</span>\n            </button>\n            <button className=\"stat-tile\">\n              <span className=\"stat-value\" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>\n              <span className=\"stat-label\">Flags</span>\n            </button>\n          </div>\n        </div>\n      )}",
+              "newCode": "      {/* Stat chips */}\n      {!loaded ? (\n        <div className=\"px-4 md:px-6 mb-5 flex gap-2\">\n          {[...Array(4)].map((_, i) => <div key={i} className=\"h-[44px] w-20 rounded-full bg-zinc-800 animate-pulse\" />)}\n        </div>\n      ) : (\n        <div className=\"px-4 md:px-6 mb-5 flex gap-2 flex-wrap\">\n          <button onClick={() => navigate('/projects')} className=\"flex items-center gap-1.5 h-[44px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors\">\n            <span className=\"text-base font-semibold\" style={{ color: 'var(--accent)' }}>{summary?.active_projects ?? '—'}</span>\n            <span className=\"text-[13px] text-text-secondary\">Projects</span>\n          </button>\n          <button className=\"flex items-center gap-1.5 h-[44px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors\">\n            <span className=\"text-base font-semibold\" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count ?? '0'}</span>\n            <span className=\"text-[13px] text-text-secondary\">Inbox</span>\n          </button>\n          <button onClick={() => navigate('/ideas')} className=\"flex items-center gap-1.5 h-[44px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors\">\n            <span className=\"text-base font-semibold\" style={{ color: summary?.ideas_ready_to_promote ? '#30D158' : 'var(--text-secondary)' }}>{summary?.ideas_ready_to_promote ?? '0'}</span>\n            <span className=\"text-[13px] text-text-secondary\">Ready</span>\n          </button>\n          <button className=\"flex items-center gap-1.5 h-[44px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors\">\n            <span className=\"text-base font-semibold\" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length}</span>\n            <span className=\"text-[13px] text-text-secondary\">Flags</span>\n          </button>\n        </div>\n      )}",
+              "reasoning": "Replaces the 4 equal-weight stat-tile cards (which create false visual hierarchy) with compact 44px pill chips in a flex row. Each chip shows count + label inline at reduced visual weight, matching the 'counter data belongs in grouped list rows' principle. Inline skeleton matches the new shape.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            }
+          ]
+        },
+        {
+          "issueId": "issue-03",
+          "issueSummary": "Active nav item uses filled amber/orange rectangle background — iOS convention uses blue tint or subtle fill, not warm accent blocks.",
+          "edits": [
+            {
+              "description": "Replace amber nav-active class with iOS-style blue tint",
+              "oldCode": "isActive ? 'nav-active' : 'text-white/45 hover:text-white/75 hover:bg-white/5'",
+              "newCode": "isActive ? 'bg-[#0A84FF]/15 text-[#0A84FF]' : 'text-white/45 hover:text-white/75 hover:bg-white/5'",
+              "reasoning": "Replaces the warm amber filled rectangle (nav-active) with a subtle iOS-convention blue tint background and matching blue text, consistent with system blue #0A84FF used in iOS dark mode.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\components\\Sidebar.tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "iteration": 3,
+      "timestamp": "2026-03-20T20:04:22.179Z",
+      "screenshotDesktop": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter3_desktop.png",
+      "screenshotMobile": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter3_mobile.png",
+      "report": {
+        "issues": [
+          {
+            "id": "issue-01",
+            "severity": "critical",
+            "category": "color",
+            "description": "Date label uses amber/orange (#FF9F0A) — a semantic warning color — for a neutral date string.",
+            "location": "Home hero section",
+            "affectedComponents": [
+              "DateLabel"
+            ],
+            "suggestedFix": "Change text color to #8E8E93 (secondary text). Reserve orange for actionable warnings only."
+          },
+          {
+            "id": "issue-02",
+            "severity": "critical",
+            "category": "hierarchy",
+            "description": "Three equally-weighted stat tiles (Projects / Inbox / Flags) form a 1×3 grid violating Rule 1 — no tile grids.",
+            "location": "Home quick-stats row",
+            "affectedComponents": [
+              "StatTile",
+              "ProjectsTile",
+              "InboxTile",
+              "FlagsTile"
+            ],
+            "suggestedFix": "Replace with a single horizontal grouped list row or inline pill chips; demote to subhead-level metadata, not hero cards."
+          },
+          {
+            "id": "issue-03",
+            "severity": "high",
+            "category": "vibe",
+            "description": "Active sidebar nav item uses a solid amber/orange fill — clashes with iOS blue accent system and feels SaaS-generic.",
+            "location": "Sidebar nav — Home item",
+            "affectedComponents": [
+              "SidebarNavItem"
+            ],
+            "suggestedFix": "Use #0A84FF for the active tint with a white/10 background fill, or a subtle left-border indicator. Remove orange entirely from nav."
+          },
+          {
+            "id": "issue-04",
+            "severity": "high",
+            "category": "color",
+            "description": "'Full view →' and 'See all →' section links use orange (#FF9F0A) — semantic overload alongside date label and active state.",
+            "location": "Focus section header, Active Projects header",
+            "affectedComponents": [
+              "SectionHeaderLink"
+            ],
+            "suggestedFix": "Use #0A84FF for all navigational links. Reserve orange exclusively for warnings/flagged items."
+          },
+          {
+            "id": "issue-05",
+            "severity": "high",
+            "category": "consistency",
+            "description": "Orange is used for 3 unrelated roles: active nav, date label, section links. Color semantics are broken.",
+            "location": "Global",
+            "affectedComponents": [
+              "SidebarNavItem",
+              "DateLabel",
+              "SectionHeaderLink"
+            ],
+            "suggestedFix": "Audit all orange usage. Keep orange only for 'Flags' / warnings. Use blue for nav active state and links."
+          },
+          {
+            "id": "issue-06",
+            "severity": "high",
+            "category": "typography",
+            "description": "Page title is 30px, below the required 34px Large Title spec. Section headings ('Focus', 'Needs Attention') appear to be ~20px bold.",
+            "location": "Home hero, section headings",
+            "affectedComponents": [
+              "PageTitle",
+              "SectionHeading"
+            ],
+            "suggestedFix": "Set h1 to text-[34px]. Set section headings to text-[22px] per constitution Rule 3."
+          },
+          {
+            "id": "issue-07",
+            "severity": "high",
+            "category": "layout",
+            "description": "Stat tiles have heavy opaque rounded-rect containers — violates Rule 9 (no heavy opaque rounded rectangles everywhere).",
+            "location": "Home quick-stats row",
+            "affectedComponents": [
+              "StatTile"
+            ],
+            "suggestedFix": "Remove the card containers entirely. Render stats as inline chips or a single grouped list row on #1C1C1E surface."
+          },
+          {
+            "id": "issue-08",
+            "severity": "high",
+            "category": "vibe",
+            "description": "Focus task rows have individual card backgrounds creating a stacked-card pattern — should be grouped list rows with hairline separators.",
+            "location": "Focus section task list",
+            "affectedComponents": [
+              "FocusTaskRow"
+            ],
+            "suggestedFix": "Use one grouped container (bg-[#1C1C1E] rounded-xl) with 0.5px dividers between rows, not separate cards per row."
+          },
+          {
+            "id": "issue-09",
+            "severity": "high",
+            "category": "vibe",
+            "description": "'Needs Attention' items have thick visible border outlines on individual cards — violates Rule 9 (no thick borders on containers).",
+            "location": "Needs Attention section",
+            "affectedComponents": [
+              "NeedsAttentionCard"
+            ],
+            "suggestedFix": "Remove borders. Group items in a single #1C1C1E container with hairline row separators. Use the orange dot as the only accent."
+          },
+          {
+            "id": "issue-10",
+            "severity": "medium",
+            "category": "accessibility",
+            "description": "Settings icon link in sidebar footer (34×34px) falls below 44pt touch target minimum.",
+            "location": "Sidebar footer",
+            "affectedComponents": [
+              "SettingsIconLink"
+            ],
+            "suggestedFix": "Increase hit area to minimum 44×44px using padding: p-3 (yielding 40px) or add invisible padding via w-11 h-11."
+          },
+          {
+            "id": "issue-11",
+            "severity": "medium",
+            "category": "accessibility",
+            "description": "Settings icon link has empty text and no visible aria-label in the DOM — icon-only control with no accessible name.",
+            "location": "Sidebar footer",
+            "affectedComponents": [
+              "SettingsIconLink"
+            ],
+            "suggestedFix": "Add aria-label=\"Settings\" to the anchor element."
+          },
+          {
+            "id": "issue-12",
+            "severity": "medium",
+            "category": "interaction",
+            "description": "Task rows in Focus section have no chevron or affordance indicator — unclear if they are drill-down or static display.",
+            "location": "Focus section task list",
+            "affectedComponents": [
+              "FocusTaskRow"
+            ],
+            "suggestedFix": "Add a chevron right icon (text-white/25) to each interactive row per Rule 8. If non-interactive, remove pointer cursor."
+          },
+          {
+            "id": "issue-13",
+            "severity": "medium",
+            "category": "interaction",
+            "description": "'More options' buttons (28×28px) on project cards are invisible (isVisible: false) — dead/inaccessible controls.",
+            "location": "Active Projects section cards",
+            "affectedComponents": [
+              "ProjectCardMoreButton"
+            ],
+            "suggestedFix": "Either make them always visible at reduced opacity (text-white/30) or show on hover/focus with a visible trigger area ≥44pt."
+          },
+          {
+            "id": "issue-14",
+            "severity": "medium",
+            "category": "responsiveness",
+            "description": "Task titles in Focus section truncate mid-word on mobile ('Set up actual Planner board in Tea...') losing critical context.",
+            "location": "Mobile Focus section",
+            "affectedComponents": [
+              "FocusTaskRow"
+            ],
+            "suggestedFix": "Allow two-line wrap for task titles on mobile (whitespace-normal, line-clamp-2) to preserve readability."
+          },
+          {
+            "id": "issue-15",
+            "severity": "medium",
+            "category": "spacing",
+            "description": "Section heading 'Focus' appears without the required 32px section gap from the stat tiles above it.",
+            "location": "Home — between stat tiles and Focus section",
+            "affectedComponents": [
+              "HomePageLayout"
+            ],
+            "suggestedFix": "Add mb-8 (32px) gap between the quick-stats row and the first section heading per Rule 5."
+          },
+          {
+            "id": "issue-16",
+            "severity": "low",
+            "category": "typography",
+            "description": "Status tags ('backlog', 'idea') in Focus rows appear in muted grey — consider using constitution Caption size (11–12px) explicitly.",
+            "location": "Focus section task rows",
+            "affectedComponents": [
+              "TaskStatusBadge"
+            ],
+            "suggestedFix": "Ensure text-[11px] or text-[12px] on status labels. Currently appears ~12px which is acceptable — verify consistency."
+          },
+          {
+            "id": "issue-17",
+            "severity": "low",
+            "category": "accessibility",
+            "description": "Orange dot status indicators on 'Needs Attention' items use color alone with no label or icon to convey urgency.",
+            "location": "Needs Attention section",
+            "affectedComponents": [
+              "NeedsAttentionCard"
+            ],
+            "suggestedFix": "Add a visually-hidden sr-only label or an icon alongside the dot, e.g. an exclamation-circle at 10px."
+          }
+        ],
+        "score": {
+          "visual_clarity": 6.5,
+          "consistency": 5.5,
+          "responsiveness": 7,
+          "accessibility": 6,
+          "vibe_match": 6,
+          "interaction_clarity": 6.5,
+          "total": 6.33
+        },
+        "summary": "The layout skeleton and information architecture are sound — grouped sections, a clean sidebar, and a clear greeting hierarchy work well. However, orange is semantically overloaded across three unrelated roles (active nav, date, links), the stat tiles violate the no-tile-grid rule, and individual card borders on Focus and Needs Attention rows push the aesthetic toward generic SaaS rather than premium minimal. Resolving the color semantics and migrating stacked cards to grouped list rows would yield a significant score uplift.",
+        "topPriorities": [
+          "Consolidate all orange usage to warnings/flags only — use #0A84FF for active nav state and section links to fix broken color semantics.",
+          "Replace 3-tile stat grid and individual card-per-row patterns with grouped list containers (#1C1C1E) and hairline separators to match the iOS premium aesthetic.",
+          "Increase page title to 34px and section headings to 22px per the typography scale; add chevrons to interactive task rows for clear drill-down affordance."
+        ]
+      },
+      "editsApplied": [
+        {
+          "issueId": "issue-01",
+          "issueSummary": "Date label uses amber/orange (#FF9F0A) — a semantic warning color — for a neutral date string.",
+          "edits": [
+            {
+              "description": "Change date label color from amber to secondary text",
+              "oldCode": "<p className=\"text-[13px] font-semibold uppercase tracking-widest text-[#8E8E93] mb-2\">{today}</p>",
+              "newCode": "<p className=\"text-[13px] font-semibold uppercase tracking-widest text-[#8E8E93] mb-2\">{today}</p>",
+              "reasoning": "The date label already uses #8E8E93 — no change needed here.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            }
+          ]
+        },
+        {
+          "issueId": "issue-02",
+          "issueSummary": "Three equally-weighted stat tiles (Projects / Inbox / Flags) form a 1×3 grid violating Rule 1 — no tile grids.",
+          "edits": [
+            {
+              "description": "Replace 3-tile grid with inline pill-chip row",
+              "oldCode": "      {/* Stat tiles */}\n      <div className=\"px-5 mb-7\">\n        {!loaded ? (\n          <div className=\"flex gap-3\">\n            {[...Array(3)].map((_, i) => (\n              <div key={i} className=\"vib-stat-tile animate-pulse flex-1\">\n                <div className=\"h-5 w-5 rounded bg-zinc-800 mb-1\" />\n                <div className=\"h-6 w-8 rounded bg-zinc-800\" />\n                <div className=\"h-2.5 w-12 rounded bg-zinc-800 mt-1\" />\n              </div>\n            ))}\n          </div>\n        ) : (\n          <div className=\"flex gap-3\">\n            <VibStatTile value={summary?.active_projects ?? '—'} label=\"Projects\" icon=\"📋\" accent=\"#0A84FF\" onClick={() => onNavigate('/projects')} />\n            <VibStatTile value={summary?.inbox_count || '0'} label=\"Inbox\" icon=\"📥\" accent=\"#FF9F0A\" onClick={() => {}} />\n            <VibStatTile value={attention.length || '0'} label=\"Flags\" icon=\"🚩\" accent=\"#FF453A\" onClick={() => {}} />\n          </div>\n        )}\n      </div>",
+              "newCode": "      {/* Stat chips */}\n      <div className=\"px-5 mb-5\">\n        {!loaded ? (\n          <div className=\"flex gap-2\">\n            {[...Array(3)].map((_, i) => <div key={i} className=\"h-[30px] w-20 rounded-full bg-zinc-800 animate-pulse\" />)}\n          </div>\n        ) : (\n          <div className=\"flex gap-2 flex-wrap\">\n            <button onClick={() => onNavigate('/projects')} className=\"flex items-center gap-1.5 h-[30px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors\">\n              <span className=\"text-[13px] font-semibold\" style={{ color: '#0A84FF' }}>{summary?.active_projects ?? '—'}</span>\n              <span className=\"text-[12px] text-text-secondary\">Projects</span>\n            </button>\n            <button className=\"flex items-center gap-1.5 h-[30px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors\">\n              <span className=\"text-[13px] font-semibold\" style={{ color: summary?.inbox_count ? '#FF9F0A' : 'var(--text-secondary)' }}>{summary?.inbox_count || '0'}</span>\n              <span className=\"text-[12px] text-text-secondary\">Inbox</span>\n            </button>\n            <button className=\"flex items-center gap-1.5 h-[30px] px-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors\">\n              <span className=\"text-[13px] font-semibold\" style={{ color: attention.length ? '#FF453A' : 'var(--text-secondary)' }}>{attention.length || '0'}</span>\n              <span className=\"text-[12px] text-text-secondary\">Flags</span>\n            </button>\n          </div>\n        )}\n      </div>",
+              "reasoning": "Replaces three equal-weight flex-1 tile cards (tile grid anti-pattern) with compact pill chips that are visually subordinate metadata, not hero cards. Chips sit inline, scale to content, and demote the data to subhead level.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            }
+          ]
+        },
+        {
+          "issueId": "issue-03",
+          "issueSummary": "Active sidebar nav item uses a solid amber/orange fill — clashes with iOS blue accent system and feels SaaS-generic.",
+          "edits": [
+            {
+              "description": "Replace amber/orange active state with iOS blue accent",
+              "oldCode": "isActive ? 'bg-[#0A84FF]/15 text-[#0A84FF]' : 'text-white/45 hover:text-white/75 hover:bg-white/5'",
+              "newCode": "isActive ? 'bg-white/10 text-[#0A84FF] border-l-2 border-[#0A84FF]' : 'text-white/45 hover:text-white/75 hover:bg-white/5 border-l-2 border-transparent'",
+              "reasoning": "Replaces any lingering amber/orange with iOS blue (#0A84FF) text, a subtle white/10 fill, and a left-border indicator for clear active state — cohesive with the system blue accent throughout the app",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\components\\Sidebar.tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "iteration": 4,
+      "timestamp": "2026-03-20T20:07:29.032Z",
+      "screenshotDesktop": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter4_desktop.png",
+      "screenshotMobile": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter4_mobile.png",
+      "report": {
+        "issues": [
+          {
+            "id": "issue-01",
+            "severity": "high",
+            "category": "color",
+            "description": "Amber/orange used as generic primary accent (date, active nav, section links) — reserved for warnings only",
+            "location": "Global — date label, sidebar active state, 'Full view' / 'See all' links",
+            "affectedComponents": [
+              "Sidebar",
+              "HomeHeader",
+              "FocusSection",
+              "ActiveProjectsSection"
+            ],
+            "suggestedFix": "Replace amber accent (#FF9F0A) on date and nav active state with #0A84FF (blue). Keep amber only on semantically-warning elements like 'Needs Attention' dots."
+          },
+          {
+            "id": "issue-02",
+            "severity": "high",
+            "category": "vibe",
+            "description": "Emoji icons in stat tiles (📋📥🚩) break premium minimal aesthetic; inconsistent with clean icon system",
+            "location": "Home hero stat tiles — Projects, Inbox, Flags",
+            "affectedComponents": [
+              "StatTile"
+            ],
+            "suggestedFix": "Replace emoji with SF Symbol-style SVG icons sized 20×20, stroke weight 1.5, color matching the accent per tile. Remove emoji entirely."
+          },
+          {
+            "id": "issue-03",
+            "severity": "high",
+            "category": "layout",
+            "description": "Focus task rows rendered as individual bordered pill cards instead of grouped list with hairline separators — violates Rule 9",
+            "location": "Focus section — task list",
+            "affectedComponents": [
+              "TaskRow",
+              "FocusSection"
+            ],
+            "suggestedFix": "Wrap all task rows in a single rounded container (bg-[#1C1C1E] rounded-xl). Use border-t border-white/[0.06] hairline between rows. Remove individual card borders."
+          },
+          {
+            "id": "issue-04",
+            "severity": "high",
+            "category": "layout",
+            "description": "Needs Attention cards have visible light border strokes — Rule 5 requires background contrast only, no thick borders on containers",
+            "location": "Needs Attention section — alert cards",
+            "affectedComponents": [
+              "AttentionCard"
+            ],
+            "suggestedFix": "Remove border, use bg-[#1C1C1E] surface with a subtle left-accent stripe (3px #FF9F0A) for the alert indicator, or rely solely on background contrast."
+          },
+          {
+            "id": "issue-05",
+            "severity": "medium",
+            "category": "hierarchy",
+            "description": "Three equally-weighted stat tiles create flat visual hierarchy with no focal point — violates Rule 1",
+            "location": "Home hero — Projects/Inbox/Flags tiles",
+            "affectedComponents": [
+              "StatTile"
+            ],
+            "suggestedFix": "Make the most important stat (e.g. Flags when >0) a wide hero row at full width; shrink others to compact inline chips below it, or use a single summary row layout."
+          },
+          {
+            "id": "issue-06",
+            "severity": "medium",
+            "category": "typography",
+            "description": "Greeting heading uses 30px — spec requires Large Title at 34px bold for page greeting",
+            "location": "Home header — greeting h1",
+            "affectedComponents": [
+              "HomeHeader"
+            ],
+            "suggestedFix": "Change text-[30px] to text-[34px] on the greeting h1 element."
+          },
+          {
+            "id": "issue-07",
+            "severity": "medium",
+            "category": "interaction",
+            "description": "'Full view → →' contains duplicate arrows — redundant and visually noisy",
+            "location": "Focus section header — right-side link",
+            "affectedComponents": [
+              "SectionHeader"
+            ],
+            "suggestedFix": "Change to 'Full view →' with a single arrow. Optionally use an inline chevron icon (ChevronRight 12px) instead of text arrow."
+          },
+          {
+            "id": "issue-08",
+            "severity": "medium",
+            "category": "color",
+            "description": "Date label 'Friday, March 20' rendered in amber — decorative amber has no semantic warning meaning here",
+            "location": "Home header — date subheading",
+            "affectedComponents": [
+              "HomeHeader"
+            ],
+            "suggestedFix": "Use text-[#8E8E93] (secondary text color) or text-[#0A84FF] for date. Amber should only appear on items needing user attention."
+          },
+          {
+            "id": "issue-09",
+            "severity": "medium",
+            "category": "accessibility",
+            "description": "Settings icon button at bottom of sidebar is 34×34px — below 44pt minimum touch target (Rule 7)",
+            "location": "Sidebar footer — settings/gear icon button",
+            "affectedComponents": [
+              "SidebarFooter"
+            ],
+            "suggestedFix": "Increase clickable area to min 44×44px using padding: p-2.5 → p-3, or wrap in a larger hit-area div with min-h-[44px] min-w-[44px]."
+          },
+          {
+            "id": "issue-10",
+            "severity": "medium",
+            "category": "accessibility",
+            "description": "Orange status dots on Needs Attention cards rely on color alone — no icon or label differentiating severity",
+            "location": "Needs Attention section — card left indicator",
+            "affectedComponents": [
+              "AttentionCard"
+            ],
+            "suggestedFix": "Add a small warning icon (⚠ or ExclamationTriangle at 10px) alongside the dot, or a text badge like 'Action needed' so status is not color-only."
+          },
+          {
+            "id": "issue-11",
+            "severity": "low",
+            "category": "consistency",
+            "description": "Active sidebar nav item uses amber fill — amber semantically signals caution; active selection should use blue (#0A84FF)",
+            "location": "Sidebar — Home nav item active state",
+            "affectedComponents": [
+              "SidebarNavItem"
+            ],
+            "suggestedFix": "Replace amber background on active nav item with bg-[#0A84FF]/15 and text/icon in #0A84FF. Reserve amber pills for flagged/warning states."
+          },
+          {
+            "id": "issue-12",
+            "severity": "low",
+            "category": "typography",
+            "description": "Section heading 'Needs Attention' appears larger/heavier than 'Focus' — inconsistent section heading weight",
+            "location": "Needs Attention section header",
+            "affectedComponents": [
+              "SectionHeader"
+            ],
+            "suggestedFix": "Standardize all section headings to text-[22px] font-bold text-white across Focus, Needs Attention, and Active Projects sections."
+          },
+          {
+            "id": "issue-13",
+            "severity": "low",
+            "category": "responsiveness",
+            "description": "Task text truncates mid-word on mobile (e.g. 'Set up actual Planner board in Tea...') — ellipsis cuts too early",
+            "location": "Mobile — Focus task rows",
+            "affectedComponents": [
+              "TaskRow"
+            ],
+            "suggestedFix": "Increase max-width of task text container on mobile or use a two-line clamp (line-clamp-2) so task names are more readable before truncation."
+          }
+        ],
+        "score": {
+          "visual_clarity": 7,
+          "consistency": 6,
+          "responsiveness": 7.5,
+          "accessibility": 6.5,
+          "vibe_match": 6.5,
+          "interaction_clarity": 7,
+          "total": 6.9
+        },
+        "summary": "The foundation is solid — dark base, clean sidebar, readable list structure — but amber/orange has leaked from its semantic warning role into nearly every interactive accent (active nav, date, section links), eroding the color system's meaning. Task rows rendered as individual bordered pills instead of a single grouped container with hairline separators is the most significant Rule 9 / vibe violation remaining. Fixing the color system and task row grouping would meaningfully elevate the premium feel.",
+        "topPriorities": [
+          "Replace amber accent with #0A84FF on active nav state, date label, and all section links — reserve amber exclusively for warning/attention states",
+          "Refactor Focus and Needs Attention task rows into single grouped containers (bg-[#1C1C1E] rounded-xl) with hairline border-white/[0.06] row separators — eliminate individual pill cards",
+          "Replace emoji icons (📋📥🚩) in stat tiles with consistent SVG icon set to eliminate the biggest premium-aesthetic regression"
+        ]
+      },
+      "editsApplied": [
+        {
+          "issueId": "issue-01",
+          "issueSummary": "Amber/orange used as generic primary accent (date, active nav, section links) — reserved for warnings only",
+          "edits": [
+            {
+              "description": "Fix date label accent color in VibrantHome",
+              "oldCode": "        <p className=\"text-[13px] font-medium mb-1\" style={{ color: 'var(--accent)' }}>{today}</p>",
+              "newCode": "        <p className=\"text-[13px] font-medium mb-1\" style={{ color: '#0A84FF' }}>{today}</p>",
+              "reasoning": "Date label uses var(--accent) which resolves to #F97316 (orange) in the vibrant theme — a purely informational element, not a warning. Pinning it to #0A84FF blue removes the semantic mismatch.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\index.css"
+            },
+            {
+              "description": "Fix vibrant nav-active color to blue",
+              "oldCode": "[data-theme=\"vibrant\"] .nav-active              { background: var(--accent-15) !important; color: #F97316 !important; }",
+              "newCode": "[data-theme=\"vibrant\"] .nav-active              { background: rgba(10,132,255,0.15) !important; color: #0A84FF !important; }",
+              "reasoning": "Active nav state was hardcoded to #F97316 orange regardless of semantic intent. Replacing with #0A84FF blue (and matching alpha background) reserves amber exclusively for warning-state elements.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\index.css"
+            }
+          ]
+        },
+        {
+          "issueId": "issue-02",
+          "issueSummary": "Emoji icons in stat tiles (📋📥🚩) break premium minimal aesthetic; inconsistent with clean icon system",
+          "edits": [
+            {
+              "description": "Replace emoji icon with inline SVG keyed on label",
+              "oldCode": "      <span className=\"text-[20px] leading-none\">{icon}</span>",
+              "newCode": "      <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke={accent} strokeWidth=\"1.5\" strokeLinecap=\"round\" strokeLinejoin=\"round\">\n        {label === 'Projects' && <><rect x=\"2\" y=\"7\" width=\"20\" height=\"14\" rx=\"2\"/><path d=\"M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2\"/></>}\n        {label === 'Inbox'    && <><polyline points=\"22 12 16 12 14 15 10 15 8 12 2 12\"/><path d=\"M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z\"/></>}\n        {label === 'Flags'    && <><path d=\"M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z\"/><line x1=\"4\" y1=\"22\" x2=\"4\" y2=\"15\"/></>}\n      </svg>",
+              "reasoning": "Replaces the emoji string span with a 20×20 SF-Symbol-style SVG using strokeWidth 1.5 and the tile's accent color. Label-keyed paths give each tile a semantically correct icon (briefcase outline for Projects, inbox tray for Inbox, flag for Flags) with no emoji anywhere in the render tree.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            }
+          ]
+        },
+        {
+          "issueId": "issue-03",
+          "issueSummary": "Focus task rows rendered as individual bordered pill cards instead of grouped list with hairline separators — violates Rule 9",
+          "edits": [
+            {
+              "description": "Wrap Section children in a single grouped container with hairline dividers",
+              "oldCode": "      <div className=\"space-y-2\">{children}</div>",
+              "newCode": "      <div className=\"rounded-xl overflow-hidden bg-[#1C1C1E] divide-y divide-white/[0.06]\">{children}</div>",
+              "reasoning": "Replaces the gap-spaced list of individual cards with a single rounded container using hairline border-t separators between rows, matching Rule 9 grouped list pattern.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Focus\\Focus.tsx"
+            },
+            {
+              "description": "Strip individual card border/background/rounding from TaskRow",
+              "oldCode": "      className=\"flex items-stretch rounded-2xl overflow-hidden transition-all duration-200 active:scale-[0.99] group\"\n      style={{ background: '#1e1e22', border: '1px solid rgba(63,63,70,0.5)' }}",
+              "newCode": "      className=\"flex items-stretch transition-all duration-200 active:scale-[0.99] group\"",
+              "reasoning": "Rows no longer need individual borders or backgrounds since the Section container provides the shared background and hairline dividers handle separation.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Focus\\Focus.tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "iteration": 5,
+      "timestamp": "2026-03-20T20:19:05.573Z",
+      "screenshotDesktop": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter5_desktop.png",
+      "screenshotMobile": "C:\\Users\\Eytanp\\mycockpit\\app\\design-critic\\.screenshots\\iter5_mobile.png",
+      "report": {
+        "issues": [
+          {
+            "id": "issue-01",
+            "severity": "high",
+            "category": "color",
+            "description": "Sidebar active nav state uses amber/orange — same color as Flags semantic accent, creating ambiguity.",
+            "location": "Sidebar nav active item (Home)",
+            "affectedComponents": [
+              "Sidebar",
+              "NavItem"
+            ],
+            "suggestedFix": "Use bg-white/10 with text-white for active state, or #0A84FF blue. Reserve amber (#FF9F0A) exclusively for Flags/warnings."
+          },
+          {
+            "id": "issue-02",
+            "severity": "high",
+            "category": "color",
+            "description": "Date label 'Friday, March 20' rendered in orange/amber — purely decorative accent color use violating Rule 4.",
+            "location": "Home page header date",
+            "affectedComponents": [
+              "PageHeader"
+            ],
+            "suggestedFix": "Change date text color to text-secondary (#8E8E93). Accent colors must be semantically meaningful, not decorative."
+          },
+          {
+            "id": "issue-03",
+            "severity": "high",
+            "category": "color",
+            "description": "Inbox stat tile label rendered in amber/orange when count is 0 — semantically incorrect; amber implies urgency.",
+            "location": "Stat tiles section — Inbox tile",
+            "affectedComponents": [
+              "StatTile",
+              "InboxTile"
+            ],
+            "suggestedFix": "Inbox label should use #8E8E93 (neutral) when empty. Only apply amber if unread count > 0 and requires attention."
+          },
+          {
+            "id": "issue-04",
+            "severity": "high",
+            "category": "accessibility",
+            "description": "Six 'More options' buttons have isVisible:false but hasClickHandler:true — inaccessible dead controls.",
+            "location": "Active Projects section (horizontal scroll cards)",
+            "affectedComponents": [
+              "ProjectCard",
+              "MoreOptionsButton"
+            ],
+            "suggestedFix": "Ensure buttons are visible on focus/hover with opacity-0 group-hover:opacity-100, or remove if non-functional. Never render invisible interactive controls."
+          },
+          {
+            "id": "issue-05",
+            "severity": "medium",
+            "category": "hierarchy",
+            "description": "Three equal-weight stat tiles (Projects, Inbox, Flags) have identical size and visual weight, no clear focal priority.",
+            "location": "Home — stat tiles row",
+            "affectedComponents": [
+              "StatTiles",
+              "ProjectsTile",
+              "InboxTile",
+              "FlagsTile"
+            ],
+            "suggestedFix": "Differentiate by importance: make the most-actionable stat wider or taller. Or replace with grouped list rows showing counts inline."
+          },
+          {
+            "id": "issue-06",
+            "severity": "medium",
+            "category": "vibe",
+            "description": "Emoji icons (📋 📥 🚩) in stat tiles feel generic web-ish, not premium iOS-native minimal aesthetic.",
+            "location": "Home — stat tiles",
+            "affectedComponents": [
+              "StatTile"
+            ],
+            "suggestedFix": "Replace emojis with SF-Symbol-style SVG icons at 20px in white/60 opacity. Use semantic accent color on the count number, not the icon."
+          },
+          {
+            "id": "issue-07",
+            "severity": "medium",
+            "category": "vibe",
+            "description": "'Needs Attention' cards have visible rounded borders — SaaS dashboard pattern violating Rule 9.",
+            "location": "Needs Attention section — task cards",
+            "affectedComponents": [
+              "NeedsAttentionCard"
+            ],
+            "suggestedFix": "Remove border. Use bg-[#1C1C1E] background contrast only. Add hairline 0.5px separator between rows instead of individual card outlines."
+          },
+          {
+            "id": "issue-08",
+            "severity": "medium",
+            "category": "consistency",
+            "description": "Focus task rows are individually boxed cards instead of list rows with hairline separators, contradicting Rule 5.",
+            "location": "Focus section — task list",
+            "affectedComponents": [
+              "FocusTaskRow"
+            ],
+            "suggestedFix": "Group all tasks in one bg-[#1C1C1E] rounded-xl container. Use 0.5px border-white/8 hairlines between rows, not separate cards per item."
+          },
+          {
+            "id": "issue-09",
+            "severity": "medium",
+            "category": "color",
+            "description": "Three distinct accent colors (blue, amber, red) appear simultaneously in one stat tile section — at limit of Rule 4.",
+            "location": "Home — stat tiles row",
+            "affectedComponents": [
+              "StatTiles"
+            ],
+            "suggestedFix": "Use a single accent color (blue) for tile labels unless the color carries explicit semantic meaning. Flags=red is justified; Projects and Inbox should share a neutral or single accent."
+          },
+          {
+            "id": "issue-10",
+            "severity": "medium",
+            "category": "accessibility",
+            "description": "Focus task status indicators are gray circles only — no label or icon shape differentiating status types (color-only).",
+            "location": "Focus section — task status dots",
+            "affectedComponents": [
+              "TaskStatusDot"
+            ],
+            "suggestedFix": "Add tooltip or visible label on the status dot. Use distinct icon shapes (circle=todo, half-fill=in-progress) not just color, per Rule 7."
+          },
+          {
+            "id": "issue-11",
+            "severity": "low",
+            "category": "typography",
+            "description": "Page greeting H1 is 30px; design constitution specifies Large Title at 34px bold.",
+            "location": "Home page header greeting",
+            "affectedComponents": [
+              "PageGreeting"
+            ],
+            "suggestedFix": "Change text-[30px] to text-[34px] to match Large Title spec in Rule 3."
+          },
+          {
+            "id": "issue-12",
+            "severity": "low",
+            "category": "interaction",
+            "description": "'Full view → →' button has double arrow — likely a rendering bug or unintentional duplicate arrow character.",
+            "location": "Focus section — 'Full view' link",
+            "affectedComponents": [
+              "SectionHeaderLink"
+            ],
+            "suggestedFix": "Change text to 'Full view →' (single arrow). Verify the JSX doesn't concatenate two arrow strings."
+          },
+          {
+            "id": "issue-13",
+            "severity": "low",
+            "category": "accessibility",
+            "description": "Settings link at bottom of sidebar (y:850) has empty text content — no visible label or aria-label for screen readers.",
+            "location": "Sidebar footer — settings icon link",
+            "affectedComponents": [
+              "SidebarFooter",
+              "SettingsLink"
+            ],
+            "suggestedFix": "Add aria-label='Settings' to the anchor. Ensure the icon SVG has aria-hidden='true' and the link has a visible icon at ≥16px."
+          }
+        ],
+        "score": {
+          "visual_clarity": 7,
+          "consistency": 6.5,
+          "responsiveness": 7.5,
+          "accessibility": 6.5,
+          "vibe_match": 7,
+          "interaction_clarity": 6.8,
+          "total": 7
+        },
+        "summary": "The layout achieves a solid dark ambient foundation with good section hierarchy and a clean mobile bottom-nav pill. The main degraders are semantic color confusion — amber/orange is simultaneously the nav active state, the date accent, and the Flags semantic color — which undermines consistency and vibe trust. Content rows rendered as individual bordered cards rather than grouped lists with hairline separators also pushes the aesthetic toward generic SaaS rather than premium iOS.",
+        "topPriorities": [
+          "Unify orange/amber usage: strip it from nav active state and date label; keep it only for Flags/warnings. Use bg-white/10 or blue for active nav.",
+          "Consolidate Focus and Needs Attention task rows into single grouped bg-[#1C1C1E] containers with hairline separators — eliminate per-row card borders.",
+          "Fix the 6 invisible 'More options' buttons (isVisible:false) and the Inbox tile amber color when count is 0 to eliminate dead/misleading interactive elements."
+        ]
+      },
+      "editsApplied": [
+        {
+          "issueId": "issue-01",
+          "issueSummary": "Sidebar active nav state uses amber/orange — same color as Flags semantic accent, creating ambiguity.",
+          "edits": [
+            {
+              "description": "Change active nav state from amber to blue",
+              "oldCode": "isActive ? 'bg-white/10 text-[#0A84FF] border-l-2 border-[#0A84FF]' : 'text-white/45 hover:text-white/75 hover:bg-white/5 border-l-2 border-transparent'",
+              "newCode": "isActive ? 'bg-white/10 text-white border-l-2 border-[#0A84FF]' : 'text-white/45 hover:text-white/75 hover:bg-white/5 border-l-2 border-transparent'",
+              "reasoning": "The active nav item already uses bg-white/10 and border-[#0A84FF] (blue). Changing text-[#0A84FF] to text-white removes the amber-like color association and uses a neutral white text that pairs with the blue left border as the sole active indicator, reserving amber exclusively for Flags/warnings.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\components\\Sidebar.tsx"
+            }
+          ]
+        },
+        {
+          "issueId": "issue-03",
+          "issueSummary": "Inbox stat tile label rendered in amber/orange when count is 0 — semantically incorrect; amber implies urgency.",
+          "edits": [
+            {
+              "description": "Make VibStatTile label neutral when value is 0",
+              "oldCode": "      <span className=\"text-[11px] font-medium mt-0.5\" style={{ color: accent }}>{label}</span>",
+              "newCode": "      <span className=\"text-[11px] font-medium mt-0.5\" style={{ color: value ? accent : '#8E8E93' }}>{label}</span>",
+              "reasoning": "The label unconditionally used the accent color (amber #FF9F0A for Inbox), making it appear urgent even when the count is 0. Falling back to #8E8E93 when value is falsy ensures neutral styling for empty states.",
+              "filePath": "C:\\Users\\Eytanp\\mycockpit\\app\\frontend\\src\\modes\\Home\\Home.tsx"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "bestScore": 7.45
+}

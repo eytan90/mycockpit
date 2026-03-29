@@ -148,8 +148,10 @@ export async function observe(
     const desktopPath = path.join(screenshotDir, `${prefix}desktop.png`);
     await desktopPage.screenshot({ path: desktopPath, fullPage: false });
 
-    const domSnapshot = await desktopPage.evaluate(extractDomTree);
-    const interactiveElements = await desktopPage.evaluate(extractInteractiveElements);
+    const shim = 'const __name = (fn) => fn; const __defProp = Object.defineProperty; const __name2 = (fn) => fn;';
+    const domSnapshot = await desktopPage.evaluate(`${shim}(${extractDomTree.toString()})()`);
+    const interactiveElements = await desktopPage.evaluate(`${shim}(${extractInteractiveElements.toString()})()`);
+
     const pageInfo = await desktopPage.evaluate(() => ({
       title: document.title,
       url: window.location.href,

@@ -7,6 +7,7 @@ class Milestone(BaseModel):
     title: str
     done: bool
     owner: Optional[str] = None
+    start: Optional[str] = None
     due: Optional[str] = None
     status: Optional[str] = None
 

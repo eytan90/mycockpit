@@ -131,7 +131,7 @@ export async function critique(snapshot: ObserverResult): Promise<CriticReport> 
 
   const stream = client.messages.stream({
     model: 'claude-opus-4-6',
-    max_tokens: 4096,
+    max_tokens: 16000,
     thinking: { type: 'adaptive' },
     system: CRITIC_SYSTEM,
     messages: [
@@ -202,5 +202,16 @@ export async function critique(snapshot: ObserverResult): Promise<CriticReport> 
     );
   }
 
-  return JSON.parse(jsonMatch[1]) as CriticReport;
+  const report = JSON.parse(jsonMatch[1]) as CriticReport;
+
+  // Normalize scores: if they came back on a 0–100 scale, convert to 0–10
+  const s = report.score;
+  const fields = ['visual_clarity','consistency','responsiveness','accessibility','vibe_match','interaction_clarity','total'] as const;
+  if (fields.some(f => (s as Record<string, number>)[f] > 10)) {
+    for (const f of fields) {
+      (s as Record<string, number>)[f] = +((s as Record<string, number>)[f] / 10).toFixed(2);
+    }
+  }
+
+  return report;
 }

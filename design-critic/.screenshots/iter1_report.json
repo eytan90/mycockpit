@@ -1,0 +1,131 @@
+{
+  "issues": [
+    {
+      "id": "issue-01",
+      "severity": "high",
+      "category": "hierarchy",
+      "description": "Three equally-weighted stat tiles (Projects/Inbox/Flags) violate Rule 1 — no equal-weight tile grids.",
+      "location": "Home hero — stat tiles row",
+      "affectedComponents": [
+        "StatTile",
+        "HomeHero"
+      ],
+      "suggestedFix": "Replace with a single compact grouped list: one row per metric using 'flex justify-between' at 44px height inside a #1C1C1E surface, or promote one KPI as the true hero and demote the rest to subhead rows."
+    },
+    {
+      "id": "issue-02",
+      "severity": "high",
+      "category": "color",
+      "description": "Blue, orange, and red accent labels appear simultaneously in the same tiles row — exceeds 2-3 accent max.",
+      "location": "Home hero — stat tiles (Projects/Inbox/Flags labels)",
+      "affectedComponents": [
+        "StatTile"
+      ],
+      "suggestedFix": "Use a single accent (#0A84FF) or #8E8E93 for all three labels. Reserve color differentiation for semantically distinct states (e.g., red only if Flags > 0 and urgent)."
+    },
+    {
+      "id": "issue-03",
+      "severity": "high",
+      "category": "vibe",
+      "description": "Emoji icons (📋📥🚩) in stat tiles undermine the premium iOS aesthetic — reads as generic SaaS dashboard.",
+      "location": "Home hero — stat tiles",
+      "affectedComponents": [
+        "StatTile"
+      ],
+      "suggestedFix": "Replace emoji with monochrome SVG icons at 20px sized to match SF Symbol style. Use accent color only on the icon, not surrounding it."
+    },
+    {
+      "id": "issue-04",
+      "severity": "medium",
+      "category": "color",
+      "description": "Date string 'Friday, March 20' rendered in amber/orange accent — not semantically meaningful for a date.",
+      "location": "Home header — date label",
+      "affectedComponents": [
+        "DateLabel"
+      ],
+      "suggestedFix": "Change color to text-[#8E8E93] (secondary text). Reserve orange/amber for urgency or active states only."
+    },
+    {
+      "id": "issue-05",
+      "severity": "medium",
+      "category": "spacing",
+      "description": "Needs Attention cards have a visible 1px orange border — Rule 5/9 say use background contrast, not borders.",
+      "location": "Needs Attention section — item cards",
+      "affectedComponents": [
+        "AttentionCard"
+      ],
+      "suggestedFix": "Remove border. Use bg-[#2C2C2E] surface and rely on contrast with #1C1C1E page background. Keep the orange left-dot indicator for semantic urgency."
+    },
+    {
+      "id": "issue-06",
+      "severity": "medium",
+      "category": "interaction",
+      "description": "Focus task rows have no chevron, giving no affordance that rows are drill-down interactive.",
+      "location": "Focus section — task list rows",
+      "affectedComponents": [
+        "TaskRow"
+      ],
+      "suggestedFix": "Add <ChevronRight size={16} className='text-[#636366] ml-auto shrink-0' /> to each row's right side. Ensure row has min-h-[44px] for touch target."
+    },
+    {
+      "id": "issue-07",
+      "severity": "medium",
+      "category": "accessibility",
+      "description": "Sidebar settings icon: 34×34px bounds < 44pt min touch target; text-white/25 (~4% contrast) fails 4.5:1.",
+      "location": "Sidebar footer — settings icon link",
+      "affectedComponents": [
+        "SidebarFooter",
+        "SettingsLink"
+      ],
+      "suggestedFix": "Set min-w-[44px] min-h-[44px] on the anchor, increase icon opacity to text-white/50 minimum, and add aria-label='Settings'."
+    },
+    {
+      "id": "issue-08",
+      "severity": "medium",
+      "category": "typography",
+      "description": "Greeting h1 renders at ~30px; Large Title spec requires 34px bold for page greeting.",
+      "location": "Home header — greeting h1",
+      "affectedComponents": [
+        "GreetingHeading"
+      ],
+      "suggestedFix": "Change text-[30px] to text-[34px] (or use text-[2.125rem]) with font-bold tracking-tight."
+    },
+    {
+      "id": "issue-09",
+      "severity": "low",
+      "category": "interaction",
+      "description": "'Full view → →' uses a redundant double arrow — unclear affordance and inconsistent with 'See all →' pattern.",
+      "location": "Focus section header — full view link",
+      "affectedComponents": [
+        "SectionHeaderLink"
+      ],
+      "suggestedFix": "Standardize to 'Full view →' (single arrow) across all section headers. Match font-size 13px text-[#0A84FF] consistently."
+    },
+    {
+      "id": "issue-10",
+      "severity": "low",
+      "category": "consistency",
+      "description": "Active nav state uses a heavy filled orange rounded rect — high visual weight vs the glass sidebar tone.",
+      "location": "Sidebar nav — Home active item",
+      "affectedComponents": [
+        "SidebarNavItem"
+      ],
+      "suggestedFix": "Replace solid orange bg with bg-white/10 + a 2px left accent bar or text-[#FF9F0A] with icon filled. Reduces visual heaviness while preserving active state clarity."
+    }
+  ],
+  "score": {
+    "visual_clarity": 7,
+    "consistency": 7.2,
+    "responsiveness": 7.8,
+    "accessibility": 6.3,
+    "vibe_match": 7.1,
+    "interaction_clarity": 6.4,
+    "total": 7.1
+  },
+  "summary": "The dashboard has a solid dark foundation with good mobile structure and a consistent orange accent language, but the equally-weighted stat tiles, simultaneous multi-accent color use, and emoji icons push it toward generic SaaS rather than premium personal OS. Accessibility gaps (settings icon touch target, low-contrast footer) and missing interaction affordances (no chevrons, double arrow) are the most actionable near-term fixes.",
+  "topPriorities": [
+    "Replace the 3 equal stat tiles with a compact grouped-list summary row or single focal KPI — eliminates the biggest hierarchy and vibe violations simultaneously.",
+    "Swap emoji tile icons for monochrome SVG icons and unify tile label colors to a single accent — resolves color overload and lifts premium feel immediately.",
+    "Fix settings icon to 44×44px touch target with text-white/50 minimum opacity, and add chevrons to all drill-down task rows — addresses the two highest accessibility and interaction gaps."
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "issues": [
+    {
+      "id": "issue-01",
+      "severity": "critical",
+      "category": "color",
+      "description": "Date label uses amber/orange (#FF9F0A) — a semantic warning color — for a neutral date string.",
+      "location": "Home hero section",
+      "affectedComponents": [
+        "DateLabel"
+      ],
+      "suggestedFix": "Change text color to #8E8E93 (secondary text). Reserve orange for actionable warnings only."
+    },
+    {
+      "id": "issue-02",
+      "severity": "critical",
+      "category": "hierarchy",
+      "description": "Three equally-weighted stat tiles (Projects / Inbox / Flags) form a 1×3 grid violating Rule 1 — no tile grids.",
+      "location": "Home quick-stats row",
+      "affectedComponents": [
+        "StatTile",
+        "ProjectsTile",
+        "InboxTile",
+        "FlagsTile"
+      ],
+      "suggestedFix": "Replace with a single horizontal grouped list row or inline pill chips; demote to subhead-level metadata, not hero cards."
+    },
+    {
+      "id": "issue-03",
+      "severity": "high",
+      "category": "vibe",
+      "description": "Active sidebar nav item uses a solid amber/orange fill — clashes with iOS blue accent system and feels SaaS-generic.",
+      "location": "Sidebar nav — Home item",
+      "affectedComponents": [
+        "SidebarNavItem"
+      ],
+      "suggestedFix": "Use #0A84FF for the active tint with a white/10 background fill, or a subtle left-border indicator. Remove orange entirely from nav."
+    },
+    {
+      "id": "issue-04",
+      "severity": "high",
+      "category": "color",
+      "description": "'Full view →' and 'See all →' section links use orange (#FF9F0A) — semantic overload alongside date label and active state.",
+      "location": "Focus section header, Active Projects header",
+      "affectedComponents": [
+        "SectionHeaderLink"
+      ],
+      "suggestedFix": "Use #0A84FF for all navigational links. Reserve orange exclusively for warnings/flagged items."
+    },
+    {
+      "id": "issue-05",
+      "severity": "high",
+      "category": "consistency",
+      "description": "Orange is used for 3 unrelated roles: active nav, date label, section links. Color semantics are broken.",
+      "location": "Global",
+      "affectedComponents": [
+        "SidebarNavItem",
+        "DateLabel",
+        "SectionHeaderLink"
+      ],
+      "suggestedFix": "Audit all orange usage. Keep orange only for 'Flags' / warnings. Use blue for nav active state and links."
+    },
+    {
+      "id": "issue-06",
+      "severity": "high",
+      "category": "typography",
+      "description": "Page title is 30px, below the required 34px Large Title spec. Section headings ('Focus', 'Needs Attention') appear to be ~20px bold.",
+      "location": "Home hero, section headings",
+      "affectedComponents": [
+        "PageTitle",
+        "SectionHeading"
+      ],
+      "suggestedFix": "Set h1 to text-[34px]. Set section headings to text-[22px] per constitution Rule 3."
+    },
+    {
+      "id": "issue-07",
+      "severity": "high",
+      "category": "layout",
+      "description": "Stat tiles have heavy opaque rounded-rect containers — violates Rule 9 (no heavy opaque rounded rectangles everywhere).",
+      "location": "Home quick-stats row",
+      "affectedComponents": [
+        "StatTile"
+      ],
+      "suggestedFix": "Remove the card containers entirely. Render stats as inline chips or a single grouped list row on #1C1C1E surface."
+    },
+    {
+      "id": "issue-08",
+      "severity": "high",
+      "category": "vibe",
+      "description": "Focus task rows have individual card backgrounds creating a stacked-card pattern — should be grouped list rows with hairline separators.",
+      "location": "Focus section task list",
+      "affectedComponents": [
+        "FocusTaskRow"
+      ],
+      "suggestedFix": "Use one grouped container (bg-[#1C1C1E] rounded-xl) with 0.5px dividers between rows, not separate cards per row."
+    },
+    {
+      "id": "issue-09",
+      "severity": "high",
+      "category": "vibe",
+      "description": "'Needs Attention' items have thick visible border outlines on individual cards — violates Rule 9 (no thick borders on containers).",
+      "location": "Needs Attention section",
+      "affectedComponents": [
+        "NeedsAttentionCard"
+      ],
+      "suggestedFix": "Remove borders. Group items in a single #1C1C1E container with hairline row separators. Use the orange dot as the only accent."
+    },
+    {
+      "id": "issue-10",
+      "severity": "medium",
+      "category": "accessibility",
+      "description": "Settings icon link in sidebar footer (34×34px) falls below 44pt touch target minimum.",
+      "location": "Sidebar footer",
+      "affectedComponents": [
+        "SettingsIconLink"
+      ],
+      "suggestedFix": "Increase hit area to minimum 44×44px using padding: p-3 (yielding 40px) or add invisible padding via w-11 h-11."
+    },
+    {
+      "id": "issue-11",
+      "severity": "medium",
+      "category": "accessibility",
+      "description": "Settings icon link has empty text and no visible aria-label in the DOM — icon-only control with no accessible name.",
+      "location": "Sidebar footer",
+      "affectedComponents": [
+        "SettingsIconLink"
+      ],
+      "suggestedFix": "Add aria-label=\"Settings\" to the anchor element."
+    },
+    {
+      "id": "issue-12",
+      "severity": "medium",
+      "category": "interaction",
+      "description": "Task rows in Focus section have no chevron or affordance indicator — unclear if they are drill-down or static display.",
+      "location": "Focus section task list",
+      "affectedComponents": [
+        "FocusTaskRow"
+      ],
+      "suggestedFix": "Add a chevron right icon (text-white/25) to each interactive row per Rule 8. If non-interactive, remove pointer cursor."
+    },
+    {
+      "id": "issue-13",
+      "severity": "medium",
+      "category": "interaction",
+      "description": "'More options' buttons (28×28px) on project cards are invisible (isVisible: false) — dead/inaccessible controls.",
+      "location": "Active Projects section cards",
+      "affectedComponents": [
+        "ProjectCardMoreButton"
+      ],
+      "suggestedFix": "Either make them always visible at reduced opacity (text-white/30) or show on hover/focus with a visible trigger area ≥44pt."
+    },
+    {
+      "id": "issue-14",
+      "severity": "medium",
+      "category": "responsiveness",
+      "description": "Task titles in Focus section truncate mid-word on mobile ('Set up actual Planner board in Tea...') losing critical context.",
+      "location": "Mobile Focus section",
+      "affectedComponents": [
+        "FocusTaskRow"
+      ],
+      "suggestedFix": "Allow two-line wrap for task titles on mobile (whitespace-normal, line-clamp-2) to preserve readability."
+    },
+    {
+      "id": "issue-15",
+      "severity": "medium",
+      "category": "spacing",
+      "description": "Section heading 'Focus' appears without the required 32px section gap from the stat tiles above it.",
+      "location": "Home — between stat tiles and Focus section",
+      "affectedComponents": [
+        "HomePageLayout"
+      ],
+      "suggestedFix": "Add mb-8 (32px) gap between the quick-stats row and the first section heading per Rule 5."
+    },
+    {
+      "id": "issue-16",
+      "severity": "low",
+      "category": "typography",
+      "description": "Status tags ('backlog', 'idea') in Focus rows appear in muted grey — consider using constitution Caption size (11–12px) explicitly.",
+      "location": "Focus section task rows",
+      "affectedComponents": [
+        "TaskStatusBadge"
+      ],
+      "suggestedFix": "Ensure text-[11px] or text-[12px] on status labels. Currently appears ~12px which is acceptable — verify consistency."
+    },
+    {
+      "id": "issue-17",
+      "severity": "low",
+      "category": "accessibility",
+      "description": "Orange dot status indicators on 'Needs Attention' items use color alone with no label or icon to convey urgency.",
+      "location": "Needs Attention section",
+      "affectedComponents": [
+        "NeedsAttentionCard"
+      ],
+      "suggestedFix": "Add a visually-hidden sr-only label or an icon alongside the dot, e.g. an exclamation-circle at 10px."
+    }
+  ],
+  "score": {
+    "visual_clarity": 6.5,
+    "consistency": 5.5,
+    "responsiveness": 7,
+    "accessibility": 6,
+    "vibe_match": 6,
+    "interaction_clarity": 6.5,
+    "total": 6.33
+  },
+  "summary": "The layout skeleton and information architecture are sound — grouped sections, a clean sidebar, and a clear greeting hierarchy work well. However, orange is semantically overloaded across three unrelated roles (active nav, date, links), the stat tiles violate the no-tile-grid rule, and individual card borders on Focus and Needs Attention rows push the aesthetic toward generic SaaS rather than premium minimal. Resolving the color semantics and migrating stacked cards to grouped list rows would yield a significant score uplift.",
+  "topPriorities": [
+    "Consolidate all orange usage to warnings/flags only — use #0A84FF for active nav state and section links to fix broken color semantics.",
+    "Replace 3-tile stat grid and individual card-per-row patterns with grouped list containers (#1C1C1E) and hairline separators to match the iOS premium aesthetic.",
+    "Increase page title to 34px and section headings to 22px per the typography scale; add chevrons to interactive task rows for clear drill-down affordance."
+  ]
+}

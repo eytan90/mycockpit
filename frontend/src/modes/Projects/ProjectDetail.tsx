@@ -4,6 +4,7 @@ import StatusChip from '../../components/StatusChip'
 import ProgressBar from '../../components/ProgressBar'
 import SummaryTab from './tabs/SummaryTab'
 import PlanTab from './tabs/PlanTab'
+import GanttTab from './tabs/GanttTab'
 import TasksTab from './tabs/TasksTab'
 import TeamTab from './tabs/TeamTab'
 import GoalsTab from './tabs/GoalsTab'
@@ -16,7 +17,7 @@ interface Props {
   onUpdated: () => void
 }
 
-const TABS = ['Summary', 'Plan', 'Tasks', 'Team', 'Goals'] as const
+const TABS = ['Summary', 'Plan', 'Gantt', 'Tasks', 'Team', 'Goals'] as const
 type Tab = typeof TABS[number]
 
 export default function ProjectDetail({ project: p, onBack, onUpdated }: Props) {
@@ -113,6 +114,7 @@ export default function ProjectDetail({ project: p, onBack, onUpdated }: Props) 
       <div className="flex-1 overflow-y-auto p-6">
         {activeTab === 'Summary' && <SummaryTab project={p} onUpdated={onUpdated} />}
         {activeTab === 'Plan'    && <PlanTab project={p} onUpdated={onUpdated} />}
+        {activeTab === 'Gantt'   && <GanttTab project={p} />}
         {activeTab === 'Tasks'   && <TasksTab project={p} />}
         {activeTab === 'Team'    && <TeamTab project={p} />}
         {activeTab === 'Goals'   && <GoalsTab project={p} />}

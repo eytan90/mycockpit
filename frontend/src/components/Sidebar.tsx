@@ -1,4 +1,6 @@
 import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { api } from '../api/client'
 
 const modes = [
   { path: '/',         label: 'Home',     icon: HomeIcon     },
@@ -7,9 +9,16 @@ const modes = [
   { path: '/plan',     label: 'Plan',     icon: PlanningIcon },
   { path: '/ideas',    label: 'Ideas',    icon: IdeasIcon    },
   { path: '/chat',     label: 'Claude',   icon: ChatIcon     },
+  { path: '/email',    label: 'Email',    icon: EmailIcon    },
+  { path: '/ms-tasks', label: 'Tasks',    icon: TasksIcon    },
 ]
 
 export default function Sidebar() {
+  const [version, setVersion] = useState('…')
+  useEffect(() => {
+    api.get<{ version: string }>('/health').then(d => setVersion(d.version)).catch(() => {})
+  }, [])
+
   return (
     <aside className="hidden md:flex flex-col w-52 shrink-0 glass-sidebar h-full">
       <div className="px-5 pt-7 pb-6">
@@ -37,7 +46,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="px-3 py-4 border-t border-white/5 mt-2 flex items-center justify-between">
-        <p className="text-[11px] text-white/18 font-medium px-2">v1.0 · MyCockpit</p>
+        <p className="text-[11px] text-white/18 font-medium px-2">v{version} · MyCockpit</p>
         <NavLink
           to="/settings"
           className={({ isActive }) =>
@@ -68,6 +77,12 @@ function PlanningIcon() {
 }
 function ChatIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+}
+function EmailIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+}
+function TasksIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
 }
 function SettingsIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>

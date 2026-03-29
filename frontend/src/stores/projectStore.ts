@@ -6,6 +6,7 @@ export interface Milestone {
   title: string
   done: boolean
   owner?: string
+  start?: string
   due?: string
   status?: string
 }

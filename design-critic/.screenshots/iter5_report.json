@@ -1,0 +1,169 @@
+{
+  "issues": [
+    {
+      "id": "issue-01",
+      "severity": "high",
+      "category": "color",
+      "description": "Sidebar active nav state uses amber/orange — same color as Flags semantic accent, creating ambiguity.",
+      "location": "Sidebar nav active item (Home)",
+      "affectedComponents": [
+        "Sidebar",
+        "NavItem"
+      ],
+      "suggestedFix": "Use bg-white/10 with text-white for active state, or #0A84FF blue. Reserve amber (#FF9F0A) exclusively for Flags/warnings."
+    },
+    {
+      "id": "issue-02",
+      "severity": "high",
+      "category": "color",
+      "description": "Date label 'Friday, March 20' rendered in orange/amber — purely decorative accent color use violating Rule 4.",
+      "location": "Home page header date",
+      "affectedComponents": [
+        "PageHeader"
+      ],
+      "suggestedFix": "Change date text color to text-secondary (#8E8E93). Accent colors must be semantically meaningful, not decorative."
+    },
+    {
+      "id": "issue-03",
+      "severity": "high",
+      "category": "color",
+      "description": "Inbox stat tile label rendered in amber/orange when count is 0 — semantically incorrect; amber implies urgency.",
+      "location": "Stat tiles section — Inbox tile",
+      "affectedComponents": [
+        "StatTile",
+        "InboxTile"
+      ],
+      "suggestedFix": "Inbox label should use #8E8E93 (neutral) when empty. Only apply amber if unread count > 0 and requires attention."
+    },
+    {
+      "id": "issue-04",
+      "severity": "high",
+      "category": "accessibility",
+      "description": "Six 'More options' buttons have isVisible:false but hasClickHandler:true — inaccessible dead controls.",
+      "location": "Active Projects section (horizontal scroll cards)",
+      "affectedComponents": [
+        "ProjectCard",
+        "MoreOptionsButton"
+      ],
+      "suggestedFix": "Ensure buttons are visible on focus/hover with opacity-0 group-hover:opacity-100, or remove if non-functional. Never render invisible interactive controls."
+    },
+    {
+      "id": "issue-05",
+      "severity": "medium",
+      "category": "hierarchy",
+      "description": "Three equal-weight stat tiles (Projects, Inbox, Flags) have identical size and visual weight, no clear focal priority.",
+      "location": "Home — stat tiles row",
+      "affectedComponents": [
+        "StatTiles",
+        "ProjectsTile",
+        "InboxTile",
+        "FlagsTile"
+      ],
+      "suggestedFix": "Differentiate by importance: make the most-actionable stat wider or taller. Or replace with grouped list rows showing counts inline."
+    },
+    {
+      "id": "issue-06",
+      "severity": "medium",
+      "category": "vibe",
+      "description": "Emoji icons (📋 📥 🚩) in stat tiles feel generic web-ish, not premium iOS-native minimal aesthetic.",
+      "location": "Home — stat tiles",
+      "affectedComponents": [
+        "StatTile"
+      ],
+      "suggestedFix": "Replace emojis with SF-Symbol-style SVG icons at 20px in white/60 opacity. Use semantic accent color on the count number, not the icon."
+    },
+    {
+      "id": "issue-07",
+      "severity": "medium",
+      "category": "vibe",
+      "description": "'Needs Attention' cards have visible rounded borders — SaaS dashboard pattern violating Rule 9.",
+      "location": "Needs Attention section — task cards",
+      "affectedComponents": [
+        "NeedsAttentionCard"
+      ],
+      "suggestedFix": "Remove border. Use bg-[#1C1C1E] background contrast only. Add hairline 0.5px separator between rows instead of individual card outlines."
+    },
+    {
+      "id": "issue-08",
+      "severity": "medium",
+      "category": "consistency",
+      "description": "Focus task rows are individually boxed cards instead of list rows with hairline separators, contradicting Rule 5.",
+      "location": "Focus section — task list",
+      "affectedComponents": [
+        "FocusTaskRow"
+      ],
+      "suggestedFix": "Group all tasks in one bg-[#1C1C1E] rounded-xl container. Use 0.5px border-white/8 hairlines between rows, not separate cards per item."
+    },
+    {
+      "id": "issue-09",
+      "severity": "medium",
+      "category": "color",
+      "description": "Three distinct accent colors (blue, amber, red) appear simultaneously in one stat tile section — at limit of Rule 4.",
+      "location": "Home — stat tiles row",
+      "affectedComponents": [
+        "StatTiles"
+      ],
+      "suggestedFix": "Use a single accent color (blue) for tile labels unless the color carries explicit semantic meaning. Flags=red is justified; Projects and Inbox should share a neutral or single accent."
+    },
+    {
+      "id": "issue-10",
+      "severity": "medium",
+      "category": "accessibility",
+      "description": "Focus task status indicators are gray circles only — no label or icon shape differentiating status types (color-only).",
+      "location": "Focus section — task status dots",
+      "affectedComponents": [
+        "TaskStatusDot"
+      ],
+      "suggestedFix": "Add tooltip or visible label on the status dot. Use distinct icon shapes (circle=todo, half-fill=in-progress) not just color, per Rule 7."
+    },
+    {
+      "id": "issue-11",
+      "severity": "low",
+      "category": "typography",
+      "description": "Page greeting H1 is 30px; design constitution specifies Large Title at 34px bold.",
+      "location": "Home page header greeting",
+      "affectedComponents": [
+        "PageGreeting"
+      ],
+      "suggestedFix": "Change text-[30px] to text-[34px] to match Large Title spec in Rule 3."
+    },
+    {
+      "id": "issue-12",
+      "severity": "low",
+      "category": "interaction",
+      "description": "'Full view → →' button has double arrow — likely a rendering bug or unintentional duplicate arrow character.",
+      "location": "Focus section — 'Full view' link",
+      "affectedComponents": [
+        "SectionHeaderLink"
+      ],
+      "suggestedFix": "Change text to 'Full view →' (single arrow). Verify the JSX doesn't concatenate two arrow strings."
+    },
+    {
+      "id": "issue-13",
+      "severity": "low",
+      "category": "accessibility",
+      "description": "Settings link at bottom of sidebar (y:850) has empty text content — no visible label or aria-label for screen readers.",
+      "location": "Sidebar footer — settings icon link",
+      "affectedComponents": [
+        "SidebarFooter",
+        "SettingsLink"
+      ],
+      "suggestedFix": "Add aria-label='Settings' to the anchor. Ensure the icon SVG has aria-hidden='true' and the link has a visible icon at ≥16px."
+    }
+  ],
+  "score": {
+    "visual_clarity": 7,
+    "consistency": 6.5,
+    "responsiveness": 7.5,
+    "accessibility": 6.5,
+    "vibe_match": 7,
+    "interaction_clarity": 6.8,
+    "total": 7
+  },
+  "summary": "The layout achieves a solid dark ambient foundation with good section hierarchy and a clean mobile bottom-nav pill. The main degraders are semantic color confusion — amber/orange is simultaneously the nav active state, the date accent, and the Flags semantic color — which undermines consistency and vibe trust. Content rows rendered as individual bordered cards rather than grouped lists with hairline separators also pushes the aesthetic toward generic SaaS rather than premium iOS.",
+  "topPriorities": [
+    "Unify orange/amber usage: strip it from nav active state and date label; keep it only for Flags/warnings. Use bg-white/10 or blue for active nav.",
+    "Consolidate Focus and Needs Attention task rows into single grouped bg-[#1C1C1E] containers with hairline separators — eliminate per-row card borders.",
+    "Fix the 6 invisible 'More options' buttons (isVisible:false) and the Inbox tile amber color when count is 0 to eliminate dead/misleading interactive elements."
+  ]
+}

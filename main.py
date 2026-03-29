@@ -16,7 +16,8 @@ from fastapi.responses import FileResponse, JSONResponse, HTMLResponse, Redirect
 from fastapi.exceptions import HTTPException
 
 from config import get_vault_path, get_port, load_config
-from routers import projects, ideas, inbox, backlog, goals, attention, organize, chat
+from routers import projects, ideas, inbox, backlog, goals, attention, organize, chat, oauth, ms_tasks
+from routers import webhook_email, planner_webhook
 from routers.chat import init_session, close_session
 
 STATIC_DIR = Path(__file__).parent / "static"
@@ -183,7 +184,7 @@ def start_ngrok(port: int):
 
     try:
         _ngrok_proc = subprocess.Popen(
-            [ngrok_cmd, "http", str(port), "--log=stdout", "--log-level=warn"],
+            [ngrok_cmd, "http", f"127.0.0.1:{port}", "--log=stdout", "--log-level=warn"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             creationflags=subprocess.CREATE_NO_WINDOW,
@@ -298,6 +299,10 @@ app.include_router(goals.router)
 app.include_router(attention.router)
 app.include_router(organize.router)
 app.include_router(chat.router)
+app.include_router(oauth.router)
+app.include_router(webhook_email.router)
+app.include_router(ms_tasks.router)
+app.include_router(planner_webhook.router)
 
 # ── API routes ────────────────────────────────────────────────────────────────
 

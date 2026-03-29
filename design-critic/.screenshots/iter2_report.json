@@ -1,0 +1,185 @@
+{
+  "issues": [
+    {
+      "id": "issue-01",
+      "severity": "high",
+      "category": "color",
+      "description": "Date label 'Friday, March 20' uses amber accent color decoratively — accents must be semantically meaningful, not stylistic.",
+      "location": "Home hero section",
+      "affectedComponents": [
+        "HomeGreeting"
+      ],
+      "suggestedFix": "Change date text color to `text-[#8E8E93]` (secondary text). Reserve amber for warnings/flags only."
+    },
+    {
+      "id": "issue-02",
+      "severity": "high",
+      "category": "hierarchy",
+      "description": "Three equally-weighted stat tiles (Projects/Inbox/Flags) violate Rule 1 — counter data belongs in grouped list rows, not large cards.",
+      "location": "Home stat tiles",
+      "affectedComponents": [
+        "StatTile"
+      ],
+      "suggestedFix": "Replace with a single horizontal grouped row or inline pill chips. Use `flex gap-3` chip layout: icon + count + label at 44px height."
+    },
+    {
+      "id": "issue-03",
+      "severity": "high",
+      "category": "vibe",
+      "description": "Active nav item uses filled amber/orange rectangle background — iOS convention uses blue tint or subtle fill, not warm accent blocks.",
+      "location": "Sidebar nav — Home item",
+      "affectedComponents": [
+        "SidebarNav"
+      ],
+      "suggestedFix": "Replace amber bg with `bg-white/10` fill and `text-white`, or use `#0A84FF` tint with `bg-[#0A84FF]/15 text-[#0A84FF]`."
+    },
+    {
+      "id": "issue-04",
+      "severity": "high",
+      "category": "consistency",
+      "description": "Focus rows use individual card-per-row treatment; Needs Attention uses bordered cards. Two different list patterns in same page section.",
+      "location": "Focus section, Needs Attention section",
+      "affectedComponents": [
+        "FocusRow",
+        "NeedsAttentionCard"
+      ],
+      "suggestedFix": "Unify to single grouped list: one `bg-[#1C1C1E] rounded-xl` container, rows separated by `border-t border-white/[0.06]` hairlines."
+    },
+    {
+      "id": "issue-05",
+      "severity": "high",
+      "category": "vibe",
+      "description": "Needs Attention items have visible 1px borders on individual cards — Rule 9 forbids thick container borders; use background contrast instead.",
+      "location": "Needs Attention section",
+      "affectedComponents": [
+        "NeedsAttentionCard"
+      ],
+      "suggestedFix": "Remove border, use `bg-[#1C1C1E]` card bg against `bg-[#000000]` page bg. Hairline separator only between stacked rows."
+    },
+    {
+      "id": "issue-06",
+      "severity": "medium",
+      "category": "typography",
+      "description": "Greeting title is `text-[30px]` — constitution specifies Large Title at 34px bold for page greeting.",
+      "location": "Home hero section",
+      "affectedComponents": [
+        "HomeGreeting"
+      ],
+      "suggestedFix": "Change to `text-[34px] font-bold` to match Large Title spec."
+    },
+    {
+      "id": "issue-07",
+      "severity": "medium",
+      "category": "typography",
+      "description": "Section headings 'Focus', 'Needs Attention' appear ~17–18px; Title spec requires 22px bold for section headings.",
+      "location": "Focus section, Needs Attention section",
+      "affectedComponents": [
+        "SectionHeading"
+      ],
+      "suggestedFix": "Apply `text-[22px] font-bold text-white` to all section heading elements."
+    },
+    {
+      "id": "issue-08",
+      "severity": "medium",
+      "category": "interaction",
+      "description": "'Full view → →' has duplicate arrow rendering — appears as a bug, erodes premium polish.",
+      "location": "Focus section header",
+      "affectedComponents": [
+        "SectionHeaderAction"
+      ],
+      "suggestedFix": "Render as a single arrow: `Full view →` or use a `<ChevronRight>` icon component instead of text arrows."
+    },
+    {
+      "id": "issue-09",
+      "severity": "medium",
+      "category": "color",
+      "description": "Three distinct accent colors (blue, amber, red) visible simultaneously in stat tiles — at the upper limit of Rule 4 with no clear semantic hierarchy.",
+      "location": "Home stat tiles",
+      "affectedComponents": [
+        "StatTile"
+      ],
+      "suggestedFix": "If tiles are kept, use a single neutral accent or restrict: blue=Projects, red=Flags only; Inbox uses white/secondary text (0 = neutral state)."
+    },
+    {
+      "id": "issue-10",
+      "severity": "medium",
+      "category": "accessibility",
+      "description": "Settings icon link in sidebar footer has no visible aria-label in DOM — icon-only control missing accessible label (Rule 7).",
+      "location": "Sidebar footer",
+      "affectedComponents": [
+        "SidebarFooter"
+      ],
+      "suggestedFix": "Add `aria-label=\"Settings\"` to the anchor element wrapping the settings icon."
+    },
+    {
+      "id": "issue-11",
+      "severity": "medium",
+      "category": "responsiveness",
+      "description": "On mobile, 3 stat tiles are ~110px wide each — content is cramped and emoji icons render small with limited breathing room.",
+      "location": "Home stat tiles — mobile",
+      "affectedComponents": [
+        "StatTile"
+      ],
+      "suggestedFix": "On mobile collapse tiles to a single horizontal scroll row or a stacked grouped list. Alternatively use `grid-cols-3 gap-2` with reduced padding."
+    },
+    {
+      "id": "issue-12",
+      "severity": "medium",
+      "category": "consistency",
+      "description": "Desktop sidebar shows Plan and Ideas nav items but mobile bottom nav omits them — navigation parity broken across breakpoints.",
+      "location": "Mobile bottom nav",
+      "affectedComponents": [
+        "MobileNav"
+      ],
+      "suggestedFix": "Add Plan/Ideas to mobile nav or consolidate under a 'More' tab. Ensure all primary destinations are reachable on mobile."
+    },
+    {
+      "id": "issue-13",
+      "severity": "low",
+      "category": "typography",
+      "description": "Date label uses `text-[13px]` — not a standard scale size (spec: 11–12px caption or 15px subhead). Avoid non-scale sizes.",
+      "location": "Home hero section — date",
+      "affectedComponents": [
+        "HomeGreeting"
+      ],
+      "suggestedFix": "Change to `text-[15px]` (Subhead) or `text-[12px]` (Caption) to stay on the defined type scale."
+    },
+    {
+      "id": "issue-14",
+      "severity": "low",
+      "category": "interaction",
+      "description": "'See all →' button at y=894 is below fold on 900px viewport — may be missed; no chevron on drill-down rows per Rule 8.",
+      "location": "Active Projects section footer",
+      "affectedComponents": [
+        "SectionFooterLink"
+      ],
+      "suggestedFix": "Move section-level 'See all' action to section header row (right-aligned), consistent with 'Full view' pattern in Focus section."
+    },
+    {
+      "id": "issue-15",
+      "severity": "low",
+      "category": "accessibility",
+      "description": "Sidebar nav link touch targets are 43px height — 1px below the 44pt minimum touch target requirement (Rule 6).",
+      "location": "Sidebar nav links",
+      "affectedComponents": [
+        "SidebarNav"
+      ],
+      "suggestedFix": "Change `py-2.5` (10px×2 + ~17px content = 43px) to `py-3` (12px×2 = ~44px+ total height)."
+    }
+  ],
+  "score": {
+    "visual_clarity": 7.2,
+    "consistency": 6.6,
+    "responsiveness": 7.4,
+    "accessibility": 7,
+    "vibe_match": 6.8,
+    "interaction_clarity": 7,
+    "total": 7
+  },
+  "summary": "The dashboard has a strong dark foundation and correct structural separation between sidebar chrome and content area, but several constitution violations undermine the premium iOS feel: decorative amber accent on the date label, equally-weighted stat tiles that should be list rows, and two conflicting card patterns within the same scroll view. The active nav state's orange fill and the duplicate arrow in 'Full view →→' are polish issues that immediately signal inconsistency.",
+  "topPriorities": [
+    "Replace three stat tiles (Projects/Inbox/Flags) with a compact grouped list row or inline chip strip — large tiles for counters violates Rule 1 hierarchy and is the most visible constitution breach.",
+    "Unify Focus and Needs Attention into a single grouped list pattern with hairline separators, removing individual bordered cards to eliminate the SaaS dashboard aesthetic (Rules 2, 5, 9).",
+    "Fix active nav color from amber fill to `bg-white/10` or `bg-[#0A84FF]/15` blue tint, and change the date label from amber to `#8E8E93` — both are decorative accent misuse that undermine the premium calm vibe (Rule 4)."
+  ]
+}

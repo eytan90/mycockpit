@@ -1,6 +1,9 @@
 # Config (contains credentials)
 config.json
 
+# OAuth tokens (contains Microsoft access/refresh tokens)
+tokens.json
+
 # Python
 __pycache__/
 *.py[cod]
@@ -13,6 +16,12 @@ venv/
 frontend/node_modules/
 frontend/dist/
 static/
+
+# Design critic
+design-critic/node_modules/
+
+# Claude Code local settings
+.claude/
 
 # Logs
 *.log

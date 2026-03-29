@@ -1,0 +1,166 @@
+{
+  "issues": [
+    {
+      "id": "issue-01",
+      "severity": "high",
+      "category": "color",
+      "description": "Amber/orange used as generic primary accent (date, active nav, section links) — reserved for warnings only",
+      "location": "Global — date label, sidebar active state, 'Full view' / 'See all' links",
+      "affectedComponents": [
+        "Sidebar",
+        "HomeHeader",
+        "FocusSection",
+        "ActiveProjectsSection"
+      ],
+      "suggestedFix": "Replace amber accent (#FF9F0A) on date and nav active state with #0A84FF (blue). Keep amber only on semantically-warning elements like 'Needs Attention' dots."
+    },
+    {
+      "id": "issue-02",
+      "severity": "high",
+      "category": "vibe",
+      "description": "Emoji icons in stat tiles (📋📥🚩) break premium minimal aesthetic; inconsistent with clean icon system",
+      "location": "Home hero stat tiles — Projects, Inbox, Flags",
+      "affectedComponents": [
+        "StatTile"
+      ],
+      "suggestedFix": "Replace emoji with SF Symbol-style SVG icons sized 20×20, stroke weight 1.5, color matching the accent per tile. Remove emoji entirely."
+    },
+    {
+      "id": "issue-03",
+      "severity": "high",
+      "category": "layout",
+      "description": "Focus task rows rendered as individual bordered pill cards instead of grouped list with hairline separators — violates Rule 9",
+      "location": "Focus section — task list",
+      "affectedComponents": [
+        "TaskRow",
+        "FocusSection"
+      ],
+      "suggestedFix": "Wrap all task rows in a single rounded container (bg-[#1C1C1E] rounded-xl). Use border-t border-white/[0.06] hairline between rows. Remove individual card borders."
+    },
+    {
+      "id": "issue-04",
+      "severity": "high",
+      "category": "layout",
+      "description": "Needs Attention cards have visible light border strokes — Rule 5 requires background contrast only, no thick borders on containers",
+      "location": "Needs Attention section — alert cards",
+      "affectedComponents": [
+        "AttentionCard"
+      ],
+      "suggestedFix": "Remove border, use bg-[#1C1C1E] surface with a subtle left-accent stripe (3px #FF9F0A) for the alert indicator, or rely solely on background contrast."
+    },
+    {
+      "id": "issue-05",
+      "severity": "medium",
+      "category": "hierarchy",
+      "description": "Three equally-weighted stat tiles create flat visual hierarchy with no focal point — violates Rule 1",
+      "location": "Home hero — Projects/Inbox/Flags tiles",
+      "affectedComponents": [
+        "StatTile"
+      ],
+      "suggestedFix": "Make the most important stat (e.g. Flags when >0) a wide hero row at full width; shrink others to compact inline chips below it, or use a single summary row layout."
+    },
+    {
+      "id": "issue-06",
+      "severity": "medium",
+      "category": "typography",
+      "description": "Greeting heading uses 30px — spec requires Large Title at 34px bold for page greeting",
+      "location": "Home header — greeting h1",
+      "affectedComponents": [
+        "HomeHeader"
+      ],
+      "suggestedFix": "Change text-[30px] to text-[34px] on the greeting h1 element."
+    },
+    {
+      "id": "issue-07",
+      "severity": "medium",
+      "category": "interaction",
+      "description": "'Full view → →' contains duplicate arrows — redundant and visually noisy",
+      "location": "Focus section header — right-side link",
+      "affectedComponents": [
+        "SectionHeader"
+      ],
+      "suggestedFix": "Change to 'Full view →' with a single arrow. Optionally use an inline chevron icon (ChevronRight 12px) instead of text arrow."
+    },
+    {
+      "id": "issue-08",
+      "severity": "medium",
+      "category": "color",
+      "description": "Date label 'Friday, March 20' rendered in amber — decorative amber has no semantic warning meaning here",
+      "location": "Home header — date subheading",
+      "affectedComponents": [
+        "HomeHeader"
+      ],
+      "suggestedFix": "Use text-[#8E8E93] (secondary text color) or text-[#0A84FF] for date. Amber should only appear on items needing user attention."
+    },
+    {
+      "id": "issue-09",
+      "severity": "medium",
+      "category": "accessibility",
+      "description": "Settings icon button at bottom of sidebar is 34×34px — below 44pt minimum touch target (Rule 7)",
+      "location": "Sidebar footer — settings/gear icon button",
+      "affectedComponents": [
+        "SidebarFooter"
+      ],
+      "suggestedFix": "Increase clickable area to min 44×44px using padding: p-2.5 → p-3, or wrap in a larger hit-area div with min-h-[44px] min-w-[44px]."
+    },
+    {
+      "id": "issue-10",
+      "severity": "medium",
+      "category": "accessibility",
+      "description": "Orange status dots on Needs Attention cards rely on color alone — no icon or label differentiating severity",
+      "location": "Needs Attention section — card left indicator",
+      "affectedComponents": [
+        "AttentionCard"
+      ],
+      "suggestedFix": "Add a small warning icon (⚠ or ExclamationTriangle at 10px) alongside the dot, or a text badge like 'Action needed' so status is not color-only."
+    },
+    {
+      "id": "issue-11",
+      "severity": "low",
+      "category": "consistency",
+      "description": "Active sidebar nav item uses amber fill — amber semantically signals caution; active selection should use blue (#0A84FF)",
+      "location": "Sidebar — Home nav item active state",
+      "affectedComponents": [
+        "SidebarNavItem"
+      ],
+      "suggestedFix": "Replace amber background on active nav item with bg-[#0A84FF]/15 and text/icon in #0A84FF. Reserve amber pills for flagged/warning states."
+    },
+    {
+      "id": "issue-12",
+      "severity": "low",
+      "category": "typography",
+      "description": "Section heading 'Needs Attention' appears larger/heavier than 'Focus' — inconsistent section heading weight",
+      "location": "Needs Attention section header",
+      "affectedComponents": [
+        "SectionHeader"
+      ],
+      "suggestedFix": "Standardize all section headings to text-[22px] font-bold text-white across Focus, Needs Attention, and Active Projects sections."
+    },
+    {
+      "id": "issue-13",
+      "severity": "low",
+      "category": "responsiveness",
+      "description": "Task text truncates mid-word on mobile (e.g. 'Set up actual Planner board in Tea...') — ellipsis cuts too early",
+      "location": "Mobile — Focus task rows",
+      "affectedComponents": [
+        "TaskRow"
+      ],
+      "suggestedFix": "Increase max-width of task text container on mobile or use a two-line clamp (line-clamp-2) so task names are more readable before truncation."
+    }
+  ],
+  "score": {
+    "visual_clarity": 7,
+    "consistency": 6,
+    "responsiveness": 7.5,
+    "accessibility": 6.5,
+    "vibe_match": 6.5,
+    "interaction_clarity": 7,
+    "total": 6.9
+  },
+  "summary": "The foundation is solid — dark base, clean sidebar, readable list structure — but amber/orange has leaked from its semantic warning role into nearly every interactive accent (active nav, date, section links), eroding the color system's meaning. Task rows rendered as individual bordered pills instead of a single grouped container with hairline separators is the most significant Rule 9 / vibe violation remaining. Fixing the color system and task row grouping would meaningfully elevate the premium feel.",
+  "topPriorities": [
+    "Replace amber accent with #0A84FF on active nav state, date label, and all section links — reserve amber exclusively for warning/attention states",
+    "Refactor Focus and Needs Attention task rows into single grouped containers (bg-[#1C1C1E] rounded-xl) with hairline border-white/[0.06] row separators — eliminate individual pill cards",
+    "Replace emoji icons (📋📥🚩) in stat tiles with consistent SVG icon set to eliminate the biggest premium-aesthetic regression"
+  ]
+}

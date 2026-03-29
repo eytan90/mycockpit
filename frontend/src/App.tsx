@@ -10,6 +10,8 @@ import Ideas from './modes/Ideas/Ideas'
 import Plan from './modes/Plan/Plan'
 import Settings from './modes/Settings/Settings'
 import Chat from './modes/Chat/Chat'
+import Email from './modes/Email/Email'
+import MSTasks from './modes/Tasks/MSTasks'
 import ErrorBoundary from './components/ErrorBoundary'
 import { ToastProvider } from './components/Toast'
 
@@ -45,6 +47,8 @@ export default function App() {
               <Route path="/organize"     element={<Navigate to="/plan" replace />} />
               <Route path="/delegate"     element={<Navigate to="/plan" replace />} />
               <Route path="/chat"         element={<ErrorBoundary><Chat /></ErrorBoundary>} />
+              <Route path="/email"        element={<ErrorBoundary><Email /></ErrorBoundary>} />
+              <Route path="/ms-tasks"     element={<ErrorBoundary><MSTasks /></ErrorBoundary>} />
               <Route path="/settings"     element={<ErrorBoundary><Settings /></ErrorBoundary>} />
             </Routes>
           </main>

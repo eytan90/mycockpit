@@ -1,16 +1,26 @@
 /**
- * claude-cli.ts — Drop-in replacement for `new Anthropic()` that routes all
- * API calls through the `claude api messages create` CLI subcommand.
+ * claude-cli.ts — Routes calls through `claude -p` (stdin prompt mode).
  *
- * This means no ANTHROPIC_API_KEY is needed — the CLI uses the already-open
- * authenticated session from the running Claude Code instance.
+ * Images are saved to temp files and referenced by path in the prompt so
+ * Claude can read them via its built-in Read tool (which handles PNG/JPG).
+ * The subprocess is fully isolated from the parent Claude Code session.
  *
- * Mimics the subset of the Anthropic SDK used by this project:
- *   client.messages.create(params)   → Promise<ResponseMessage>
- *   client.messages.stream(params)   → { finalMessage(): Promise<ResponseMessage> }
+ * No ANTHROPIC_API_KEY needed — leverages the authenticated Claude Code session.
  */
 
 import { spawn } from 'child_process';
+import { existsSync, writeFileSync, unlinkSync, mkdirSync } from 'fs';
+import { homedir, tmpdir } from 'os';
+import path from 'path';
+
+// Resolve claude CLI — on Windows it lives as claude.cmd in the npm bin dir
+const _npmBin = path.join(homedir(), 'AppData', 'Roaming', 'npm');
+const _claudeCmd = existsSync(path.join(_npmBin, 'claude.cmd'))
+  ? path.join(_npmBin, 'claude.cmd')
+  : 'claude';
+const _env = { ...process.env, PATH: _npmBin + path.delimiter + (process.env.PATH ?? '') };
+
+let _tmpCounter = 0;
 
 // ─── Types (mirrors Anthropic SDK surface used here) ──────────────────────────
 
@@ -56,84 +66,113 @@ export interface CreateParams {
 // ─── Core CLI call ────────────────────────────────────────────────────────────
 
 /**
- * Pipes `params` as JSON to `claude api messages create` and returns the
- * parsed response. Handles large payloads (base64 images) via spawn stdio.
+ * Calls `claude -p -` with the prompt via stdin.
+ * Image content blocks are saved to temp files and injected into the prompt
+ * as file paths so Claude reads them visually via its Read tool.
+ * System prompt is prepended to the user message.
  */
 async function callCLI(params: CreateParams): Promise<ResponseMessage> {
-  // adaptive thinking → enabled with a sensible budget
-  const body: Record<string, unknown> = { ...params };
-  if (params.thinking?.type === 'adaptive') {
-    body.thinking = { type: 'enabled', budget_tokens: 8000 };
+  const tempDir = path.join(tmpdir(), 'design-critic-imgs');
+  mkdirSync(tempDir, { recursive: true });
+  const tempFiles: string[] = [];
+
+  try {
+    // Build text prompt: system block + all message content
+    const parts: string[] = [];
+    if (params.system) {
+      parts.push(params.system);
+      parts.push('---');
+    }
+
+    for (const msg of params.messages) {
+      if (typeof msg.content === 'string') {
+        parts.push(msg.content);
+      } else {
+        for (const block of msg.content) {
+          if (block.type === 'text') {
+            parts.push(block.text);
+          } else if (block.type === 'image') {
+            // Save base64 to a temp file; reference by path in the prompt
+            const ext = block.source.media_type.split('/')[1] ?? 'png';
+            const tmpPath = path.join(tempDir, `img_${++_tmpCounter}.${ext}`);
+            writeFileSync(tmpPath, Buffer.from(block.source.data, 'base64'));
+            tempFiles.push(tmpPath);
+            // Tell Claude to read the file — its Read tool handles PNG/JPG visually
+            parts.push(`[Image: read this file and analyze it visually: ${tmpPath}]`);
+          }
+        }
+      }
+    }
+
+    const prompt = parts.join('\n\n');
+
+    const isWindows = process.platform === 'win32';
+    const args = [
+      '-p', '-',
+      '--output-format', 'json',
+      '--dangerously-skip-permissions',
+      '--allowedTools', 'Read',
+    ];
+
+    return await new Promise<ResponseMessage>((resolve, reject) => {
+      const proc = spawn(_claudeCmd, args, {
+        stdio: ['pipe', 'pipe', 'pipe'],
+        env: _env,
+        shell: isWindows,
+      });
+
+      const chunks: Buffer[] = [];
+      const errChunks: Buffer[] = [];
+
+      proc.stdout.on('data', (d: Buffer) => chunks.push(d));
+      proc.stderr.on('data', (d: Buffer) => errChunks.push(d));
+
+      proc.on('close', (code) => {
+        const stdout = Buffer.concat(chunks).toString('utf-8').trim();
+        const stderr = Buffer.concat(errChunks).toString('utf-8').trim();
+
+        if (code !== 0) {
+          reject(new Error(`claude CLI exited ${code}.\nstderr: ${stderr.slice(0, 500)}`));
+          return;
+        }
+
+        // `claude -p --output-format json` returns { result: "...", session_id: "..." }
+        try {
+          const parsed = JSON.parse(stdout);
+          if (Array.isArray(parsed.content)) {
+            resolve(parsed as ResponseMessage);
+            return;
+          }
+          const text = typeof parsed.result === 'string' ? parsed.result : stdout;
+          resolve({ content: [{ type: 'text', text }], stop_reason: 'end_turn' });
+        } catch {
+          resolve({ content: [{ type: 'text', text: stdout }], stop_reason: 'end_turn' });
+        }
+      });
+
+      proc.on('error', (err) => {
+        reject(new Error(`Failed to spawn claude CLI: ${err.message}`));
+      });
+
+      proc.stdin.write(prompt, 'utf-8');
+      proc.stdin.end();
+    });
+  } finally {
+    for (const f of tempFiles) {
+      try { unlinkSync(f); } catch { /* ignore */ }
+    }
   }
-
-  return new Promise((resolve, reject) => {
-    const proc = spawn('claude', ['api', 'messages', 'create'], {
-      stdio: ['pipe', 'pipe', 'pipe'],
-    });
-
-    const chunks: Buffer[] = [];
-    const errChunks: Buffer[] = [];
-
-    proc.stdout.on('data', (d: Buffer) => chunks.push(d));
-    proc.stderr.on('data', (d: Buffer) => errChunks.push(d));
-
-    proc.on('close', (code) => {
-      const stdout = Buffer.concat(chunks).toString('utf-8');
-      const stderr = Buffer.concat(errChunks).toString('utf-8');
-
-      if (code !== 0) {
-        reject(
-          new Error(
-            `claude CLI exited with code ${code}.\nstderr: ${stderr.slice(0, 500)}`,
-          ),
-        );
-        return;
-      }
-
-      try {
-        resolve(JSON.parse(stdout) as ResponseMessage);
-      } catch {
-        reject(
-          new Error(
-            `Failed to parse claude CLI response as JSON.\n` +
-              `stdout preview: ${stdout.slice(0, 400)}`,
-          ),
-        );
-      }
-    });
-
-    proc.on('error', (err) => {
-      reject(
-        new Error(
-          `Failed to spawn claude CLI. Is it installed and in PATH?\n${err.message}`,
-        ),
-      );
-    });
-
-    const payload = JSON.stringify(body);
-    proc.stdin.write(payload, 'utf-8');
-    proc.stdin.end();
-  });
 }
 
 // ─── Client object (matches Anthropic SDK shape used in this project) ─────────
 
 export const client = {
   messages: {
-    /** Non-streaming call. */
     create(params: CreateParams): Promise<ResponseMessage> {
       return callCLI(params);
     },
-
-    /**
-     * Streaming-style call — the claude CLI doesn't stream in our usage,
-     * so we just return an object with `finalMessage()` that resolves the
-     * whole response at once.
-     */
     stream(params: CreateParams): { finalMessage(): Promise<ResponseMessage> } {
-      return {
-        finalMessage: () => callCLI(params),
-      };
+      return { finalMessage: () => callCLI(params) };
     },
   },
 };

@@ -360,7 +360,9 @@ export default function Chat() {
                   className="text-left text-sm rounded-xl px-4 py-3 mb-1"
                   style={{ background: '#2a2a2a', border: '1px solid rgba(255,255,255,0.07)', color: '#999', lineHeight: 1.6 }}
                 >
-                  {status.init_summary}
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+                    {status.init_summary}
+                  </ReactMarkdown>
                 </div>
               ) : (
                 <p className="text-sm" style={{ color: '#555' }}>
@@ -371,15 +373,15 @@ export default function Chat() {
                 <p className="text-xs mt-2" style={{ color: '#f87171' }}>{status.error}</p>
               )}
             </div>
-            <div className="flex flex-wrap gap-2 justify-center max-w-sm">
+            <div className="flex flex-col gap-1.5 w-full max-w-xs">
               {SUGGESTIONS.map(s => (
                 <button
                   key={s}
                   onClick={() => handleSuggestion(s)}
-                  className="text-sm px-4 py-2 rounded-xl transition-all"
+                  className="w-full text-left text-sm px-4 py-2.5 rounded-xl transition-all flex items-center gap-2"
                   style={{
                     background: '#2a2a2a',
-                    border: '1px solid rgba(255,255,255,0.08)',
+                    border: '1px solid rgba(255,255,255,0.07)',
                     color: '#bbb',
                   }}
                   onMouseEnter={e => { e.currentTarget.style.background = '#333'; e.currentTarget.style.color = '#fff' }}
